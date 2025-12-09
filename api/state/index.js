@@ -2,9 +2,77 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 
 const containerName = "projecthub-data";
 const blobName = "state.json";
+const ALLOWED_DOMAIN = "schulthess.ch";
+
+// Hilfsfunktion: Benutzerinfo aus dem x-ms-client-principal Header lesen
+function getClientPrincipal(req) {
+  const header =
+    req.headers["x-ms-client-principal"] ||
+    req.headers["X-MS-CLIENT-PRINCIPAL"] ||
+    req.headers["x-ms-client-principal".toLowerCase()];
+
+  if (!header) return null;
+
+  try {
+    const decoded = Buffer.from(header, "base64").toString("utf8");
+    return JSON.parse(decoded);
+  } catch (e) {
+    return null;
+  }
+}
+
+function getUserEmailFromPrincipal(principal) {
+  if (!principal) return null;
+
+  // neue SWA-Formate haben oft 'userDetails' oder 'userId'
+  if (principal.userDetails && principal.userDetails.includes("@")) {
+    return principal.userDetails;
+  }
+
+  if (Array.isArray(principal.claims)) {
+    const emailClaim =
+      principal.claims.find(c =>
+        c.typ === "emails" ||
+        c.typ === "preferred_username" ||
+        c.typ === "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+      );
+
+    if (emailClaim && emailClaim.val && emailClaim.val.includes("@")) {
+      return emailClaim.val;
+    }
+  }
+
+  return null;
+}
+
+function isFromAllowedDomain(email) {
+  if (!email) return false;
+  return email.toLowerCase().endsWith(`@${ALLOWED_DOMAIN}`);
+}
+
 
 module.exports = async function (context, req) {
   try {
+    // --- Auth & Domain-Check ---
+    const principal = getClientPrincipal(req);
+    const email = getUserEmailFromPrincipal(principal);
+
+    if (!email) {
+      context.res = {
+        status: 401,
+        body: { error: "Not authenticated" }
+      };
+      return;
+    }
+
+    if (!isFromAllowedDomain(email)) {
+      context.res = {
+        status: 403,
+        body: { error: "Access denied: only @schulthess.ch allowed." }
+      };
+      return;
+    }
+
     const method = (req.method || "GET").toUpperCase();
     const connStr = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
@@ -20,6 +88,9 @@ module.exports = async function (context, req) {
     const blobServiceClient = BlobServiceClient.fromConnectionString(connStr);
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blobClient = containerClient.getBlockBlobClient(blobName);
+
+    // ... REST DEINER LOGIK (GET/PUT) BLEIBT WIE BISHER ...
+
 
     if (method === "OPTIONS") {
       context.res = {
@@ -128,3 +199,4 @@ async function streamToString(readableStream) {
     readableStream.on("error", reject);
   });
 }
+
