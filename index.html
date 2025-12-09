@@ -8775,6 +8775,27 @@
                 `;
             }
         };
+	// ============================================================
+	// GLOBAL AUTH HANDLING FOR FETCH (401 → LOGIN)
+	// ============================================================
+	
+	// Original-Fetch sichern
+	const originalFetch = window.fetch;
+	
+	// Fetch überschreiben
+	window.fetch = async (...args) => {
+	    const response = await originalFetch(...args);
+	
+	    // Wenn nicht eingeloggt → 401 von /api/state
+	    if (response.status === 401 && response.url.includes('/api/state')) {
+	        console.warn("Nicht eingeloggt – Redirect zu Microsoft Login...");
+	        window.location.href = '/.auth/login/aad';
+	        // Wichtig: Kein Response mehr zurückgeben, wir verlassen diese Seite sowieso
+	        return response;
+	    }
+	
+	    return response;
+	};
 
     // ============================================================
     // INITIALIZATION
