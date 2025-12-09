@@ -8791,27 +8791,28 @@
             }
         };
 
-        // ============================================================
-        // INITIALIZATION
-        // ============================================================
-
-        // Make AppState and UI globally available
-        window.AppState = AppState;
-        window.UI = UI;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            AppState.load();
-            UI.init();
-
-            // Handle deep linking
-            const hash = window.location.hash;
-            if (hash.startsWith('#project/')) {
-                const projectId = hash.replace('#project/', '');
-                if (AppState.getProject(projectId)) {
-                    UI.showProjectDetails(projectId);
-                }
+    // ============================================================
+    // INITIALIZATION
+    // ============================================================
+    
+    // Make AppState and UI globally available
+    window.AppState = AppState;
+    window.UI = UI;
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+        await AppState.load();   // wird gleich async
+        UI.init();
+    
+        // Handle deep linking
+        const hash = window.location.hash;
+        if (hash.startsWith('#project/')) {
+            const projectId = hash.replace('#project/', '');
+            if (AppState.getProject(projectId)) {
+                UI.showProjectDetails(projectId);
             }
-        });
+        }
+    });
+
     </script>
 
     <script>
