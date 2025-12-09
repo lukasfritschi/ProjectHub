@@ -840,100 +840,106 @@
     </div>
 
     <script>
-        // ============================================================
-        // STATE MANAGEMENT
-        // ============================================================
+		// ============================================================
+		// STATE MANAGEMENT
+		// ============================================================
+
+		const API_BASE = "/api"; // Azure Static Web App API Base
+
+		const DataService = {
+			async loadAll() {
+				const res = await fetch(`${API_BASE}/state`);
+				if (!res.ok) {
+					throw new Error(`Failed to load state: ${res.status}`);
+				}
+				return await res.json();
+			},
+
+			async saveAll(state) {
+				const res = await fetch(`${API_BASE}/state`, {
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(state)
+				});
+				if (!res.ok) {
+					throw new Error(`Failed to save state: ${res.status}`);
+				}
+				return await res.json();
+			}
+		};
+
         
-        const API_BASE = "/api"; // Azure Static Web App routet das automatisch zu deinen Functions
-        
-        const DataService = {
-          async loadAll() {
-            const res = await fetch(`${API_BASE}/state`);
-            if (!res.ok) {
-              throw new Error(`Failed to load state: ${res.status}`);
-            }
-            return await res.json();
-          },
-        
-          async saveAll(state) {
-            const res = await fetch(`${API_BASE}/state`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(state)
-            });
-            if (!res.ok) {
-              throw new Error(`Failed to save state: ${res.status}`);
-            }
-            return await res.json();
-          }
-        };
-        
-        const AppState = {
-          projects: [],
-          members: [],              // GLOBAL: Alle Ressourcen/Mitarbeiter
-          projectTeamMembers: [],   // NEW: Projekt-spezifische Teamzuordnungen
-          costs: [],
-          milestones: [],
-          risks: [],
-          tasks: [],
-          phaseTemplates: [],
-          resourceBookings: [],     // Ressourcenbuchungen
-          currentProjectId: null,
-          currentUser: 'Aktueller Benutzer', // Simplified for demo
-        
-          save() {
-            const data = {
-              projects: this.projects,
-              members: this.members,
-              projectTeamMembers: this.projectTeamMembers,
-              costs: this.costs,
-              milestones: this.milestones,
-              risks: this.risks,
-              tasks: this.tasks,
-              phaseTemplates: this.phaseTemplates,
-              resourceBookings: this.resourceBookings
-            };
-        
-            DataService.saveAll(data).catch(err => {
-              console.error("Fehler beim Speichern in Azure /api/state:", err);
-              // Optional: Backup
-              // window.localStorage.setItem("projecthub_data_backup", JSON.stringify(data));
-            });
-          },
-        
-          async load() {
-            try {
-              const data = await DataService.loadAll();
-        
-              this.projects = data.projects || [];
-              this.members = data.members || [];
-              this.projectTeamMembers = data.projectTeamMembers || [];
-              this.costs = data.costs || [];
-              this.milestones = data.milestones || [];
-              this.risks = data.risks || [];
-              this.tasks = data.tasks || [];
-              this.phaseTemplates = data.phaseTemplates || [];
-              this.resourceBookings = data.resourceBookings || [];
-        
-              // Migration alter Struktur: partialAmount → partialPayments (falls vorhanden)
-              this.costs.forEach(cost => {
-                if (cost.partialAmount && !cost.partialPayments) {
-                  cost.partialPayments = [{
-                    date: cost.date,
-                    amount: cost.partialAmount
-                  }];
-                  delete cost.partialAmount;
-                }
-              });
-            } catch (err) {
-              console.error("Fehler beim Laden aus Azure /api/state:", err);
-            }
-        
-            if (typeof this.initializeDefaults === "function") {
-              this.initializeDefaults();
-            }
-          }
-        };
+		const AppState = {
+			projects: [],
+			members: [],              // GLOBAL: Alle Ressourcen/Mitarbeiter
+			projectTeamMembers: [],   // Projekt-spezifische Teamzuordnungen
+			costs: [],
+			milestones: [],
+			risks: [],
+			tasks: [],
+			phaseTemplates: [],
+			resourceBookings: [],     // Ressourcenbuchungen
+			currentProjectId: null,
+			currentUser: 'Aktueller Benutzer', // Simplified for demo
+
+			save() {
+				const data = {
+					projects: this.projects,
+					members: this.members,
+					projectTeamMembers: this.projectTeamMembers,
+					costs: this.costs,
+					milestones: this.milestones,
+					risks: this.risks,
+					tasks: this.tasks,
+					phaseTemplates: this.phaseTemplates,
+					resourceBookings: this.resourceBookings
+				};
+
+				DataService.saveAll(data).catch(err => {
+					console.error('Fehler beim Speichern in Azure /api/state:', err);
+					// Optional: Backup in localStorage
+					// try {
+					//     window.localStorage.setItem('projecthub_data_backup', JSON.stringify(data));
+					// } catch (e) {}
+				});
+			},
+
+			async load() {
+				try {
+					const data = await DataService.loadAll();
+
+					this.projects = data.projects || [];
+					this.members = data.members || [];
+					this.projectTeamMembers = data.projectTeamMembers || [];
+					this.costs = data.costs || [];
+					this.milestones = data.milestones || [];
+					this.risks = data.risks || [];
+					this.tasks = data.tasks || [];
+					this.phaseTemplates = data.phaseTemplates || [];
+					this.resourceBookings = data.resourceBookings || [];
+
+					// Migration alter Struktur: partialAmount → partialPayments (falls vorhanden)
+					this.costs.forEach(cost => {
+						if (cost.partialAmount && !cost.partialPayments) {
+							cost.partialPayments = [{
+								date: cost.date,
+								amount: cost.partialAmount
+							}];
+							delete cost.partialAmount;
+						}
+					});
+				} catch (e) {
+					console.error('Fehler beim Laden aus Azure /api/state:', e);
+				}
+				this.initializeDefaults();
+			},
+
+    // ⬇️ direkt danach geht's bei dir weiter mit:
+    // initializeDefaults() { ... },
+    // generateId() { ... },
+    // getProject(id) { ... },
+    // usw...
+
             initializeDefaults() {
                 // Add default phase template if none exists
                 if (this.phaseTemplates.length === 0) {
@@ -8778,19 +8784,20 @@
     window.AppState = AppState;
     window.UI = UI;
     
-    document.addEventListener('DOMContentLoaded', async () => {
-        await AppState.load();   // wird gleich async
-        UI.init();
-    
-        // Handle deep linking
-        const hash = window.location.hash;
-        if (hash.startsWith('#project/')) {
-            const projectId = hash.replace('#project/', '');
-            if (AppState.getProject(projectId)) {
-                UI.showProjectDetails(projectId);
-            }
-        }
-    });
+	document.addEventListener('DOMContentLoaded', async () => {
+		await AppState.load();   // nutzt jetzt Azure /api/state
+		UI.init();
+
+		// Handle deep linking
+		const hash = window.location.hash;
+		if (hash.startsWith('#project/')) {
+			const projectId = hash.replace('#project/', '');
+			if (AppState.getProject(projectId)) {
+				UI.showProjectDetails(projectId);
+			}
+		}
+	});
+
 
     </script>
 
