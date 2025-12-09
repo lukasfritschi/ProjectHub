@@ -856,58 +856,104 @@
             resourceBookings: [],     // Ressourcenbuchungen
             currentProjectId: null,
             currentUser: 'Aktueller Benutzer', // Simplified for demo
+        
+        const API_BASE = "/api"; // Azure Static Web App routet das automatisch zu deinen Functions
+        
+        const DataService = {
+          async loadAll() {
+            const res = await fetch(`${API_BASE}/state`);
+            if (!res.ok) {
+              throw new Error(`Failed to load state: ${res.status}`);
+            }
+            return await res.json();
+          },
+        
+          async saveAll(state) {
+            const res = await fetch(`${API_BASE}/state`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(state)
+            });
+            if (!res.ok) {
+              throw new Error(`Failed to save state: ${res.status}`);
+            }
+            return await res.json();
+          }
+        };
 
             save() {
-                try {
-                    const data = JSON.stringify({
-                        projects: this.projects,
-                        members: this.members,
-                        projectTeamMembers: this.projectTeamMembers,
-                        costs: this.costs,
-                        milestones: this.milestones,
-                        risks: this.risks,
-                        tasks: this.tasks,
-                        phaseTemplates: this.phaseTemplates,
-                        resourceBookings: this.resourceBookings
-                    });
-                    window.localStorage.setItem('projecthub_data', data);
-                } catch (e) {
-                    // localStorage may not be available in iframe
-                    console.log('Storage not available, using in-memory only');
-                }
+              const data = {
+                projects: this.projects,
+                members: this.members,
+                projectTeamMembers: this.projectTeamMembers,
+                costs: this.costs,
+                milestones: this.milestones,
+                risks: this.risks,
+                tasks: this.tasks,
+                phaseTemplates: this.phaseTemplates,
+                resourceBookings: this.resourceBookings
+              };
+            
+              DataService.saveAll(data).catch(err => {
+                console.error("Fehler beim Speichern in Azure /api/state:", err);
+                // Optional: Fallback-Backup im localStorage
+                // window.localStorage.setItem("projecthub_data_backup", JSON.stringify(data));
+              });
             },
 
-            load() {
-                try {
-                    const data = window.localStorage.getItem('projecthub_data');
-                    if (data) {
-                        const parsed = JSON.parse(data);
-                        this.projects = parsed.projects || [];
-                        this.members = parsed.members || [];
-                        this.projectTeamMembers = parsed.projectTeamMembers || [];
-                        this.costs = parsed.costs || [];
-                        this.milestones = parsed.milestones || [];
-                        this.risks = parsed.risks || [];
-                        this.tasks = parsed.tasks || [];
-                        this.phaseTemplates = parsed.phaseTemplates || [];
-                        this.resourceBookings = parsed.resourceBookings || [];
-
-                        // Migrate old partialAmount to new partialPayments array (backward compatibility)
-                        this.costs.forEach(cost => {
-                            if (cost.partialAmount && !cost.partialPayments) {
-                                cost.partialPayments = [{
-                                    date: cost.date, // Use cost date as fallback
-                                    amount: cost.partialAmount
-                                }];
-                                delete cost.partialAmount;
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.log('Could not load from storage');
-                }
+            async load() {
+              try {
+                const data = await DataService.loadAll();
+            
+                this.projects = data.projects || [];
+                this.members = data.members || [];
+                this.projectTeamMembers = data.projectTeamMembers || [];
+                this.costs = data.costs || [];
+                this.milestones = data.milestones || [];
+                this.risks = data.risks || [];
+                this.tasks = data.tasks || [];
+                this.phaseTemplates = data.phaseTemplates || [];
+                this.resourceBookings = data.resourceBookings || [];
+            
+                // Migration alter Struktur: partialAmount → partialPayments (falls vorhanden)
+                this.costs.forEach(cost => {
+                  if (cost.partialAmount && !cost.partialPayments) {
+                    cost.partialPayments = [{
+                      date: cost.date,
+                      amount: cost.partialAmount
+                    }];
+                    delete cost.partialAmount;
+                  }
+                });
+            
+              } catch (err) {
+                console.error("Fehler beim Laden aus Azure /api/state:", err);
+            
+                // Optional: Fallback auf lokales Backup
+                // const raw = window.localStorage.getItem("projecthub_data_backup");
+                // if (raw) {
+                //   try {
+                //     const data = JSON.parse(raw);
+                //     this.projects = data.projects || [];
+                //     this.members = data.members || [];
+                //     ...
+                //   } catch (e) {
+                //     console.error("Fehler beim Laden des lokalen Backups:", e);
+                //   }
+                // }
+              }
+            
+              // Falls du eine Initialisierungsfunktion hast (z. B. Default-Templates etc.)
+              if (typeof this.initializeDefaults === "function") {
                 this.initializeDefaults();
+              }
+            
+              // Falls du irgendwo ein zentrales "renderAll" hast:
+              if (window.UI && typeof window.UI.renderAll === "function") {
+                window.UI.renderAll();
+              }
             },
+
 
             initializeDefaults() {
                 // Add default phase template if none exists
