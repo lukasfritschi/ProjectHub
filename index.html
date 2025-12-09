@@ -843,19 +843,6 @@
         // ============================================================
         // STATE MANAGEMENT
         // ============================================================
-
-        const AppState = {
-            projects: [],
-            members: [],              // GLOBAL: Alle Ressourcen/Mitarbeiter
-            projectTeamMembers: [],   // NEW: Projekt-spezifische Teamzuordnungen
-            costs: [],
-            milestones: [],
-            risks: [],
-            tasks: [],
-            phaseTemplates: [],
-            resourceBookings: [],     // Ressourcenbuchungen
-            currentProjectId: null,
-            currentUser: 'Aktueller Benutzer', // Simplified for demo
         
         const API_BASE = "/api"; // Azure Static Web App routet das automatisch zu deinen Functions
         
@@ -880,6 +867,21 @@
             return await res.json();
           }
         };
+        
+        const AppState = {
+          projects: [],
+          members: [],              // GLOBAL: Alle Ressourcen/Mitarbeiter
+          projectTeamMembers: [],   // NEW: Projekt-spezifische Teamzuordnungen
+          costs: [],
+          milestones: [],
+          risks: [],
+          tasks: [],
+          phaseTemplates: [],
+          resourceBookings: [],     // Ressourcenbuchungen
+          currentProjectId: null,
+          currentUser: 'Aktueller Benutzer', // Simplified for demo
+        };
+
 
             save() {
               const data = {
