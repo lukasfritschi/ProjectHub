@@ -408,6 +408,7 @@
     </style>
 <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script></head>
 <body>
+	<body style="display:none;">
     <!-- Header -->
     <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
@@ -8806,18 +8807,29 @@
     window.UI = UI;
     
 	document.addEventListener('DOMContentLoaded', async () => {
-		await AppState.load();   // nutzt jetzt Azure /api/state
-		UI.init();
-
-		// Handle deep linking
-		const hash = window.location.hash;
-		if (hash.startsWith('#project/')) {
-			const projectId = hash.replace('#project/', '');
-			if (AppState.getProject(projectId)) {
-				UI.showProjectDetails(projectId);
-			}
-		}
+	    try {
+	        await AppState.load();   // /api/state – löst 401 → Redirect → UI bleibt unsichtbar
+	
+	        UI.init();
+	
+	        // Deep Linking
+	        const hash = window.location.hash;
+	        if (hash.startsWith('#project/')) {
+	            const projectId = hash.replace('#project/', '');
+	            if (AppState.getProject(projectId)) {
+	                UI.showProjectDetails(projectId);
+	            }
+	        }
+	
+	        // 👉 Erst jetzt UI sichtbar machen
+	        document.body.style.display = "block";
+	
+	    } catch (err) {
+	        console.error("Init-Fehler:", err);
+	        // UI bleibt unsichtbar
+	    }
 	});
+
 
 
     </script>
