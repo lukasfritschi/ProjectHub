@@ -428,77 +428,78 @@
     <!-- z.B. deine Container, Panels, Tabs etc. -->
 
     <!-- Header -->
-    <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <div>
-                <h1 class="text-2xl font-bold font-mono">Project Hub</h1>
-                <p class="text-sm" style="color: var(--text-secondary);">Ressourcen &amp; Projektsteuerung</p>
-            </div>
-            <button id="theme-toggle" class="btn">
-                <span id="theme-icon">🌙</span>
-            </button>
-        </div>
-
-        <!-- Global Navigation -->
-        <nav style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <button class="nav-button active" data-view="projects" onclick="UI.switchGlobalView('projects')">
-                📊 Projekte
-            </button>
-            <button class="nav-button" data-view="portfolio" onclick="UI.switchGlobalView('portfolio')">
-                📈 Portfolio-Gantt
-            </button>
-            <button class="nav-button" data-view="team" onclick="UI.switchGlobalView('team')">
-                👥 Team &amp; Ressourcen
-            </button>
-        </nav>
-    </header>
-
-    <!-- Main Container -->
-    <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
-
-        <!-- View: Project List -->
-        <div id="view-project-list">
-            <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2 class="text-xl font-bold">Alle Projekte</h2>
-                <div class="flex gap-4">
-                    <button id="btn-export-all-projects-pdf" class="btn">📄 Management-PDF Export</button>
-                    <button id="btn-load-demo-data" class="btn" style="background: #059669; color: white;">📊 Demo-Daten laden</button>
-                    <button id="btn-new-project" class="btn btn-primary">+ Neues Projekt</button>
-                </div>
-            </div>
-
-            <!-- Filters -->
-            <div class="card mb-6">
-                <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <label class="text-sm font-medium">Projektleiter</label>
-                        <select id="filter-lead">
-                            <option value="">Alle</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Status</label>
-                        <select id="filter-status">
-                            <option value="">Alle</option>
-                            <option value="green">🟢 Grün</option>
-                            <option value="yellow">🟡 Gelb</option>
-                            <option value="red">🔴 Rot</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Phase</label>
-                        <select id="filter-phase">
-                            <option value="">Alle</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Cards -->
-            <div id="project-cards-container" class="grid grid-cols-2 gap-6">
-                <!-- Dynamic content -->
-            </div>
-        </div>
+	<div id="app-root" style="visibility:hidden;">
+	    <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
+	        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+	            <div>
+	                <h1 class="text-2xl font-bold font-mono">Project Hub</h1>
+	                <p class="text-sm" style="color: var(--text-secondary);">Ressourcen &amp; Projektsteuerung</p>
+	            </div>
+	            <button id="theme-toggle" class="btn">
+	                <span id="theme-icon">🌙</span>
+	            </button>
+	        </div>
+	
+	        <!-- Global Navigation -->
+	        <nav style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+	            <button class="nav-button active" data-view="projects" onclick="UI.switchGlobalView('projects')">
+	                📊 Projekte
+	            </button>
+	            <button class="nav-button" data-view="portfolio" onclick="UI.switchGlobalView('portfolio')">
+	                📈 Portfolio-Gantt
+	            </button>
+	            <button class="nav-button" data-view="team" onclick="UI.switchGlobalView('team')">
+	                👥 Team &amp; Ressourcen
+	            </button>
+	        </nav>
+	    </header>
+	
+	    <!-- Main Container -->
+	    <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+	
+	        <!-- View: Project List -->
+	        <div id="view-project-list">
+	            <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+	                <h2 class="text-xl font-bold">Alle Projekte</h2>
+	                <div class="flex gap-4">
+	                    <button id="btn-export-all-projects-pdf" class="btn">📄 Management-PDF Export</button>
+	                    <button id="btn-load-demo-data" class="btn" style="background: #059669; color: white;">📊 Demo-Daten laden</button>
+	                    <button id="btn-new-project" class="btn btn-primary">+ Neues Projekt</button>
+	                </div>
+	            </div>
+	
+	            <!-- Filters -->
+	            <div class="card mb-6">
+	                <div class="grid grid-cols-3 gap-4">
+	                    <div>
+	                        <label class="text-sm font-medium">Projektleiter</label>
+	                        <select id="filter-lead">
+	                            <option value="">Alle</option>
+	                        </select>
+	                    </div>
+	                    <div>
+	                        <label class="text-sm font-medium">Status</label>
+	                        <select id="filter-status">
+	                            <option value="">Alle</option>
+	                            <option value="green">🟢 Grün</option>
+	                            <option value="yellow">🟡 Gelb</option>
+	                            <option value="red">🔴 Rot</option>
+	                        </select>
+	                    </div>
+	                    <div>
+	                        <label class="text-sm font-medium">Phase</label>
+	                        <select id="filter-phase">
+	                            <option value="">Alle</option>
+	                        </select>
+	                    </div>
+	                </div>
+	            </div>
+	
+	            <!-- Project Cards -->
+	            <div id="project-cards-container" class="grid grid-cols-2 gap-6">
+	                <!-- Dynamic content -->
+	            </div>
+	        </div>
 
         <!-- View: Global Team Management -->
         <div id="view-global-team" class="hidden">
