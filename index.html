@@ -8780,23 +8780,25 @@
 	// GLOBAL AUTH HANDLING FOR FETCH (401 → LOGIN)
 	// ============================================================
 	
-	// Original-Fetch sichern
 	const originalFetch = window.fetch;
 	
-	// Fetch überschreiben
 	window.fetch = async (...args) => {
 	    const response = await originalFetch(...args);
 	
-	    // Wenn nicht eingeloggt → 401 von /api/state
 	    if (response.status === 401 && response.url.includes('/api/state')) {
 	        console.warn("Nicht eingeloggt – Redirect zu Microsoft Login...");
+	
+	        // Redirect auslösen
 	        window.location.href = '/.auth/login/aad';
-	        // Wichtig: Kein Response mehr zurückgeben, wir verlassen diese Seite sowieso
-	        return response;
+	
+	        // GANZ WICHTIG:
+	        // Fehler werfen, damit alle await/then-Ketten abbrechen
+	        throw new Error('Unauthorized – redirecting to login');
 	    }
 	
 	    return response;
 	};
+
 
     // ============================================================
     // INITIALIZATION
@@ -8808,11 +8810,10 @@
     
 	document.addEventListener('DOMContentLoaded', async () => {
 	    try {
-	        await AppState.load();   // /api/state – löst 401 → Redirect → UI bleibt unsichtbar
+	        await AppState.load();   // bei 401 wird jetzt ein Error geworfen
 	
 	        UI.init();
 	
-	        // Deep Linking
 	        const hash = window.location.hash;
 	        if (hash.startsWith('#project/')) {
 	            const projectId = hash.replace('#project/', '');
@@ -8821,17 +8822,16 @@
 	            }
 	        }
 	
-	        // 👉 Erst jetzt UI sichtbar machen
+	        // Nur bei erfolgreichem Laden sichtbar machen
 	        document.body.style.display = "block";
 	
 	    } catch (err) {
 	        console.error("Init-Fehler:", err);
-	        // UI bleibt unsichtbar
+	        // Bei 401 + Redirect: wir machen NICHT sichtbar
+	        // document.body bleibt hidden, bis die Seite sowieso neu geladen wird
 	    }
 	});
-
-
-
+		
     </script>
 
     <script>
