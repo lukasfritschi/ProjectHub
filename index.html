@@ -408,7 +408,25 @@
     </style>
 <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script></head>
 <body>
-	<body style="display:none;">
+	<body>
+    <div id="auth-loading-overlay"
+         style="
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            font-family: system-ui, sans-serif;
+            font-size: 1.1rem;
+         ">
+        ProjectHub wird geladen...
+    </div>
+
+    <!-- HIER kommt dein bestehendes Tool-HTML -->
+    <!-- z.B. deine Container, Panels, Tabs etc. -->
+
     <!-- Header -->
     <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
@@ -8810,7 +8828,7 @@
     
 	document.addEventListener('DOMContentLoaded', async () => {
 	    try {
-	        await AppState.load();   // bei 401 wird jetzt ein Error geworfen
+	        await AppState.load();   // bei 401 wirft der fetch-Wrapper jetzt einen Error
 	
 	        UI.init();
 	
@@ -8822,16 +8840,19 @@
 	            }
 	        }
 	
-	        // Nur bei erfolgreichem Laden sichtbar machen
-	        document.body.style.display = "block";
+	        // 👉 Jetzt erst das Overlay ausblenden
+	        const overlay = document.getElementById('auth-loading-overlay');
+	        if (overlay) {
+	            overlay.style.display = 'none';
+	        }
 	
 	    } catch (err) {
 	        console.error("Init-Fehler:", err);
-	        // Bei 401 + Redirect: wir machen NICHT sichtbar
-	        // document.body bleibt hidden, bis die Seite sowieso neu geladen wird
+	        // Kein overlay.style.display = 'none';
+	        // → Overlay bleibt stehen, bis Redirect greift
 	    }
 	});
-		
+	
     </script>
 
     <script>
