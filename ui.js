@@ -5145,8 +5145,8 @@
                 `);
 
                 // Store original forecast values (Intern is auto-calculated, so only track Extern & Investitionen)
-                const originalForecastExtern = budget.forecastExtern || budget.extern;
-                const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
+                //const originalForecastExtern = budget.forecastExtern || budget.extern;
+                //const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
 
                 // Originalwerte inkl. intern
                 const originalForecastIntern = budget.forecastIntern || budget.intern || 0;
