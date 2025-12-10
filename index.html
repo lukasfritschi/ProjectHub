@@ -8828,8 +8828,11 @@
     window.UI = UI;
     
 	document.addEventListener('DOMContentLoaded', async () => {
+	    const appRoot = document.getElementById('app-root');
+	    let unauthorized = false;
+	
 	    try {
-	        await AppState.load();   // bei 401 wirft der fetch-Wrapper jetzt einen Error
+	        await AppState.load();   // ruft /api/state
 	
 	        UI.init();
 	
@@ -8841,18 +8844,40 @@
 	            }
 	        }
 	
-	        // 👉 Jetzt erst das Overlay ausblenden
-	        const overlay = document.getElementById('auth-loading-overlay');
-	        if (overlay) {
-	            overlay.style.display = 'none';
-	        }
-	
 	    } catch (err) {
 	        console.error("Init-Fehler:", err);
-	        // Kein overlay.style.display = 'none';
-	        // → Overlay bleibt stehen, bis Redirect greift
+	
+	        // Wenn der Fehler vom 401-Redirect kommt → nicht einblenden
+	        if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
+	            unauthorized = true;
+	        } else {
+	            // Bei anderen Fehlern: App trotzdem sichtbar machen
+	            // und optional eine Fehlermeldung ins UI schreiben
+	            const errorBannerId = 'global-init-error';
+	            let banner = document.getElementById(errorBannerId);
+	            if (!banner) {
+	                banner = document.createElement('div');
+	                banner.id = errorBannerId;
+	                banner.style.padding = '0.75rem 1rem';
+	                banner.style.background = '#fee2e2';
+	                banner.style.color = '#b91c1c';
+	                banner.style.fontFamily = 'system-ui, sans-serif';
+	                banner.style.fontSize = '0.9rem';
+	                banner.textContent = 'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
+	                if (appRoot) {
+	                    appRoot.prepend(banner);
+	                }
+	            }
+	        }
+	
+	    } finally {
+	        // Nur sichtbar machen, wenn kein 401-Redirect-Fall
+	        if (appRoot && !unauthorized) {
+	            appRoot.style.visibility = 'visible';
+	        }
 	    }
 	});
+
 	
     </script>
 
