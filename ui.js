@@ -1251,7 +1251,7 @@
                             <td>${this.escapeHtml(responsible)}</td>
                             <td>${this.formatDate(t.dueDate)}</td>
                             <td>${statusLabel}</td>
-                            <td><span style="color: ${priorityColor};">?</span> ${t.priority}</td>
+                            <td><span style="color: ${priorityColor};">●</span> ${t.priority}</td>
                             <td>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editTask('${t.id}')">Bearbeiten</button>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteTask('${t.id}')">Löschen</button>
