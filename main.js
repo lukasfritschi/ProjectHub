@@ -81,7 +81,7 @@
 	    }
 	});
 
-    // ============================================================
+        // ============================================================
     // DEMO-DATEN LOADER
     // ============================================================
     (function() {
@@ -89,7 +89,7 @@
             const AppState = window.AppState;
             if (!AppState) return;
 
-            // WICHTIG: Nur ausf�hren, wenn noch keine Buchungen vorhanden
+            // WICHTIG: Nur ausführen, wenn noch keine Buchungen vorhanden
             // Wenn bereits Demo-Daten existieren, nicht nochmal laden
             if (AppState.resourceBookings.length > 0) {
                 console.log('ℹ️ Demo-Daten bereits vorhanden (' + AppState.resourceBookings.length + ' Buchungen)');
@@ -107,8 +107,11 @@
             const findProject = (name) => projects.find(p => p.name.includes(name));
             const findMember = (name) => members.find(m => m.name === name);
 
-        // Globale Funktion zum manuellen Neuladen der Demo-Daten
-        // Neue Funktion: Demo-Daten aus hochgeladener JSON-Datei laden
+            // (Hier könntest du später noch Logik einfügen, die auf
+            //  findProject/findMember basiert, aktuell ist die Funktion leer.)
+        } // <<< WICHTIG: Ende von loadComprehensiveDemoData
+
+        // Globale Funktion: Demo-Daten aus hochgeladener JSON-Datei laden
         window.loadDemoDataFromJson = async function(file) {
             const AppState = window.AppState;
             if (!AppState) {
@@ -128,7 +131,7 @@
                     throw new Error('Ungültige Demo-Daten: members oder projects fehlen');
                 }
 
-                // L�sche alle vorhandenen Daten
+                // Lösche alle vorhandenen Daten
                 AppState.members = [];
                 AppState.projects = [];
                 AppState.projectTeamMembers = [];
@@ -166,7 +169,7 @@
                 // Synchronisiere SOP aus Milestones
                 console.log('  9⏳ Synchronisiere SOP-Daten aus Milestones...');
                 AppState.projects.forEach(project => {
-                    // Finde SOP Milestone f�r dieses Projekt
+                    // Finde SOP Milestone für dieses Projekt
                     const sopMs = AppState.milestones.find(
                         m => m.projectId === project.id && m.name && m.name.includes('SOP')
                     );
@@ -178,7 +181,7 @@
                         project.sopChangeComment = project.sopChangeComment || '';
                     }
 
-                    // Stelle sicher, dass SOP-Felder existieren (f�r Abw�rtskompatibilit�t)
+                    // Stelle sicher, dass SOP-Felder existieren (für Abwärtskompatibilität)
                     if (!project.hasOwnProperty('sopBaselineDate')) {
                         project.sopBaselineDate = null;
                     }
@@ -199,19 +202,19 @@
                 console.log(`   ${AppState.projectTeamMembers.length} Teammitglieder`);
                 console.log(`   ${AppState.resourceBookings.length} Buchungen`);
 
-                // UI vollst�ndig aktualisieren (ohne Reload, da localStorage nicht verf�gbar)
+                // UI vollständig aktualisieren
                 console.log('⏳ Aktualisiere UI...');
                 if (window.UI) {
-                    // Zeige Projektliste an
                     window.UI.showView('project-list');
                     window.UI.renderProjectList();
 
-                    // Success-Meldung anzeigen
+                    // Success-Meldung
                     const successDiv = document.createElement('div');
-                    successDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 10000; background: #059669; color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease-out;';
+                    successDiv.style.cssText =
+                        'position: fixed; top: 20px; right: 20px; z-index: 10000; background: #059669; color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease-out;';
                     successDiv.innerHTML = `
                         <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <span style="font-size: 1.5rem;">?</span>
+                            <span style="font-size: 1.5rem;">✅</span>
                             <div>
                                 <strong>Demo-Daten erfolgreich geladen!</strong>
                                 <div style="font-size: 0.875rem; opacity: 0.9; margin-top: 0.25rem;">
@@ -222,7 +225,6 @@
                     `;
                     document.body.appendChild(successDiv);
 
-                    // Success-Meldung nach 4 Sekunden ausblenden
                     setTimeout(() => {
                         successDiv.style.opacity = '0';
                         successDiv.style.transition = 'opacity 0.3s';
@@ -235,14 +237,18 @@
             } catch (error) {
                 console.error('⚠️ Fehler beim Laden der Demo-Daten:', error);
 
-                // Erstelle eine Fehler-Anzeige im UI
                 const errorDiv = document.createElement('div');
-                errorDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 500px;';
+                errorDiv.style.cssText =
+                    'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 500px;';
                 errorDiv.innerHTML = `
                     <h3 style="color: #dc2626; margin-bottom: 1rem;">⚠️ Fehler beim Laden der Demo-Daten</h3>
                     <p style="margin-bottom: 1rem;">${error.message}</p>
-                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem;">Bitte �berpr�fen Sie, dass die hochgeladene Datei eine g�ltige JSON-Datei ist.</p>
-                    <button onclick="this.parentElement.remove()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer;">Schlie�en</button>
+                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem;">
+                        Bitte überprüfen Sie, dass die hochgeladene Datei eine gültige JSON-Datei ist.
+                    </p>
+                    <button onclick="this.parentElement.remove()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer;">
+                        Schließen
+                    </button>
                 `;
                 document.body.appendChild(errorDiv);
 
@@ -250,15 +256,15 @@
             }
         };
 
-        // Legacy-Funktion f�r Kompatibilit�t
+        // Legacy-Funktion für Kompatibilität
         window.reloadDemoData = function() {
             const AppState = window.AppState;
             if (!AppState) {
-                console.error('AppState nicht verf�gbar');
+                console.error('AppState nicht verfügbar');
                 return;
             }
 
-            // L�sche alle projektbezogenen Daten
+            // Lösche alle projektbezogenen Daten
             AppState.projectTeamMembers = [];
             AppState.resourceBookings = [];
             AppState.milestones = [];
