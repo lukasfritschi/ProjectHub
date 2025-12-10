@@ -5100,21 +5100,32 @@
                         </div>
 
                         <h4 class="font-semibold mt-4" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Forecast</h4>
-                        <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <label class="text-sm font-medium">Forecast Intern (${project.currency})</label>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Automatisch berechnet aus Ressourcenbuchungen</p>
-                            <div class="text-xl font-bold font-mono mt-2" id="modal-forecast-intern-display">
-                                ${this.formatCurrency(AppState.calculateForecastFromBookings(AppState.currentProjectId), project.currency)}
-                            </div>
+
+                        <div>
+                            <label class="text-sm font-medium">Forecast Intern (${project.currency}) *</label>
+                            <input
+                                type="number"
+                                id="modal-forecast-intern"
+                                value="${(typeof budget.forecastIntern === 'number' ? budget.forecastIntern : budget.intern) || 0}"
+                                step="1000"
+                                required
+                            >
                         </div>
                         <div>
                             <label class="text-sm font-medium">Forecast Extern (${project.currency}) *</label>
-                            <input type="number" id="modal-forecast-extern" value="${budget.forecastExtern || budget.extern}" step="1000" required>
+                            <input type="number" id="modal-forecast-extern" value="${budget.forecastExtern || budget.extern || 0}" step="1000" required>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Forecast Investitionen (${project.currency}) *</label>
-                            <input type="number" id="modal-forecast-investitionen" value="${budget.forecastInvestitionen || budget.investitionen}" step="1000" required>
+                            <input type="number" id="modal-forecast-investitionen" value="${budget.forecastInvestitionen || budget.investitionen || 0}" step="1000" required>
                         </div>
+                        <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
+                            <span class="text-sm" style="color: var(--text-secondary);">Total Forecast</span>
+                            <div class="text-xl font-bold font-mono" id="forecast-total-display">
+                                ${this.formatCurrency(budget.forecastTotal || budget.total || 0, project.currency)}
+                            </div>
+                        </div>
+
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
                             <span class="text-sm" style="color: var(--text-secondary);">Total Forecast</span>
                             <div class="text-xl font-bold font-mono" id="forecast-total-display">
@@ -5137,25 +5148,40 @@
                 const originalForecastExtern = budget.forecastExtern || budget.extern;
                 const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
 
-                // Auto-calculate totals
+                // Originalwerte inkl. intern
+                const originalForecastIntern = budget.forecastIntern || budget.intern || 0;
+                const originalForecastExtern = budget.forecastExtern || budget.extern || 0;
+                const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen || 0;
+
                 const updateTotals = () => {
                     const intern = parseFloat(document.getElementById('modal-budget-intern').value) || 0;
                     const extern = parseFloat(document.getElementById('modal-budget-extern').value) || 0;
                     const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) || 0;
                     const total = intern + extern + investitionen;
-                    document.getElementById('budget-total-display').textContent = this.formatCurrency(total, project.currency);
+                    document.getElementById('budget-total-display').textContent =
+                        this.formatCurrency(total, project.currency);
 
-                    // Forecast Intern is auto-calculated from bookings
-                    const forecastIntern = AppState.calculateForecastFromBookings(AppState.currentProjectId);
+                    const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) || 0;
                     const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) || 0;
                     const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) || 0;
                     const forecastTotal = forecastIntern + forecastExtern + forecastInvestitionen;
-                    document.getElementById('forecast-total-display').textContent = this.formatCurrency(forecastTotal, project.currency);
+                    document.getElementById('forecast-total-display').textContent =
+                        this.formatCurrency(forecastTotal, project.currency);
 
-                    // Check if forecast changed (only Extern & Investitionen, Intern is auto)
+                    // Forecast-Änderung: jetzt inkl. intern
                     const forecastChanged =
+                        forecastIntern !== originalForecastIntern ||
                         forecastExtern !== originalForecastExtern ||
                         forecastInvestitionen !== originalForecastInvestitionen;
+
+                    const commentContainer = document.getElementById('forecast-comment-container');
+                    if (forecastChanged) {
+                        commentContainer.classList.remove('hidden');
+                    } else {
+                        commentContainer.classList.add('hidden');
+                    }
+                };
+
 
                     const commentContainer = document.getElementById('forecast-comment-container');
                     if (forecastChanged) {
@@ -5168,6 +5194,7 @@
                 document.getElementById('modal-budget-intern').addEventListener('input', updateTotals);
                 document.getElementById('modal-budget-extern').addEventListener('input', updateTotals);
                 document.getElementById('modal-budget-investitionen').addEventListener('input', updateTotals);
+                document.getElementById('modal-forecast-intern').addEventListener('input', updateTotals);   // NEU
                 document.getElementById('modal-forecast-extern').addEventListener('input', updateTotals);
                 document.getElementById('modal-forecast-investitionen').addEventListener('input', updateTotals);
             },
