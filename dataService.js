@@ -2,7 +2,7 @@
 
 const DataService = {
     /**
-     * Lädt den kompletten App-State von Azure Function /api/state
+     * Lï¿½dt den kompletten App-State von Azure Function /api/state
      */
     async load() {
         const response = await fetch('/api/state', {
@@ -41,5 +41,5 @@ const DataService = {
     }
 };
 
-// global verfügbar machen für AppState
+// global verfï¿½gbar machen fï¿½r AppState
 window.DataService = DataService;

@@ -91,7 +91,7 @@
             const AppState = window.AppState;
             if (!AppState) return;
 
-            // WICHTIG: Nur ausführen, wenn noch keine Buchungen vorhanden
+            // WICHTIG: Nur ausfï¿½hren, wenn noch keine Buchungen vorhanden
             // Wenn bereits Demo-Daten existieren, nicht nochmal laden
             if (AppState.resourceBookings.length > 0) {
                 console.log('?? Demo-Daten bereits vorhanden (' + AppState.resourceBookings.length + ' Buchungen)');
@@ -127,35 +127,35 @@
                     { name: 'Gate 2 ? Definition/Konzept', date: '2025-04-30', status: 'completed', description: 'Konzeptfreigabe' },
                     { name: 'Gate 3 ? Entwicklung/Konstruktion', date: '2025-08-31', status: 'pending', description: 'Design Freeze' },
                     { name: 'Gate 4 ? Industrialisierung/Qualifikation', date: '2026-02-28', status: 'pending', description: 'Prozessqualifikation' },
-                    { name: 'Gate 5 ? Markteinführung/Serie', date: '2026-07-31', status: 'pending', description: 'Produktionsfreigabe' },
+                    { name: 'Gate 5 ? Markteinfï¿½hrung/Serie', date: '2026-07-31', status: 'pending', description: 'Produktionsfreigabe' },
                     { name: 'SOP (Start of Production)', date: '2026-09-30', status: 'pending', description: 'Serienproduktion startet' }
                 ].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p1.id, name: ms.name, date: ms.date, status: ms.status, description: ms.description }));
                 [
                     { name: 'Druckkammer-Design finalisieren', status: 'done', startDate: '2025-02-01', endDate: '2025-04-15', progress: 100, responsible: team1[0].id, priority: 'high', duration: 73 },
-                    { name: 'EMV-Tests durchführen', status: 'in_progress', startDate: '2025-04-15', endDate: '2025-06-30', progress: 65, responsible: team1[4].id, priority: 'high', duration: 76 },
+                    { name: 'EMV-Tests durchfï¿½hren', status: 'in_progress', startDate: '2025-04-15', endDate: '2025-06-30', progress: 65, responsible: team1[4].id, priority: 'high', duration: 76 },
                     { name: 'Lieferantenauswahl Dichtungen', status: 'done', startDate: '2025-02-15', endDate: '2025-04-30', progress: 100, responsible: team1[1].id, priority: 'medium', duration: 74 },
                     { name: 'Kalibrier-Protokoll erstellen', status: 'in_progress', startDate: '2025-05-01', endDate: '2025-07-15', progress: 50, responsible: team1[4].id, priority: 'high', duration: 75 },
                     { name: 'Produktionslinie-Layout', status: 'open', startDate: '2025-08-01', endDate: '2026-01-31', progress: 0, responsible: team1[3].id, priority: 'medium', duration: 183 },
                     { name: 'Technische Dokumentation', status: 'open', startDate: '2026-02-01', endDate: '2026-09-15', progress: 0, responsible: team1[5].id, priority: 'medium', duration: 227 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p1.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2024-04-01', dependencies: [] }));
                 [
-                    { title: 'Lieferverzögerung Spezial-Stahl', probability: 'medium', impact: 'high', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten evaluiert' },
-                    { title: 'EMV-Anforderungen nicht erreicht', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Zusätzliche Schirmung implementiert' },
-                    { title: 'Kostenüberschreitung Werkzeugbau', probability: 'high', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Alternate supplier sourcing' }
+                    { title: 'Lieferverzï¿½gerung Spezial-Stahl', probability: 'medium', impact: 'high', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten evaluiert' },
+                    { title: 'EMV-Anforderungen nicht erreicht', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Zusï¿½tzliche Schirmung implementiert' },
+                    { title: 'Kostenï¿½berschreitung Werkzeugbau', probability: 'high', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Alternate supplier sourcing' }
                 ].forEach(r => AppState.risks.push({ id: AppState.generateId(), projectId: p1.id, title: r.title, description: r.mitigation, probability: r.probability, impact: r.impact, category: r.category, status: r.status, mitigation: r.mitigation, owner: team1[0].id }));
                 AppState.costs.push(
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-05-15', type: 'internal_hours', category: 'Entwicklung', amount: 35000, description: 'Entwicklungsstunden Q2' },
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-08-20', type: 'internal_hours', category: 'Entwicklung', amount: 45000, description: 'Entwicklungsstunden Q3' },
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-11-10', type: 'internal_hours', category: 'Entwicklung', amount: 52000, description: 'Entwicklungsstunden Q4' },
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-09-05', type: 'external_service', category: 'Extern', amount: 18000, description: 'FEM-Analyse extern' },
-                    { id: AppState.generateId(), projectId: p1.id, date: '2024-10-12', type: 'investment', category: 'Investitionen', amount: 78000, description: 'Prüfstand Hochdruckbereich' }
+                    { id: AppState.generateId(), projectId: p1.id, date: '2024-10-12', type: 'investment', category: 'Investitionen', amount: 78000, description: 'Prï¿½fstand Hochdruckbereich' }
                 );
             }
 
             // Projekt 2: Miniatur-Drucksensor MDS-100
             const p2 = findProject('MDS-100');
             if (p2) {
-                const team2 = [findMember('Julia Schneider'), findMember('Petra Wagner'), findMember('Anna Graf'), findMember('Christina Müller')].filter(m => m);
+                const team2 = [findMember('Julia Schneider'), findMember('Petra Wagner'), findMember('Anna Graf'), findMember('Christina Mï¿½ller')].filter(m => m);
                 team2.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p2.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-09-15' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p2.id, memberId: team2[0].id, startDate: '2024-09-15', endDate: '2025-01-15', capacityPercent: 65, description: 'Mechanik-Design' },
@@ -171,22 +171,22 @@
                     { name: 'SOP (Start of Production)', date: '2026-03-31', status: 'pending' }
                 ].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p2.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
-                    { name: 'Biokompatibilitäts-Tests', status: 'in_progress', startDate: '2025-03-01', endDate: '2025-05-31', progress: 70, responsible: team2[2].id, priority: 'critical', duration: 91 },
+                    { name: 'Biokompatibilitï¿½ts-Tests', status: 'in_progress', startDate: '2025-03-01', endDate: '2025-05-31', progress: 70, responsible: team2[2].id, priority: 'critical', duration: 91 },
                     { name: 'Miniaturisierung Sensorchip', status: 'in_progress', startDate: '2025-02-15', endDate: '2025-06-30', progress: 55, responsible: team2[1].id, priority: 'high', duration: 135 },
-                    { name: 'Gehäuse-Prototypen', status: 'open', startDate: '2025-07-01', endDate: '2025-11-30', progress: 20, responsible: team2[0].id, priority: 'medium', duration: 152 },
+                    { name: 'Gehï¿½use-Prototypen', status: 'open', startDate: '2025-07-01', endDate: '2025-11-30', progress: 20, responsible: team2[0].id, priority: 'medium', duration: 152 },
                     { name: 'Zulassungsdokumentation', status: 'open', startDate: '2025-12-01', endDate: '2026-03-15', progress: 0, responsible: team2[0].id, priority: 'high', duration: 104 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p2.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-02-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p2.id, title: 'Zulassungsverfahren verzögert', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Frühzeitige Abstimmung mit Behörden', owner: team2[0].id },
+                    { id: AppState.generateId(), projectId: p2.id, title: 'Zulassungsverfahren verzï¿½gert', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Frï¿½hzeitige Abstimmung mit Behï¿½rden', owner: team2[0].id },
                     { id: AppState.generateId(), projectId: p2.id, title: 'Miniaturisierung technisch nicht machbar', probability: 'low', impact: 'critical', category: 'Technisch', status: 'mitigated', mitigation: 'Alternative Chip-Technologie identifiziert', owner: team2[1].id }
                 );
                 AppState.costs.push(
                     { id: AppState.generateId(), projectId: p2.id, date: '2024-10-20', type: 'internal_hours', amount: 12000, description: 'Entwicklungskosten Q4' },
-                    { id: AppState.generateId(), projectId: p2.id, date: '2024-11-15', type: 'external_service', amount: 8500, description: 'Biokompatibilitätstests extern' }
+                    { id: AppState.generateId(), projectId: p2.id, date: '2024-11-15', type: 'external_service', amount: 8500, description: 'Biokompatibilitï¿½tstests extern' }
                 );
             }
 
-            // Projekt 3-10 (kompakte Version für Dateigröße)
+            // Projekt 3-10 (kompakte Version fï¿½r Dateigrï¿½ï¿½e)
             const p3 = findProject('IGW-2024');
             if (p3) {
                 const team3 = [findMember('Stefan Weber'), findMember('Martin Schulz'), findMember('Petra Wagner'), findMember('Benjamin Koch'), findMember('Sarah Fischer')].filter(m => m);
@@ -206,9 +206,9 @@
                     { name: 'Feldtests', status: 'open', startDate: '2026-03-01', endDate: '2026-06-15', progress: 0, responsible: team3[2].id, priority: 'medium', duration: 106 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p3.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-03-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p3.id, title: 'Funkzulassung verzögert sich', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Externe Zulassungsberatung beauftragt', owner: team3[3].id },
+                    { id: AppState.generateId(), projectId: p3.id, title: 'Funkzulassung verzï¿½gert sich', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Externe Zulassungsberatung beauftragt', owner: team3[3].id },
                     { id: AppState.generateId(), projectId: p3.id, title: 'LoRa-Reichweite unter Erwartung', probability: 'low', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Alternative Antennen-Design evaluieren', owner: team3[0].id },
-                    { id: AppState.generateId(), projectId: p3.id, title: 'Cloud-Provider Abhängigkeit', probability: 'low', impact: 'medium', category: 'Extern', status: 'mitigated', mitigation: 'Multi-Cloud-Strategie implementiert', owner: team3[1].id }
+                    { id: AppState.generateId(), projectId: p3.id, title: 'Cloud-Provider Abhï¿½ngigkeit', probability: 'low', impact: 'medium', category: 'Extern', status: 'mitigated', mitigation: 'Multi-Cloud-Strategie implementiert', owner: team3[1].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p3.id, date: '2024-09-10', type: 'internal_hours', amount: 18000, description: 'Entwicklung Q3' }, { id: AppState.generateId(), projectId: p3.id, date: '2024-12-05', type: 'internal_hours', amount: 28000, description: 'Entwicklung Q4' });
             }
@@ -233,7 +233,7 @@
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p4.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-01-01', dependencies: [] }));
                 AppState.risks.push(
                     { id: AppState.generateId(), projectId: p4.id, title: 'Technologie-Reife nicht ausreichend', probability: 'high', impact: 'critical', category: 'Technisch', status: 'open', mitigation: 'Prototyp-Tests im Q1/2025 geplant', owner: team4[0].id },
-                    { id: AppState.generateId(), projectId: p4.id, title: 'Budget-Überschreitung wahrscheinlich', probability: 'medium', impact: 'high', category: 'Budget', status: 'open', mitigation: 'Monatliches Controlling etabliert', owner: team4[0].id }
+                    { id: AppState.generateId(), projectId: p4.id, title: 'Budget-ï¿½berschreitung wahrscheinlich', probability: 'medium', impact: 'high', category: 'Budget', status: 'open', mitigation: 'Monatliches Controlling etabliert', owner: team4[0].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p4.id, date: '2024-11-25', type: 'internal_hours', amount: 25000, description: 'Konzeptphase Q4' });
             }
@@ -247,17 +247,17 @@
                     { id: AppState.generateId(), projectId: p5.id, memberId: team5[2].id, startDate: '2024-01-15', endDate: '2024-12-31', capacityPercent: 45, description: 'Software KI-Modul' },
                     { id: AppState.generateId(), projectId: p5.id, memberId: team5[3].id, startDate: '2024-09-01', endDate: '2025-01-31', capacityPercent: 55, description: 'Validierung' }
                 );
-                [{ name: 'Gate 5 ? Markteinführung/Serie', date: '2026-08-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-10-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p5.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 5 ? Markteinfï¿½hrung/Serie', date: '2026-08-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-10-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p5.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Produktions-Freigabe-Tests', status: 'in_progress', startDate: '2025-08-01', endDate: '2026-01-31', progress: 80, responsible: team5[3].id, priority: 'critical', duration: 183 },
                     { name: 'KI-Modul Training', status: 'done', startDate: '2025-04-15', endDate: '2025-08-31', progress: 100, responsible: team5[2].id, priority: 'high', duration: 138 },
                     { name: 'Produktionslinie Setup', status: 'in_progress', startDate: '2026-02-01', endDate: '2026-10-15', progress: 65, responsible: team5[0].id, priority: 'high', duration: 256 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p5.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-04-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p5.id, title: 'SOP-Verzögerung (Gate 5 delayed)', probability: 'high', impact: 'medium', category: 'Terminplan', status: 'open', mitigation: 'Zusätzliche Ressourcen für Freigabe-Tests', owner: team5[0].id },
+                    { id: AppState.generateId(), projectId: p5.id, title: 'SOP-Verzï¿½gerung (Gate 5 delayed)', probability: 'high', impact: 'medium', category: 'Terminplan', status: 'open', mitigation: 'Zusï¿½tzliche Ressourcen fï¿½r Freigabe-Tests', owner: team5[0].id },
                     { id: AppState.generateId(), projectId: p5.id, title: 'KI-Modell Genauigkeit unter Ziel', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Erweiterte Trainingsdaten integriert', owner: team5[2].id }
                 );
-                AppState.costs.push({ id: AppState.generateId(), projectId: p5.id, date: '2024-06-15', type: 'internal_hours', amount: 32000, description: 'Entwicklung Q2' }, { id: AppState.generateId(), projectId: p5.id, date: '2024-07-12', type: 'investment', amount: 68000, description: 'Kalibrierausrüstung' });
+                AppState.costs.push({ id: AppState.generateId(), projectId: p5.id, date: '2024-06-15', type: 'internal_hours', amount: 32000, description: 'Entwicklung Q2' }, { id: AppState.generateId(), projectId: p5.id, date: '2024-07-12', type: 'investment', amount: 68000, description: 'Kalibrierausrï¿½stung' });
             }
 
             const p6 = findProject('TCM-X');
@@ -268,7 +268,7 @@
                 [{ name: 'Gate 3 ? Entwicklung/Konstruktion', date: '2025-11-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-02-28', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p6.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Temperatur-Sensor Kalibrierung', status: 'in_progress', startDate: '2025-05-15', endDate: '2025-09-30', progress: 40, responsible: team6[0].id, priority: 'high', duration: 138 },
-                    { name: 'Extrem-Tests (-40°C bis +150°C)', status: 'open', startDate: '2025-10-01', endDate: '2026-02-15', progress: 0, responsible: team6[1].id, priority: 'critical', duration: 137 }
+                    { name: 'Extrem-Tests (-40ï¿½C bis +150ï¿½C)', status: 'open', startDate: '2025-10-01', endDate: '2026-02-15', progress: 0, responsible: team6[1].id, priority: 'critical', duration: 137 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p6.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-05-01', dependencies: [] }));
                 AppState.risks.push(
                     { id: AppState.generateId(), projectId: p6.id, title: 'Extremtemperatur-Tests schlagen fehl', probability: 'medium', impact: 'critical', category: 'Technisch', status: 'open', mitigation: 'Material-Alternativen in Evaluation', owner: team6[0].id },
@@ -293,7 +293,7 @@
                     { name: 'Beta-Testing', status: 'open', startDate: '2026-06-01', endDate: '2026-12-15', progress: 0, responsible: team7[2].id, priority: 'medium', duration: 197 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p7.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-06-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p7.id, title: 'Cloud-Integration Komplexität unterschätzt', probability: 'medium', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Externe Cloud-Expertise zugezogen', owner: team7[1].id },
+                    { id: AppState.generateId(), projectId: p7.id, title: 'Cloud-Integration Komplexitï¿½t unterschï¿½tzt', probability: 'medium', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Externe Cloud-Expertise zugezogen', owner: team7[1].id },
                     { id: AppState.generateId(), projectId: p7.id, title: 'Predictive Maintenance Algorithmus Genauigkeit', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Umfangreiche Feldtests geplant', owner: team7[0].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p7.id, date: '2024-08-20', type: 'internal_hours', amount: 22000, description: 'Entwicklung Q3' });
@@ -301,9 +301,9 @@
 
             const p8 = findProject('KGF-2025');
             if (p8) {
-                const team8 = [findMember('Nina Bauer'), findMember('Christina Müller')].filter(m => m);
+                const team8 = [findMember('Nina Bauer'), findMember('Christina Mï¿½ller')].filter(m => m);
                 team8.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p8.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-12-01' }));
-                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p8.id, memberId: team8[0].id, startDate: '2024-12-01', endDate: '2025-09-30', capacityPercent: 35, description: 'Gehäuse-Design' });
+                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p8.id, memberId: team8[0].id, startDate: '2024-12-01', endDate: '2025-09-30', capacityPercent: 35, description: 'Gehï¿½use-Design' });
                 [{ name: 'Gate 2 ? Definition/Konzept', date: '2025-10-31', status: 'pending' }, { name: 'Gate 3 ? Entwicklung/Konstruktion', date: '2026-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p8.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Material-Studie Recycling-Kunststoffe', status: 'in_progress', startDate: '2025-07-15', endDate: '2025-10-15', progress: 60, responsible: team8[0].id, priority: 'high', duration: 92 },
@@ -311,8 +311,8 @@
                     { name: 'Montage-Konzept', status: 'open', startDate: '2026-03-01', endDate: '2026-05-15', progress: 0, responsible: team8[1].id, priority: 'medium', duration: 75 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p8.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-07-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p8.id, title: 'Recycling-Material Verfügbarkeit unsicher', probability: 'high', impact: 'medium', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten qualifiziert', owner: team8[0].id },
-                    { id: AppState.generateId(), projectId: p8.id, title: 'Werkzeugkosten höher als geplant', probability: 'medium', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Budget-Reserve eingeplant', owner: team8[0].id }
+                    { id: AppState.generateId(), projectId: p8.id, title: 'Recycling-Material Verfï¿½gbarkeit unsicher', probability: 'high', impact: 'medium', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten qualifiziert', owner: team8[0].id },
+                    { id: AppState.generateId(), projectId: p8.id, title: 'Werkzeugkosten hï¿½her als geplant', probability: 'medium', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Budget-Reserve eingeplant', owner: team8[0].id }
                 );
             }
 
@@ -322,7 +322,7 @@
                 team9.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p9.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-06-01' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p9.id, memberId: team9[0].id, startDate: '2024-06-01', endDate: '2026-02-28', capacityPercent: 55, description: 'Mechanik Lead & Safety' },
-                    { id: AppState.generateId(), projectId: p9.id, memberId: team9[1].id, startDate: '2024-07-01', endDate: '2026-02-28', capacityPercent: 45, description: 'Gehäuse-Design' },
+                    { id: AppState.generateId(), projectId: p9.id, memberId: team9[1].id, startDate: '2024-07-01', endDate: '2026-02-28', capacityPercent: 45, description: 'Gehï¿½use-Design' },
                     { id: AppState.generateId(), projectId: p9.id, memberId: team9[3].id, startDate: '2025-06-01', endDate: '2026-02-28', capacityPercent: 65, description: 'ISO 26262 Validierung' }
                 );
                 [{ name: 'Gate 3 ? Entwicklung/Konstruktion', date: '2025-06-30', status: 'pending' }, { name: 'Gate 4 ? Industrialisierung/Qualifikation', date: '2026-09-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2027-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p9.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
@@ -333,9 +333,9 @@
                     { name: 'Automotive-Zulassung', status: 'open', startDate: '2026-04-01', endDate: '2027-02-28', progress: 0, responsible: team9[0].id, priority: 'critical', duration: 334 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p9.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2024-06-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p9.id, title: 'ISO 26262 Zertifizierung verzögert', probability: 'medium', impact: 'critical', category: 'Regulatorisch', status: 'open', mitigation: 'Externe ISO 26262 Auditoren beauftragt', owner: team9[3].id },
-                    { id: AppState.generateId(), projectId: p9.id, title: 'ASIL-B Anforderungen nicht erfüllbar', probability: 'low', impact: 'critical', category: 'Technisch', status: 'mitigated', mitigation: 'Redundante Sicherheitsarchitektur implementiert', owner: team9[0].id },
-                    { id: AppState.generateId(), projectId: p9.id, title: 'OEM Anforderungsänderungen', probability: 'high', impact: 'high', category: 'Kunde', status: 'open', mitigation: 'Agile Entwicklung mit 2-Wochen-Sprints', owner: team9[0].id }
+                    { id: AppState.generateId(), projectId: p9.id, title: 'ISO 26262 Zertifizierung verzï¿½gert', probability: 'medium', impact: 'critical', category: 'Regulatorisch', status: 'open', mitigation: 'Externe ISO 26262 Auditoren beauftragt', owner: team9[3].id },
+                    { id: AppState.generateId(), projectId: p9.id, title: 'ASIL-B Anforderungen nicht erfï¿½llbar', probability: 'low', impact: 'critical', category: 'Technisch', status: 'mitigated', mitigation: 'Redundante Sicherheitsarchitektur implementiert', owner: team9[0].id },
+                    { id: AppState.generateId(), projectId: p9.id, title: 'OEM Anforderungsï¿½nderungen', probability: 'high', impact: 'high', category: 'Kunde', status: 'open', mitigation: 'Agile Entwicklung mit 2-Wochen-Sprints', owner: team9[0].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p9.id, date: '2024-08-15', type: 'internal_hours', amount: 38000, description: 'Entwicklung Q3' }, { id: AppState.generateId(), projectId: p9.id, date: '2024-10-15', type: 'investment', amount: 95000, description: 'Automotive Test Equipment' });
             }
@@ -378,7 +378,7 @@
         window.loadDemoDataFromJson = async function(file) {
             const AppState = window.AppState;
             if (!AppState) {
-                console.error('? AppState nicht verfügbar');
+                console.error('? AppState nicht verfï¿½gbar');
                 return false;
             }
 
@@ -391,10 +391,10 @@
 
                 // Validierung
                 if (!demoData.members || !demoData.projects) {
-                    throw new Error('Ungültige Demo-Daten: members oder projects fehlen');
+                    throw new Error('Ungï¿½ltige Demo-Daten: members oder projects fehlen');
                 }
 
-                // Lösche alle vorhandenen Daten
+                // Lï¿½sche alle vorhandenen Daten
                 AppState.members = [];
                 AppState.projects = [];
                 AppState.projectTeamMembers = [];
@@ -432,7 +432,7 @@
                 // Synchronisiere SOP aus Milestones
                 console.log('  9?? Synchronisiere SOP-Daten aus Milestones...');
                 AppState.projects.forEach(project => {
-                    // Finde SOP Milestone für dieses Projekt
+                    // Finde SOP Milestone fï¿½r dieses Projekt
                     const sopMs = AppState.milestones.find(
                         m => m.projectId === project.id && m.name && m.name.includes('SOP')
                     );
@@ -444,7 +444,7 @@
                         project.sopChangeComment = project.sopChangeComment || '';
                     }
 
-                    // Stelle sicher, dass SOP-Felder existieren (für Abwärtskompatibilität)
+                    // Stelle sicher, dass SOP-Felder existieren (fï¿½r Abwï¿½rtskompatibilitï¿½t)
                     if (!project.hasOwnProperty('sopBaselineDate')) {
                         project.sopBaselineDate = null;
                     }
@@ -465,7 +465,7 @@
                 console.log(`   ${AppState.projectTeamMembers.length} Teammitglieder`);
                 console.log(`   ${AppState.resourceBookings.length} Buchungen`);
 
-                // UI vollständig aktualisieren (ohne Reload, da localStorage nicht verfügbar)
+                // UI vollstï¿½ndig aktualisieren (ohne Reload, da localStorage nicht verfï¿½gbar)
                 console.log('?? Aktualisiere UI...');
                 if (window.UI) {
                     // Zeige Projektliste an
@@ -507,8 +507,8 @@
                 errorDiv.innerHTML = `
                     <h3 style="color: #dc2626; margin-bottom: 1rem;">? Fehler beim Laden der Demo-Daten</h3>
                     <p style="margin-bottom: 1rem;">${error.message}</p>
-                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem;">Bitte überprüfen Sie, dass die hochgeladene Datei eine gültige JSON-Datei ist.</p>
-                    <button onclick="this.parentElement.remove()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer;">Schließen</button>
+                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem;">Bitte ï¿½berprï¿½fen Sie, dass die hochgeladene Datei eine gï¿½ltige JSON-Datei ist.</p>
+                    <button onclick="this.parentElement.remove()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer;">Schlieï¿½en</button>
                 `;
                 document.body.appendChild(errorDiv);
 
@@ -516,15 +516,15 @@
             }
         };
 
-        // Legacy-Funktion für Kompatibilität
+        // Legacy-Funktion fï¿½r Kompatibilitï¿½t
         window.reloadDemoData = function() {
             const AppState = window.AppState;
             if (!AppState) {
-                console.error('AppState nicht verfügbar');
+                console.error('AppState nicht verfï¿½gbar');
                 return;
             }
 
-            // Lösche alle projektbezogenen Daten
+            // Lï¿½sche alle projektbezogenen Daten
             AppState.projectTeamMembers = [];
             AppState.resourceBookings = [];
             AppState.milestones = [];

@@ -34,7 +34,7 @@
                     this.showManagementCommentsModal();
                 });
 
-                // Demo-Daten laden Button - öffnet Datei-Dialog
+                // Demo-Daten laden Button - ï¿½ffnet Datei-Dialog
                 document.getElementById('btn-load-demo-data').addEventListener('click', () => {
                     // Erstelle einen versteckten File-Input
                     const fileInput = document.createElement('input');
@@ -46,7 +46,7 @@
                         const file = e.target.files[0];
                         if (!file) return;
 
-                        // Bestätigungsdialog erstellen
+                        // Bestï¿½tigungsdialog erstellen
                         const confirmDiv = document.createElement('div');
                         confirmDiv.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;';
                         confirmDiv.innerHTML = `
@@ -56,9 +56,9 @@
                                     Datei: <strong>${file.name}</strong>
                                 </p>
                                 <p style="margin-bottom: 1.5rem; color: #6b7280;">
-                                    Alle vorhandenen Daten (Projekte, Ressourcen, Buchungen, etc.) werden gelöscht und durch die Daten aus dieser Datei ersetzt.
+                                    Alle vorhandenen Daten (Projekte, Ressourcen, Buchungen, etc.) werden gelï¿½scht und durch die Daten aus dieser Datei ersetzt.
                                     <br><br>
-                                    <strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong>
+                                    <strong>Diese Aktion kann nicht rï¿½ckgï¿½ngig gemacht werden!</strong>
                                 </p>
                                 <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
                                     <button id="demo-cancel" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; cursor: pointer;">Abbrechen</button>
@@ -68,7 +68,7 @@
                         `;
                         document.body.appendChild(confirmDiv);
 
-                        // Event-Listener für Buttons
+                        // Event-Listener fï¿½r Buttons
                         confirmDiv.querySelector('#demo-cancel').addEventListener('click', () => {
                             confirmDiv.remove();
                             fileInput.remove();
@@ -389,7 +389,7 @@
                                 </td>
                                 <td class="font-mono" style="color: ${isOverbooked ? 'var(--danger)' : 'var(--success)'};">
                                     <strong>${utilizationPercent}%</strong>
-                                    ${isOverbooked ? ' ? ÜBERBUCHT!' : ''}
+                                    ${isOverbooked ? ' ? ï¿½BERBUCHT!' : ''}
                                 </td>
                                 <td>
                                     <span style="color: ${isActive ? 'var(--success)' : 'var(--text-secondary)'};">
@@ -426,7 +426,7 @@
                                 <div class="text-2xl font-bold font-mono mt-1">${activeMembers.length}</div>
                             </div>
                             <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Überbuchte Ressourcen</div>
+                                <div class="text-sm" style="color: var(--text-secondary);">ï¿½berbuchte Ressourcen</div>
                                 <div class="text-2xl font-bold font-mono mt-1" style="color: ${overbookedMembers.length > 0 ? 'var(--danger)' : 'var(--success)'}">
                                     ${overbookedMembers.length}
                                 </div>
@@ -435,13 +435,13 @@
 
                         ${overbookedMembers.length > 0 ? `
                             <div class="mt-4 p-4" style="background: rgba(244, 67, 54, 0.1); border-left: 4px solid var(--danger); border-radius: 0.5rem;">
-                                <h5 class="font-semibold mb-2" style="color: var(--danger);">? KRITISCHE ÜBERBUCHUNG</h5>
+                                <h5 class="font-semibold mb-2" style="color: var(--danger);">? KRITISCHE ï¿½BERBUCHUNG</h5>
                                 ${overbookedMembers.map(member => {
                                     const util = AppState.getGlobalResourceUtilization(member.id);
                                     return `
                                         <div style="margin-bottom: 1rem;">
                                             <strong>${this.escapeHtml(member.name)}</strong>:
-                                            ${util.totalUtilization}% ausgelastet (verfügbar: ${member.availableCapacity}%)
+                                            ${util.totalUtilization}% ausgelastet (verfï¿½gbar: ${member.availableCapacity}%)
                                             <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                                                 Projekte: ${util.byProject.filter(p => p.projectStatus === 'active').map(p =>
                                                     `${p.projectName} (${p.totalCapacity}%)`
@@ -473,7 +473,7 @@
                             ${overloadedGroups.length > 0 ? `
                                 <div class="mb-4 p-4" style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid var(--warning); border-radius: 0.5rem;">
                                     <h5 class="font-semibold mb-2" style="color: var(--warning);">
-                                        ? ${overloadedGroups.length} Kompetenzgruppe${overloadedGroups.length > 1 ? 'n' : ''} überlastet
+                                        ? ${overloadedGroups.length} Kompetenzgruppe${overloadedGroups.length > 1 ? 'n' : ''} ï¿½berlastet
                                     </h5>
                                     ${overloadedGroups.map(g => `
                                         <div style="margin-bottom: 0.5rem;">
@@ -488,7 +488,7 @@
                                     <tr>
                                         <th>Kompetenzgruppe</th>
                                         <th>Mitglieder</th>
-                                        <th>Gesamt-Kapazität (FTE)</th>
+                                        <th>Gesamt-Kapazitï¿½t (FTE)</th>
                                         <th>Gebuchte FTE</th>
                                         <th>Auslastung</th>
                                         <th>Status</th>
@@ -498,7 +498,7 @@
                                     ${groupUtilization.map(group => {
                                         const statusColor = group.isOverloaded ? 'var(--danger)' :
                                             (group.utilizationPercent > 80 ? 'var(--warning)' : 'var(--success)');
-                                        const statusText = group.isOverloaded ? '? Überlastet' :
+                                        const statusText = group.isOverloaded ? '? ï¿½berlastet' :
                                             (group.utilizationPercent > 80 ? '? Hoch' : '? Normal');
 
                                         return `
@@ -614,15 +614,15 @@
                     <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: 0.5rem; flex-wrap: wrap;">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #1f2937; border: 2px solid #000; border-radius: 0.25rem;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P1 - höchste Priorität)</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P1 - hï¿½chste Prioritï¿½t)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #4b5563; border: 2px solid #000; border-radius: 0.25rem;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P3 - mittlere Priorität)</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P3 - mittlere Prioritï¿½t)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #9ca3af; border: 2px solid #000; border-radius: 0.25rem;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P5 - niedrigste Priorität)</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P5 - niedrigste Prioritï¿½t)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #e5e7eb; border: 2px dashed #9ca3af; border-radius: 0.25rem;"></div>
@@ -630,7 +630,7 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 16px; height: 16px; background: #dc2626; border-radius: 50%;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">? Ressourcen-Überlastung</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">? Ressourcen-ï¿½berlastung</span>
                         </div>
                     </div>
                 `;
@@ -703,7 +703,7 @@
                         <div style="display: flex; margin-bottom: 0.6rem; align-items: center;">
                             <div style="width: 220px; font-weight: 500; font-size: 0.8rem; color: #000; padding-right: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${this.escapeHtml(project.name)}">
                                 ${this.escapeHtml(project.name)}
-                                ${hasOverload ? '<span style="color: #dc2626; font-weight: bold;" title="Ressourcen-Überlastung">?</span>' : ''}
+                                ${hasOverload ? '<span style="color: #dc2626; font-weight: bold;" title="Ressourcen-ï¿½berlastung">?</span>' : ''}
                             </div>
                             <div style="flex: 1; position: relative; height: 30px; background: #f9fafb; border-radius: 0.25rem; min-width: 0;">
                                 ${quarters.map((quarter, idx) => {
@@ -729,7 +729,7 @@
                 const container = document.getElementById('portfolio-fte-timeline');
                 if (!container || timeline.length === 0) {
                     if (container) {
-                        container.innerHTML = '<p style="color: var(--text-secondary);">Keine Zeitdaten verfügbar</p>';
+                        container.innerHTML = '<p style="color: var(--text-secondary);">Keine Zeitdaten verfï¿½gbar</p>';
                     }
                     return;
                 }
@@ -755,7 +755,7 @@
                     html += `
                         <div style="flex: 1; min-width: 60px; position: relative;">
                             <div style="height: 200px; display: flex; flex-direction: column; justify-content: flex-end; border: 1px solid var(--border-color); border-radius: 0.25rem; padding: 0.25rem; background: ${isCurrentWeek ? 'rgba(255, 200, 0, 0.05)' : 'var(--bg-tertiary)'};">
-                                <div style="background: ${barColor}; height: ${heightPercent}%; border-radius: 0.25rem; position: relative;" title="${period.startDate}: ${period.totalFTE} FTE${period.isOverloaded ? ' (ÜBERLAST!)' : ''}">
+                                <div style="background: ${barColor}; height: ${heightPercent}%; border-radius: 0.25rem; position: relative;" title="${period.startDate}: ${period.totalFTE} FTE${period.isOverloaded ? ' (ï¿½BERLAST!)' : ''}">
                                     <div style="position: absolute; top: -20px; left: 0; right: 0; text-align: center; font-size: 0.75rem; font-weight: bold; color: ${barColor};">
                                         ${period.totalFTE}
                                     </div>
@@ -774,7 +774,7 @@
                 html += `<strong>Legende:</strong> `;
                 html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--success); border-radius: 2px; margin: 0 0.25rem;"></span> Normal `;
                 html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--warning); border-radius: 2px; margin: 0 0.25rem;"></span> Hoch (&gt;80%) `;
-                html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 2px; margin: 0 0.25rem;"></span> Überlast (&gt;${totalAvailableFTE} FTE)`;
+                html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 2px; margin: 0 0.25rem;"></span> ï¿½berlast (&gt;${totalAvailableFTE} FTE)`;
                 html += `</div></div>`;
 
                 container.innerHTML = html;
@@ -808,7 +808,7 @@
 
                     const warnings = [];
                     if (overloadPeriods.length > 0) {
-                        warnings.push(`?? Überlast in ${overloadPeriods.length} Zeitraum(en)`);
+                        warnings.push(`?? ï¿½berlast in ${overloadPeriods.length} Zeitraum(en)`);
                     }
 
                     return `
@@ -1004,7 +1004,7 @@
                     budgetContainer.innerHTML = `
                         <div class="card mb-6">
                             <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <h3 class="font-semibold">Projektbudget Übersicht</h3>
+                                <h3 class="font-semibold">Projektbudget ï¿½bersicht</h3>
                                 <button class="btn" onclick="UI.showEditBudgetModal()">?? Budget bearbeiten</button>
                             </div>
                             <table>
@@ -1106,7 +1106,7 @@
                             <td class="font-mono font-semibold">${this.formatCurrency(cost.amount || 0, project.currency)}</td>
                             <td>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.showEditCostModal('${cost.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteCost('${cost.id}')">Löschen</button>
+                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteCost('${cost.id}')">Lï¿½schen</button>
                             </td>
                         </tr>
                     `;
@@ -1176,7 +1176,7 @@
                             </div>
                             <div style="display: flex; gap: 0.5rem;">
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editMilestone('${m.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteMilestone('${m.id}')">Löschen</button>
+                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteMilestone('${m.id}')">Lï¿½schen</button>
                             </div>
                         </div>
                     </div>
@@ -1224,7 +1224,7 @@
                                 </div>
                                 <div style="display: flex; gap: 0.5rem;">
                                     <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editRisk('${r.id}')">Bearbeiten</button>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteRisk('${r.id}')">Löschen</button>
+                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteRisk('${r.id}')">Lï¿½schen</button>
                                 </div>
                             </div>
                         </div>
@@ -1254,7 +1254,7 @@
                             <td><span style="color: ${priorityColor};">?</span> ${t.priority}</td>
                             <td>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editTask('${t.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteTask('${t.id}')">Löschen</button>
+                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteTask('${t.id}')">Lï¿½schen</button>
                             </td>
                         </tr>
                     `;
@@ -1318,7 +1318,7 @@
                             <div class="text-2xl font-bold font-mono" style="color: var(--danger);">${criticalPathLength} / ${tasks.length}</div>
                         </div>
                         <div>
-                            <span class="text-sm" style="color: var(--text-secondary);">Verzögerungsrisiko</span>
+                            <span class="text-sm" style="color: var(--text-secondary);">Verzï¿½gerungsrisiko</span>
                             <div class="text-2xl font-bold font-mono" style="color: ${criticalPathLength / tasks.length > 0.5 ? 'var(--danger)' : 'var(--warning)'}">
                                 ${criticalPathLength > 0 ? 'HOCH' : 'NIEDRIG'}
                             </div>
@@ -1360,11 +1360,11 @@
                     const start = new Date(task.startDate);
                     const end = new Date(task.endDate);
                     if (isNaN(start.getTime())) {
-                        errors.push(`Task ${task.name || task.id}: Ungültiges Startdatum`);
+                        errors.push(`Task ${task.name || task.id}: Ungï¿½ltiges Startdatum`);
                         return;
                     }
                     if (isNaN(end.getTime())) {
-                        errors.push(`Task ${task.name || task.id}: Ungültiges Enddatum`);
+                        errors.push(`Task ${task.name || task.id}: Ungï¿½ltiges Enddatum`);
                         return;
                     }
                     if (end < start) {
@@ -1377,7 +1377,7 @@
                         const taskIds = tasks.map(t => t.id);
                         const invalidDeps = task.dependencies.filter(dep => !taskIds.includes(dep.task));
                         if (invalidDeps.length > 0) {
-                            errors.push(`Task ${task.name || task.id}: Ungültige Abhängigkeiten zu ${invalidDeps.map(d => d.task).join(', ')}`);
+                            errors.push(`Task ${task.name || task.id}: Ungï¿½ltige Abhï¿½ngigkeiten zu ${invalidDeps.map(d => d.task).join(', ')}`);
                         }
                     }
 
@@ -1396,7 +1396,7 @@
                     container.innerHTML = `
                         <div style="padding: 3rem; text-align: center;">
                             <h4 class="font-semibold mb-3" style="color: var(--text-secondary);">Keine Aufgaben vorhanden</h4>
-                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Für dieses Projekt sind noch keine Aufgaben oder Meilensteine erfasst.</p>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Fï¿½r dieses Projekt sind noch keine Aufgaben oder Meilensteine erfasst.</p>
                             <button class="btn btn-primary" onclick="UI.showAddTaskModal()">+ Erste Aufgabe anlegen</button>
                         </div>
                     `;
@@ -1425,7 +1425,7 @@
                 if (validation.validTasks.length === 0) {
                     container.innerHTML = `
                         <div style="padding: 3rem; text-align: center;">
-                            <p style="color: var(--text-secondary);">Keine gültigen Aufgaben für Gantt-Darstellung vorhanden.</p>
+                            <p style="color: var(--text-secondary);">Keine gï¿½ltigen Aufgaben fï¿½r Gantt-Darstellung vorhanden.</p>
                         </div>
                     `;
                     return;
@@ -1523,7 +1523,7 @@
                 const { weeks, yearMonthStructure } = this.calculateWeekRange(ganttTasks);
 
                 if (weeks.length === 0) {
-                    container.innerHTML = '<p>Keine Daten für Wochenansicht vorhanden</p>';
+                    container.innerHTML = '<p>Keine Daten fï¿½r Wochenansicht vorhanden</p>';
                     return;
                 }
 
@@ -1633,7 +1633,7 @@
                         month = {
                             monthIndex: week.month,
                             weeks: [],
-                            label: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][week.month]
+                            label: ['Jan', 'Feb', 'Mï¿½r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][week.month]
                         };
                         year.months.push(month);
                     }
@@ -1988,7 +1988,7 @@
                 const { months, yearQuarterStructure } = this.calculateMonthRange(ganttTasks);
 
                 if (months.length === 0) {
-                    container.innerHTML = '<p>Keine Daten für Quartalsansicht vorhanden</p>';
+                    container.innerHTML = '<p>Keine Daten fï¿½r Quartalsansicht vorhanden</p>';
                     return;
                 }
 
@@ -2052,7 +2052,7 @@
                         quarter: quarter,
                         monthStart: monthStart,
                         monthEnd: monthEnd,
-                        label: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][current.getMonth()]
+                        label: ['Jan', 'Feb', 'Mï¿½r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][current.getMonth()]
                     });
 
                     current.setMonth(current.getMonth() + 1);
@@ -2080,7 +2080,7 @@
             },
 
             drawQuarterGanttHeader(svg, months, yearQuarterStructure, leftPadding, monthWidth) {
-                const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+                const monthNames = ['Jan', 'Feb', 'Mï¿½r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
                 // Get current month for highlighting (not quarter!)
                 const today = new Date();
@@ -2456,7 +2456,7 @@
                 return weekNo;
             },
 
-            // NEU: Monatsheader über der Wochenzeile
+            // NEU: Monatsheader ï¿½ber der Wochenzeile
             addMonthHeaders(ganttInstance, svg) {
                 if (!svg || !ganttInstance || !ganttInstance.gantt_start || !ganttInstance.gantt_end) return;
 
@@ -2466,7 +2466,7 @@
                 const columnWidth = ganttInstance.options.column_width || 30;
 
                 // Monatsnamen (kurz, deutsch)
-                const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+                const monthNames = ['Jan', 'Feb', 'Mï¿½r', 'Apr', 'Mai', 'Jun',
                                    'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
                 // Alle Monate im Zeitraum durchgehen
@@ -2480,7 +2480,7 @@
                     // Letzter Tag des Monats
                     const monthEnd = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0);
 
-                    // Prüfe, ob Monat im sichtbaren Bereich liegt
+                    // Prï¿½fe, ob Monat im sichtbaren Bereich liegt
                     const visibleStart = monthStart < ganttStart ? ganttStart : monthStart;
                     const visibleEnd = monthEnd > ganttEnd ? ganttEnd : monthEnd;
 
@@ -2505,7 +2505,7 @@
                         svg.appendChild(text);
                     }
 
-                    // Nächster Monat
+                    // Nï¿½chster Monat
                     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
                 }
             },
@@ -2522,7 +2522,7 @@
                 const padding = ganttInstance.options.padding || 18;
                 const columnWidth = ganttInstance.options.column_width || 30;
 
-                // Alle Wochenanfänge (Montag) im Zeitraum bestimmen
+                // Alle Wochenanfï¿½nge (Montag) im Zeitraum bestimmen
                 let current = new Date(ganttStart);
 
                 // Zum Montag der Woche springen
@@ -2581,7 +2581,7 @@
                         }
                     }
 
-                    // Nächste Woche
+                    // Nï¿½chste Woche
                     current = new Date(current.getTime() + (7 * 24 * 60 * 60 * 1000));
                 }
             },
@@ -2862,7 +2862,7 @@
                     console.log('?? Quarter view - Padding:', padding, 'ColumnWidth:', columnWidth);
 
                     // Month names (short German)
-                    const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+                    const monthNames = ['Jan', 'Feb', 'Mï¿½r', 'Apr', 'Mai', 'Jun',
                                        'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
                     let monthCount = 0;
@@ -3160,7 +3160,7 @@
                     tableBody.innerHTML = `
                         <tr>
                             <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                Keine Teammitglieder in diesem Projekt. Klicken Sie "+ Mitglied zum Projektteam hinzufügen", um Ressourcen zuzuweisen.
+                                Keine Teammitglieder in diesem Projekt. Klicken Sie "+ Mitglied zum Projektteam hinzufï¿½gen", um Ressourcen zuzuweisen.
                             </td>
                         </tr>
                     `;
@@ -3220,7 +3220,7 @@
                 const availableMembers = allMembers.filter(m => !teamMemberIds.includes(m.id));
 
                 if (availableMembers.length === 0) {
-                    this.showAlert('Alle verfügbaren Ressourcen sind bereits im Projektteam.');
+                    this.showAlert('Alle verfï¿½gbaren Ressourcen sind bereits im Projektteam.');
                     return;
                 }
 
@@ -3248,10 +3248,10 @@
                 const content = `
                     <div style="max-height: 500px; overflow-y: auto;">
                         <p style="margin-bottom: 1rem; color: var(--text-secondary);">
-                            Wählen Sie ein oder mehrere Teammitglieder aus dem globalen Ressourcenpool aus:
+                            Wï¿½hlen Sie ein oder mehrere Teammitglieder aus dem globalen Ressourcenpool aus:
                         </p>
                         <div style="margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 0.5rem; border-left: 4px solid var(--primary);">
-                            <strong>?? Hinweis:</strong> Die Auslastung zeigt die aktuelle globale Belegung über alle aktiven Projekte.
+                            <strong>?? Hinweis:</strong> Die Auslastung zeigt die aktuelle globale Belegung ï¿½ber alle aktiven Projekte.
                         </div>
                         <table class="table">
                             <thead>
@@ -3259,9 +3259,9 @@
                                     <th style="width: 60px;">Auswahl</th>
                                     <th>Name</th>
                                     <th>Rolle</th>
-                                    <th>Max. Kapazität</th>
+                                    <th>Max. Kapazitï¿½t</th>
                                     <th>Aktuelle Auslastung</th>
-                                    <th>Verfügbar</th>
+                                    <th>Verfï¿½gbar</th>
                                     <th style="width: 60px;">Status</th>
                                 </tr>
                             </thead>
@@ -3279,7 +3279,7 @@
                                     if (member.isOverbooked || remainingPercent <= 0) {
                                         statusColor = 'var(--danger)';
                                         statusIcon = '?';
-                                        statusText = 'Überbucht';
+                                        statusText = 'ï¿½berbucht';
                                     } else if (utilizationRatio >= 0.8) {
                                         statusColor = 'var(--warning)';
                                         statusIcon = '??';
@@ -3287,11 +3287,11 @@
                                     } else if (utilizationRatio >= 0.5) {
                                         statusColor = 'var(--warning)';
                                         statusIcon = '?';
-                                        statusText = 'Mäßig ausgelastet';
+                                        statusText = 'Mï¿½ï¿½ig ausgelastet';
                                     } else {
                                         statusColor = 'var(--success)';
                                         statusIcon = '?';
-                                        statusText = 'Verfügbar';
+                                        statusText = 'Verfï¿½gbar';
                                     }
 
                                     // Determine if selection should be discouraged
@@ -3326,13 +3326,13 @@
                         </table>
                         ${membersWithUtilization.some(m => m.remainingCapacity <= 0) ? `
                             <div class="mt-3 p-3" style="background: var(--warning-bg, #fff3cd); border-left: 4px solid var(--danger); border-radius: 0.25rem;">
-                                <strong>?? Achtung:</strong> Einige Ressourcen sind bereits voll oder überbucht. Sie können diese dennoch zum Team hinzufügen, sollten aber bei der Buchung die verfügbare Kapazität beachten.
+                                <strong>?? Achtung:</strong> Einige Ressourcen sind bereits voll oder ï¿½berbucht. Sie kï¿½nnen diese dennoch zum Team hinzufï¿½gen, sollten aber bei der Buchung die verfï¿½gbare Kapazitï¿½t beachten.
                             </div>
                         ` : ''}
                     </div>
                 `;
 
-                const modal = this.createModal('Teammitglieder hinzufügen', content, [
+                const modal = this.createModal('Teammitglieder hinzufï¿½gen', content, [
                     {
                         label: 'Abbrechen',
                         onClick: () => {
@@ -3340,7 +3340,7 @@
                         }
                     },
                     {
-                        label: 'Hinzufügen',
+                        label: 'Hinzufï¿½gen',
                         primary: true,
                         onClick: () => {
                             // Get all checked checkboxes
@@ -3349,7 +3349,7 @@
                                 .filter(checkbox => checkbox && checkbox.checked);
 
                             if (checkedBoxes.length === 0) {
-                                this.showAlert('Bitte wählen Sie mindestens ein Teammitglied aus.');
+                                this.showAlert('Bitte wï¿½hlen Sie mindestens ein Teammitglied aus.');
                                 return;
                             }
 
@@ -3363,7 +3363,7 @@
 
                             this.closeModal();
                             this.renderProjectTeamTab();
-                            this.showAlert(`${addedCount} Teammitglied(er) erfolgreich zum Projekt hinzugefügt.`);
+                            this.showAlert(`${addedCount} Teammitglied(er) erfolgreich zum Projekt hinzugefï¿½gt.`);
                         }
                     }
                 ], { wide: true }); // NEW: Use wide modal for better visibility
@@ -3393,7 +3393,7 @@
                         <div style="margin-top: 1rem; padding: 1rem; background: var(--warning-bg, #fff3cd); border-left: 4px solid var(--warning, #ffc107); border-radius: 0.25rem;">
                             <strong>?? Achtung:</strong>
                             <ul style="margin: 0.5rem 0 0 1.5rem;">
-                                ${projectBookings.length > 0 ? `<li>${projectBookings.length} Buchung(en) werden gelöscht</li>` : ''}
+                                ${projectBookings.length > 0 ? `<li>${projectBookings.length} Buchung(en) werden gelï¿½scht</li>` : ''}
                                 ${assignedTasks.length > 0 ? `<li>${assignedTasks.length} Aufgabe(n) verlieren ihre Zuweisung</li>` : ''}
                             </ul>
                         </div>
@@ -3401,7 +3401,7 @@
                 }
 
                 const content = `
-                    <p>Möchten Sie <strong>${this.escapeHtml(member.name)}</strong> wirklich aus dem Projektteam entfernen?</p>
+                    <p>Mï¿½chten Sie <strong>${this.escapeHtml(member.name)}</strong> wirklich aus dem Projektteam entfernen?</p>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
                         Das Teammitglied bleibt im globalen Ressourcenpool erhalten.
                     </p>
@@ -3453,7 +3453,7 @@
                     tableBody.innerHTML = `
                         <tr>
                             <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                Keine Team-Mitglieder vorhanden. Klicken Sie "+ Mitglied hinzufügen", um ein neues Mitglied anzulegen.
+                                Keine Team-Mitglieder vorhanden. Klicken Sie "+ Mitglied hinzufï¿½gen", um ein neues Mitglied anzulegen.
                             </td>
                         </tr>
                     `;
@@ -3472,7 +3472,7 @@
                                 <td class="font-mono" style="color: var(--primary);">
                                     <strong>${member.availableCapacity || 80}%</strong>
                                     <span style="color: var(--text-secondary); font-size: 0.85rem;">
-                                        (${member.employmentLevel || 100}% × 0.8)
+                                        (${member.employmentLevel || 100}% ï¿½ 0.8)
                                     </span>
                                 </td>
                                 <td>
@@ -3532,11 +3532,11 @@
                                 <div class="text-2xl font-bold font-mono mt-1">${activeMembers.length}</div>
                             </div>
                             <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Gesamt Verfügbare Kapazität</div>
+                                <div class="text-sm" style="color: var(--text-secondary);">Gesamt Verfï¿½gbare Kapazitï¿½t</div>
                                 <div class="text-2xl font-bold font-mono mt-1">${totalCapacity}%</div>
                             </div>
                             <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Überbuchte Ressourcen</div>
+                                <div class="text-sm" style="color: var(--text-secondary);">ï¿½berbuchte Ressourcen</div>
                                 <div class="text-2xl font-bold font-mono mt-1" style="color: ${memberUtilization.filter(m => m.isOverbooked).length > 0 ? 'var(--danger)' : 'var(--success)'}">
                                     ${memberUtilization.filter(m => m.isOverbooked).length}
                                 </div>
@@ -3545,12 +3545,12 @@
 
                         ${memberUtilization.filter(m => m.isOverbooked).length > 0 ? `
                             <div class="mt-4 p-4" style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid var(--warning); border-radius: 0.5rem;">
-                                <h5 class="font-semibold mb-2" style="color: var(--warning);">? Überbuchungswarnung</h5>
+                                <h5 class="font-semibold mb-2" style="color: var(--warning);">? ï¿½berbuchungswarnung</h5>
                                 ${memberUtilization.filter(m => m.isOverbooked).map(({ member, bookedCapacity, utilizationPercent }) => `
                                     <div style="margin-bottom: 0.5rem;">
                                         <strong>${this.escapeHtml(member.name)}</strong>:
                                         ${utilizationPercent}% ausgelastet
-                                        (${bookedCapacity}% gebucht / ${member.availableCapacity}% verfügbar)
+                                        (${bookedCapacity}% gebucht / ${member.availableCapacity}% verfï¿½gbar)
                                     </div>
                                 `).join('')}
                             </div>
@@ -3580,7 +3580,7 @@
             },
 
             showAddMemberModal() {
-                const modal = this.createModal('Neues Team-Mitglied hinzufügen', `
+                const modal = this.createModal('Neues Team-Mitglied hinzufï¿½gen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
@@ -3593,7 +3593,7 @@
                         <div>
                             <label class="text-sm font-medium">Kompetenzgruppe *</label>
                             <select id="modal-member-competency" required>
-                                <option value="">-- Bitte wählen --</option>
+                                <option value="">-- Bitte wï¿½hlen --</option>
                                 <option value="Entwicklung Mechanik">Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik">Entwicklung Elektronik</option>
                                 <option value="Software">Software</option>
@@ -3611,11 +3611,11 @@
                             <label class="text-sm font-medium">Anstellungsgrad (%)*</label>
                             <input type="number" id="modal-member-employment" min="1" max="100" value="100" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Verfügbare Kapazität wird automatisch berechnet (Anstellungsgrad × 0.8)
+                                Verfï¿½gbare Kapazitï¿½t wird automatisch berechnet (Anstellungsgrad ï¿½ 0.8)
                             </p>
                         </div>
                         <div id="modal-member-capacity-preview" class="p-3" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <span style="color: var(--text-secondary);">Verfügbare Kapazität:</span>
+                            <span style="color: var(--text-secondary);">Verfï¿½gbare Kapazitï¿½t:</span>
                             <span class="font-mono font-bold ml-2" id="capacity-preview-value">80%</span>
                         </div>
                     </div>
@@ -3625,7 +3625,7 @@
                         onClick: () => this.closeModal()
                     },
                     {
-                        label: 'Mitglied hinzufügen',
+                        label: 'Mitglied hinzufï¿½gen',
                         onClick: () => this.handleAddMember(),
                         primary: true
                     }
@@ -3651,11 +3651,11 @@
                 const employment = parseInt(document.getElementById('modal-member-employment').value) || 100;
 
                 if (!name || !role || !competencyGroup) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
-                // Calculate available capacity (employment × 0.8)
+                // Calculate available capacity (employment ï¿½ 0.8)
                 const availableCapacity = Math.round(employment * 0.8);
 
                 const member = {
@@ -3675,7 +3675,7 @@
 
                 this.closeModal();
                 this.renderTeamTab();
-                this.showAlert(`Mitglied "${name}" wurde erfolgreich hinzugefügt.`);
+                this.showAlert(`Mitglied "${name}" wurde erfolgreich hinzugefï¿½gt.`);
             },
 
             showEditMemberModal(memberId) {
@@ -3695,7 +3695,7 @@
                         <div>
                             <label class="text-sm font-medium">Kompetenzgruppe *</label>
                             <select id="modal-member-competency" required>
-                                <option value="">-- Bitte wählen --</option>
+                                <option value="">-- Bitte wï¿½hlen --</option>
                                 <option value="Entwicklung Mechanik" ${member.competencyGroup === 'Entwicklung Mechanik' ? 'selected' : ''}>Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik" ${member.competencyGroup === 'Entwicklung Elektronik' ? 'selected' : ''}>Entwicklung Elektronik</option>
                                 <option value="Software" ${member.competencyGroup === 'Software' ? 'selected' : ''}>Software</option>
@@ -3713,11 +3713,11 @@
                             <label class="text-sm font-medium">Anstellungsgrad (%)*</label>
                             <input type="number" id="modal-member-employment" min="1" max="100" value="${member.employmentLevel || 100}" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Verfügbare Kapazität wird automatisch berechnet (Anstellungsgrad × 0.8)
+                                Verfï¿½gbare Kapazitï¿½t wird automatisch berechnet (Anstellungsgrad ï¿½ 0.8)
                             </p>
                         </div>
                         <div id="modal-member-capacity-preview" class="p-3" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <span style="color: var(--text-secondary);">Verfügbare Kapazität:</span>
+                            <span style="color: var(--text-secondary);">Verfï¿½gbare Kapazitï¿½t:</span>
                             <span class="font-mono font-bold ml-2" id="capacity-preview-value">${member.availableCapacity || 80}%</span>
                         </div>
                     </div>
@@ -3727,7 +3727,7 @@
                         onClick: () => this.closeModal()
                     },
                     {
-                        label: 'Änderungen speichern',
+                        label: 'ï¿½nderungen speichern',
                         onClick: () => this.handleEditMember(memberId),
                         primary: true
                     }
@@ -3756,7 +3756,7 @@
                 const employment = parseInt(document.getElementById('modal-member-employment').value) || 100;
 
                 if (!name || !role || !competencyGroup) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -3786,7 +3786,7 @@
                 const action = isActive ? 'deaktivieren' : 'aktivieren';
 
                 this.showConfirmDialog(
-                    `Möchten Sie das Mitglied "${member.name}" wirklich ${action}?`,
+                    `Mï¿½chten Sie das Mitglied "${member.name}" wirklich ${action}?`,
                     () => {
                         member.active = !isActive;
                         AppState.save();
@@ -3818,7 +3818,7 @@
                                         <th>Ressource</th>
                                         <th>Rolle</th>
                                         <th>Zeitraum</th>
-                                        <th>Kapazität</th>
+                                        <th>Kapazitï¿½t</th>
                                         <th>Auslastung</th>
                                         <th>Status</th>
                                         <th>Aktionen</th>
@@ -3837,7 +3837,7 @@
 
                                         const statusColor = utilization.overbookWarning ? 'var(--warning)' : 'var(--success)';
                                         const statusIcon = utilization.overbookWarning ? '?' : '?';
-                                        const statusText = utilization.overbookWarning ? 'Überbucht' : 'OK';
+                                        const statusText = utilization.overbookWarning ? 'ï¿½berbucht' : 'OK';
 
                                         return `
                                             <tr>
@@ -3860,7 +3860,7 @@
                                                     </button>
                                                     <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;"
                                                             onclick="UI.deleteResourceBooking('${booking.id}')">
-                                                        Löschen
+                                                        Lï¿½schen
                                                     </button>
                                                 </td>
                                             </tr>
@@ -3873,14 +3873,14 @@
 
                     <!-- Available Resources -->
                     <div class="card mb-6">
-                        <h3 class="font-semibold mb-4">Verfügbare Ressourcen</h3>
+                        <h3 class="font-semibold mb-4">Verfï¿½gbare Ressourcen</h3>
                         <table>
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Rolle</th>
                                     <th>Anstellung</th>
-                                    <th>Verfügbar</th>
+                                    <th>Verfï¿½gbar</th>
                                     <th>Stundensatz</th>
                                 </tr>
                             </thead>
@@ -3987,7 +3987,7 @@
                         <textarea
                             id="mgmt-comment-${project.id}"
                             rows="3"
-                            placeholder="Management-Kommentar für dieses Projekt (optional)..."
+                            placeholder="Management-Kommentar fï¿½r dieses Projekt (optional)..."
                             style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);"
                         >${project.managementComment || ''}</textarea>
                     </div>
@@ -3996,7 +3996,7 @@
                 const modal = this.createModal('Management-Report Kommentare', `
                     <div style="max-height: 400px; overflow-y: auto;">
                         <p class="mb-4" style="color: var(--text-secondary);">
-                            Fügen Sie optional Kommentare für die einzelnen Projekte hinzu. Diese werden im PDF-Report angezeigt.
+                            Fï¿½gen Sie optional Kommentare fï¿½r die einzelnen Projekte hinzu. Diese werden im PDF-Report angezeigt.
                         </p>
                         ${projectListHTML}
                     </div>
@@ -4077,7 +4077,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-sm font-medium">Währung *</label>
+                                <label class="text-sm font-medium">Wï¿½hrung *</label>
                                 <select id="modal-project-currency" required>
                                     <option value="CHF">CHF</option>
                                     <option value="EUR">EUR</option>
@@ -4086,7 +4086,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Priorität *</label>
+                            <label class="text-sm font-medium">Prioritï¿½t *</label>
                             <select id="modal-project-priority" required>
                                 <option value="1">1 - Sehr hoch</option>
                                 <option value="2">2 - Hoch</option>
@@ -4095,7 +4095,7 @@
                                 <option value="5">5 - Sehr niedrig</option>
                             </select>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Projekte werden standardmäßig nach Priorität sortiert (1 = höchste Priorität)
+                                Projekte werden standardmï¿½ï¿½ig nach Prioritï¿½t sortiert (1 = hï¿½chste Prioritï¿½t)
                             </p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
@@ -4119,7 +4119,7 @@
                 const priority = parseInt(document.getElementById('modal-project-priority').value) || 3;
 
                 if (!name || !description || !lead || !startDate || !endDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -4173,13 +4173,13 @@
                     ['completed', 'archived'] :
                     ['archived'];
 
-                const modal = this.createModal('Projekt abschließen / archivieren', `
+                const modal = this.createModal('Projekt abschlieï¿½en / archivieren', `
                     <div class="grid gap-4">
                         <div class="p-4" style="background: var(--warning-bg, rgba(234,88,12,0.1)); border-radius: 0.5rem; border-left: 4px solid var(--warning);">
                             <p style="margin-bottom: 0.5rem;"><strong>? Hinweis:</strong></p>
                             <p style="font-size: 0.875rem; color: var(--text-secondary);">
-                                Beim Archivieren oder Abschließen werden alle Ressourcenbuchungen dieses Projekts
-                                freigegeben und stehen anderen Projekten wieder zur Verfügung.
+                                Beim Archivieren oder Abschlieï¿½en werden alle Ressourcenbuchungen dieses Projekts
+                                freigegeben und stehen anderen Projekten wieder zur Verfï¿½gung.
                             </p>
                         </div>
 
@@ -4190,13 +4190,13 @@
                         <div>
                             <label class="text-sm font-medium">Neuer Status *</label>
                             <select id="modal-archive-status" required>
-                                <option value="">Bitte wählen...</option>
+                                <option value="">Bitte wï¿½hlen...</option>
                                 ${statusOptions.includes('completed') ? '<option value="completed">? Abgeschlossen (erfolgreich beendet)</option>' : ''}
                                 <option value="archived">?? Archiviert (nur lesend)</option>
                             </select>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
                                 <strong>Abgeschlossen:</strong> Projekt erfolgreich beendet, kann weiter bearbeitet werden<br>
-                                <strong>Archiviert:</strong> Projekt nur noch lesend, keine Bearbeitung mehr möglich
+                                <strong>Archiviert:</strong> Projekt nur noch lesend, keine Bearbeitung mehr mï¿½glich
                             </p>
                         </div>
 
@@ -4218,7 +4218,7 @@
                 const comment = document.getElementById('modal-archive-comment').value;
 
                 if (!newStatus) {
-                    this.showAlert('Bitte wählen Sie einen Status aus.');
+                    this.showAlert('Bitte wï¿½hlen Sie einen Status aus.');
                     return;
                 }
 
@@ -4303,9 +4303,9 @@
                             </p>
                         </div>
                         <div id="sop-comment-wrapper" style="display: none;">
-                            <label class="text-sm font-medium">Begründung für SOP-Änderung *</label>
-                            <textarea id="modal-edit-sop-comment" rows="2" placeholder="Bitte begründen Sie die Verschiebung des SOP-Datums"></textarea>
-                            <p class="text-sm mt-1" style="color: var(--warning);">? Eine Begründung ist bei SOP-Änderungen zwingend erforderlich.</p>
+                            <label class="text-sm font-medium">Begrï¿½ndung fï¿½r SOP-ï¿½nderung *</label>
+                            <textarea id="modal-edit-sop-comment" rows="2" placeholder="Bitte begrï¿½nden Sie die Verschiebung des SOP-Datums"></textarea>
+                            <p class="text-sm mt-1" style="color: var(--warning);">? Eine Begrï¿½ndung ist bei SOP-ï¿½nderungen zwingend erforderlich.</p>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -4323,7 +4323,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Priorität</label>
+                            <label class="text-sm font-medium">Prioritï¿½t</label>
                             <select id="modal-edit-priority">
                                 <option value="1" ${(project.priority || 3) === 1 ? 'selected' : ''}>1 - Sehr hoch</option>
                                 <option value="2" ${(project.priority || 3) === 2 ? 'selected' : ''}>2 - Hoch</option>
@@ -4365,7 +4365,7 @@
                 const newEndDate = document.getElementById('modal-edit-end').value;
 
                 if (!newStartDate || !newEndDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -4377,7 +4377,7 @@
                 if (oldSop && newSop !== oldSop) {
                     const sopComment = document.getElementById('modal-edit-sop-comment').value.trim();
                     if (!sopComment) {
-                        this.showAlert('Bitte geben Sie eine Begründung für die SOP-Änderung ein.');
+                        this.showAlert('Bitte geben Sie eine Begrï¿½ndung fï¿½r die SOP-ï¿½nderung ein.');
                         return;
                     }
                     project.sopChangeComment = sopComment;
@@ -4460,7 +4460,7 @@
                         <div id="partial-payments-field" style="display: none;">
                             <label class="text-sm font-medium">Teilzahlungen (nur informativ)</label>
                             <div id="partial-payments-list" style="margin-bottom: 0.5rem;"></div>
-                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufügen</button>
+                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufï¿½gen</button>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
@@ -4473,7 +4473,7 @@
                         <div>
                             <label class="text-sm font-medium">Betrag (${project.currency}) *</label>
                             <input type="number" id="modal-cost-amount" step="0.01" min="0" placeholder="0.00" required>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsï¿½chlich angefallene Kosten (IST)</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveAddCost()">Speichern</button>
@@ -4532,7 +4532,7 @@
                 row.innerHTML = `
                     <input type="date" class="partial-payment-date" value="${date}" style="flex: 1; padding: 0.25rem; border: 1px solid var(--border); border-radius: 0.25rem; background: var(--bg-primary); color: var(--text-primary);">
                     <input type="number" class="partial-payment-amount" value="${amount}" step="0.01" min="0" placeholder="Betrag" style="flex: 1; padding: 0.25rem; border: 1px solid var(--border); border-radius: 0.25rem; background: var(--bg-primary); color: var(--text-primary);">
-                    <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--danger); color: white;" onclick="document.getElementById('${rowId}').remove()">×</button>
+                    <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--danger); color: white;" onclick="document.getElementById('${rowId}').remove()">ï¿½</button>
                 `;
 
                 list.appendChild(row);
@@ -4593,14 +4593,14 @@
                         </span>
                         <div style="display: flex; gap: 0.25rem;">
                             <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;" onclick="UI.editPartialPayment('${cost.id}', ${index})">??</button>
-                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem; background: var(--danger); color: white;" onclick="UI.deletePartialPayment('${cost.id}', ${index})">×</button>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem; background: var(--danger); color: white;" onclick="UI.deletePartialPayment('${cost.id}', ${index})">ï¿½</button>
                         </div>
                     </div>
                 `).join('');
 
                 return `
                     ${paymentRows}
-                    <button class="btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem; margin-top: 0.5rem;" onclick="UI.addNewPartialPayment('${cost.id}')">+ Teilzahlung hinzufügen</button>
+                    <button class="btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem; margin-top: 0.5rem;" onclick="UI.addNewPartialPayment('${cost.id}')">+ Teilzahlung hinzufï¿½gen</button>
                 `;
             },
 
@@ -4611,7 +4611,7 @@
                 const project = AppState.getProject(cost.projectId);
                 if (!project) return;
 
-                const modal = this.createModal('Neue Teilzahlung hinzufügen', `
+                const modal = this.createModal('Neue Teilzahlung hinzufï¿½gen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
@@ -4637,7 +4637,7 @@
                 const amount = parseFloat(document.getElementById('new-partial-payment-amount').value);
 
                 if (!date || isNaN(amount) || amount <= 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -4650,7 +4650,7 @@
 
                 this.closeModal();
                 this.renderCostsTab();
-                this.showAlert('Teilzahlung wurde hinzugefügt.');
+                this.showAlert('Teilzahlung wurde hinzugefï¿½gt.');
             },
 
             editPartialPayment(costId, paymentIndex) {
@@ -4688,7 +4688,7 @@
                 const amount = parseFloat(document.getElementById('edit-partial-payment-amount').value);
 
                 if (!date || isNaN(amount) || amount <= 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -4704,11 +4704,11 @@
                 const cost = AppState.costs.find(c => c.id === costId);
                 if (!cost || !cost.partialPayments || !cost.partialPayments[paymentIndex]) return;
 
-                const modal = this.createModal('Teilzahlung löschen', `
+                const modal = this.createModal('Teilzahlung lï¿½schen', `
                     <div>
-                        <p style="margin-bottom: 1rem;">Möchten Sie diese Teilzahlung wirklich löschen?</p>
+                        <p style="margin-bottom: 1rem;">Mï¿½chten Sie diese Teilzahlung wirklich lï¿½schen?</p>
                         <div class="flex gap-4">
-                            <button class="btn" style="background: var(--danger); color: white;" onclick="UI.confirmDeletePartialPayment('${costId}', ${paymentIndex})">Löschen</button>
+                            <button class="btn" style="background: var(--danger); color: white;" onclick="UI.confirmDeletePartialPayment('${costId}', ${paymentIndex})">Lï¿½schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -4724,7 +4724,7 @@
 
                 this.closeModal();
                 this.renderCostsTab();
-                this.showAlert('Teilzahlung wurde gelöscht.');
+                this.showAlert('Teilzahlung wurde gelï¿½scht.');
             },
 
             saveAddCost() {
@@ -4737,7 +4737,7 @@
                 const partialPayments = this.getPartialPaymentsFromForm();
 
                 if (!description || !date || isNaN(amount) || amount < 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -4790,7 +4790,7 @@
                         <div id="partial-payments-field" style="display: none;">
                             <label class="text-sm font-medium">Teilzahlungen (nur informativ)</label>
                             <div id="partial-payments-list" style="margin-bottom: 0.5rem;"></div>
-                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufügen</button>
+                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufï¿½gen</button>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
@@ -4803,7 +4803,7 @@
                         <div>
                             <label class="text-sm font-medium">Betrag (${project.currency}) *</label>
                             <input type="number" id="modal-edit-cost-amount" step="0.01" min="0" value="${cost.amount}" placeholder="0.00" required>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsï¿½chlich angefallene Kosten (IST)</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditCost('${costId}')">Speichern</button>
@@ -4843,7 +4843,7 @@
                 const partialPayments = this.getPartialPaymentsFromForm();
 
                 if (!description || !date || isNaN(amount) || amount < 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -4866,7 +4866,7 @@
             },
 
             showAddMilestoneModal() {
-                const modal = this.createModal('Meilenstein hinzufügen', `
+                const modal = this.createModal('Meilenstein hinzufï¿½gen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
@@ -4911,7 +4911,7 @@
                 const progress = parseInt(document.getElementById('modal-milestone-progress').value);
 
                 if (!name || !plannedDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -4932,7 +4932,7 @@
                 this.closeModal();
                 this.renderMilestonesTab();
                 this.renderOverviewTab();
-                this.showAlert('Meilenstein wurde hinzugefügt.');
+                this.showAlert('Meilenstein wurde hinzugefï¿½gt.');
             },
 
             showAddRiskModal() {
@@ -5057,7 +5057,7 @@
                                 <option value="">Nicht zugewiesen</option>
                                 ${responsibleOptions}
                             </select>
-                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? Fügen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
+                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? Fï¿½gen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -5075,7 +5075,7 @@
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <label class="text-sm font-medium">Priorität</label>
+                                <label class="text-sm font-medium">Prioritï¿½t</label>
                                 <select id="modal-task-priority">
                                     <option value="low">Niedrig</option>
                                     <option value="medium" selected>Mittel</option>
@@ -5103,11 +5103,11 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Abhängigkeiten (Finish-to-Start)</label>
+                            <label class="text-sm font-medium">Abhï¿½ngigkeiten (Finish-to-Start)</label>
                             <select id="modal-task-dependencies" multiple size="3">
                                 ${tasksOptions || '<option disabled>Keine anderen Aufgaben vorhanden</option>'}
                             </select>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen (Strg/Cmd + Klick für mehrere)</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wï¿½hlen Sie Aufgaben aus, die vor dieser abgeschlossen sein mï¿½ssen (Strg/Cmd + Klick fï¿½r mehrere)</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveAddTask()">Speichern</button>
@@ -5128,7 +5128,7 @@
                 const status = document.getElementById('modal-task-status').value;
 
                 if (!name || !startDate || !endDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -5201,7 +5201,7 @@
                                 <option value="">Nicht zugewiesen</option>
                                 ${responsibleOptions}
                             </select>
-                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? Fügen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
+                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? Fï¿½gen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -5219,7 +5219,7 @@
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <label class="text-sm font-medium">Priorität</label>
+                                <label class="text-sm font-medium">Prioritï¿½t</label>
                                 <select id="modal-task-priority">
                                     <option value="low" ${task.priority === 'low' ? 'selected' : ''}>Niedrig</option>
                                     <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>Mittel</option>
@@ -5247,15 +5247,15 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Abhängigkeiten (Finish-to-Start)</label>
+                            <label class="text-sm font-medium">Abhï¿½ngigkeiten (Finish-to-Start)</label>
                             <select id="modal-task-dependencies" multiple size="3">
                                 ${tasksOptions || '<option disabled>Keine anderen Aufgaben vorhanden</option>'}
                             </select>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wï¿½hlen Sie Aufgaben aus, die vor dieser abgeschlossen sein mï¿½ssen</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditTask('${task.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteTask('${task.id}')">Löschen</button>
+                            <button class="btn" onclick="UI.deleteTask('${task.id}')">Lï¿½schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -5321,7 +5321,7 @@
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditMilestone('${milestone.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteMilestone('${milestone.id}')">Löschen</button>
+                            <button class="btn" onclick="UI.deleteMilestone('${milestone.id}')">Lï¿½schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -5391,7 +5391,7 @@
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditRisk('${risk.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteRisk('${risk.id}')">Löschen</button>
+                            <button class="btn" onclick="UI.deleteRisk('${risk.id}')">Lï¿½schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -5470,9 +5470,9 @@
                             </div>
                         </div>
                         <div id="forecast-comment-container" class="hidden">
-                            <label class="text-sm font-medium" style="color: var(--warning);">Kommentar zur Forecast-Änderung *</label>
-                            <textarea id="modal-forecast-comment" rows="3" placeholder="Bitte begründen Sie die Änderung des Forecasts..." required></textarea>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Pflichtfeld bei Änderung des Forecasts</p>
+                            <label class="text-sm font-medium" style="color: var(--warning);">Kommentar zur Forecast-ï¿½nderung *</label>
+                            <textarea id="modal-forecast-comment" rows="3" placeholder="Bitte begrï¿½nden Sie die ï¿½nderung des Forecasts..." required></textarea>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Pflichtfeld bei ï¿½nderung des Forecasts</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditBudget()">Speichern</button>
@@ -5546,7 +5546,7 @@
                 if (forecastChanged) {
                     const comment = document.getElementById('modal-forecast-comment').value.trim();
                     if (!comment) {
-                        this.showAlert('Bitte geben Sie einen Kommentar zur Forecast-Änderung ein.');
+                        this.showAlert('Bitte geben Sie einen Kommentar zur Forecast-ï¿½nderung ein.');
                         return;
                     }
 
@@ -5601,7 +5601,7 @@
                 const teamMembers = AppState.members.filter(m => teamMemberIds.includes(m.id));
 
                 if (teamMembers.length === 0) {
-                    this.showAlert('Es sind keine Teammitglieder in diesem Projekt vorhanden. Bitte fügen Sie zuerst Mitglieder zum Projektteam hinzu.');
+                    this.showAlert('Es sind keine Teammitglieder in diesem Projekt vorhanden. Bitte fï¿½gen Sie zuerst Mitglieder zum Projektteam hinzu.');
                     return;
                 }
 
@@ -5641,12 +5641,12 @@
                 const modal = this.createModal('Ressource buchen', `
                     <div class="grid gap-4">
                         <div style="padding: 0.75rem; background: var(--bg-tertiary); border-radius: 0.5rem; border-left: 4px solid var(--primary); margin-bottom: 0.5rem;">
-                            <strong>?? Verfügbarkeit:</strong> Die angezeigten Werte zeigen die aktuelle freie Kapazität nach Abzug aller Buchungen in anderen Projekten.
+                            <strong>?? Verfï¿½gbarkeit:</strong> Die angezeigten Werte zeigen die aktuelle freie Kapazitï¿½t nach Abzug aller Buchungen in anderen Projekten.
                         </div>
                         <div>
                             <label class="text-sm font-medium">Ressource *</label>
                             <select id="modal-booking-member" required>
-                                <option value="">Bitte wählen...</option>
+                                <option value="">Bitte wï¿½hlen...</option>
                                 ${membersOptions}
                             </select>
                         </div>
@@ -5664,7 +5664,7 @@
                             <label class="text-sm font-medium">Auslastung in % *</label>
                             <input type="number" id="modal-booking-capacity" min="0" max="100" step="5" placeholder="z.B. 50" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Prozent der verfügbaren Kapazität (z.B. 50% einer 80%-Kapazität = 40% Gesamtauslastung)
+                                Prozent der verfï¿½gbaren Kapazitï¿½t (z.B. 50% einer 80%-Kapazitï¿½t = 40% Gesamtauslastung)
                             </p>
                         </div>
                         <div>
@@ -5700,9 +5700,9 @@
                     if (newUtilization > member.availableCapacity) {
                         warningContainer.classList.remove('hidden');
                         warningContainer.innerHTML = `
-                            <strong>? WARNUNG: Überbuchung!</strong><br>
+                            <strong>? WARNUNG: ï¿½berbuchung!</strong><br>
                             Ressource ${this.escapeHtml(member.name)} wird zu ${newUtilization}% verplant
-                            (verfügbar: ${member.availableCapacity}%).
+                            (verfï¿½gbar: ${member.availableCapacity}%).
                         `;
                     } else {
                         warningContainer.classList.add('hidden');
@@ -5723,20 +5723,20 @@
                 const description = document.getElementById('modal-booking-description').value;
 
                 if (!memberId || !startDate || !endDate || !capacityPercent) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
                 // NEW: Check if member is in project team
                 if (!AppState.isInProjectTeam(AppState.currentProjectId, memberId)) {
-                    this.showAlert('Fehler: Nur Mitglieder des Projektteams können gebucht werden.');
+                    this.showAlert('Fehler: Nur Mitglieder des Projektteams kï¿½nnen gebucht werden.');
                     return;
                 }
 
                 // NEW: Validate booking dates against project timeframe
                 const project = AppState.getProject(AppState.currentProjectId);
                 if (!project) {
-                    this.showAlert('Fehler: Kein Projekt ausgewählt.');
+                    this.showAlert('Fehler: Kein Projekt ausgewï¿½hlt.');
                     return;
                 }
 
@@ -5754,7 +5754,7 @@
                     return;
                 }
 
-                // NEW: Überbuchungsschutz - Blockierung bei Überbuchung
+                // NEW: ï¿½berbuchungsschutz - Blockierung bei ï¿½berbuchung
                 const member = AppState.members.find(m => m.id === memberId);
                 if (!member) {
                     this.showAlert('Fehler: Ressource nicht gefunden.');
@@ -5764,13 +5764,13 @@
                 const utilization = AppState.calculateResourceUtilization(memberId, startDate, endDate);
                 const newUtilization = utilization.utilization + capacityPercent;
 
-                // NEW: Überbuchung erlaubt, aber mit deutlicher Warnung
+                // NEW: ï¿½berbuchung erlaubt, aber mit deutlicher Warnung
                 let overbookingWarning = '';
                 if (newUtilization > member.availableCapacity) {
-                    overbookingWarning = `\n\n?? WARNUNG: ÜBERBUCHUNG!\n` +
-                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfügbar: ${member.availableCapacity}%).\n` +
-                        `Überschreitung: ${newUtilization - member.availableCapacity}%\n` +
-                        `Die Buchung wird trotzdem durchgeführt.`;
+                    overbookingWarning = `\n\n?? WARNUNG: ï¿½BERBUCHUNG!\n` +
+                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfï¿½gbar: ${member.availableCapacity}%).\n` +
+                        `ï¿½berschreitung: ${newUtilization - member.availableCapacity}%\n` +
+                        `Die Buchung wird trotzdem durchgefï¿½hrt.`;
                 }
 
                 const newBooking = {
@@ -5792,7 +5792,7 @@
             },
 
             deleteResourceBooking(id) {
-                this.showConfirmDialog('Möchten Sie diese Ressourcenbuchung wirklich löschen?', () => {
+                this.showConfirmDialog('Mï¿½chten Sie diese Ressourcenbuchung wirklich lï¿½schen?', () => {
                     AppState.resourceBookings = AppState.resourceBookings.filter(b => b.id !== id);
                     AppState.save();
                     this.renderResourcesTab();
@@ -5838,15 +5838,15 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Kapazität (%) *</label>
+                            <label class="text-sm font-medium">Kapazitï¿½t (%) *</label>
                             <input type="number" id="modal-edit-booking-capacity" min="0" max="100" step="5" value="${booking.capacityPercent}" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Wie viel Prozent der verfügbaren Kapazität wird gebucht?
+                                Wie viel Prozent der verfï¿½gbaren Kapazitï¿½t wird gebucht?
                             </p>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-edit-booking-description" rows="2" placeholder="Optional: Beschreibung der Tätigkeit">${this.escapeHtml(booking.description || '')}</textarea>
+                            <textarea id="modal-edit-booking-description" rows="2" placeholder="Optional: Beschreibung der Tï¿½tigkeit">${this.escapeHtml(booking.description || '')}</textarea>
                         </div>
                         <div id="edit-booking-warning-container" class="hidden p-4" style="background: var(--warning); color: white; border-radius: 0.5rem;">
                             <!-- Warning will be inserted here -->
@@ -5878,9 +5878,9 @@
                     if (newUtilization > member.availableCapacity) {
                         warningContainer.classList.remove('hidden');
                         warningContainer.innerHTML = `
-                            <strong>? WARNUNG: Überbuchung!</strong><br>
+                            <strong>? WARNUNG: ï¿½berbuchung!</strong><br>
                             Ressource ${this.escapeHtml(member.name)} wird zu ${newUtilization}% verplant
-                            (verfügbar: ${member.availableCapacity}%).
+                            (verfï¿½gbar: ${member.availableCapacity}%).
                         `;
                     } else {
                         warningContainer.classList.add('hidden');
@@ -5911,20 +5911,20 @@
                 const description = document.getElementById('modal-edit-booking-description').value;
 
                 if (!memberId || !startDate || !endDate || !capacityPercent) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fï¿½llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
                 // Check if member is in project team
                 if (!AppState.isInProjectTeam(AppState.currentProjectId, memberId)) {
-                    this.showAlert('Fehler: Nur Mitglieder des Projektteams können gebucht werden.');
+                    this.showAlert('Fehler: Nur Mitglieder des Projektteams kï¿½nnen gebucht werden.');
                     return;
                 }
 
                 // Validate booking dates against project timeframe
                 const project = AppState.getProject(AppState.currentProjectId);
                 if (!project) {
-                    this.showAlert('Fehler: Kein Projekt ausgewählt.');
+                    this.showAlert('Fehler: Kein Projekt ausgewï¿½hlt.');
                     return;
                 }
 
@@ -5955,10 +5955,10 @@
                 // Overbooking warning
                 let overbookingWarning = '';
                 if (newUtilization > member.availableCapacity) {
-                    overbookingWarning = `\n\n?? WARNUNG: ÜBERBUCHUNG!\n` +
-                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfügbar: ${member.availableCapacity}%).\n` +
-                        `Überschreitung: ${newUtilization - member.availableCapacity}%\n` +
-                        `Die Änderung wird trotzdem gespeichert.`;
+                    overbookingWarning = `\n\n?? WARNUNG: ï¿½BERBUCHUNG!\n` +
+                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfï¿½gbar: ${member.availableCapacity}%).\n` +
+                        `ï¿½berschreitung: ${newUtilization - member.availableCapacity}%\n` +
+                        `Die ï¿½nderung wird trotzdem gespeichert.`;
                 }
 
                 // Update booking
@@ -5972,7 +5972,7 @@
 
                 this.closeModal();
                 this.renderResourcesTab();
-                this.showAlert(`? Buchung für "${member.name}" wurde erfolgreich aktualisiert (${capacityPercent}%).${overbookingWarning}`);
+                this.showAlert(`? Buchung fï¿½r "${member.name}" wurde erfolgreich aktualisiert (${capacityPercent}%).${overbookingWarning}`);
             },
 
             createModal(title, content, buttons = [], options = {}) {
@@ -6074,7 +6074,7 @@
                             <p style="margin-bottom: 1.5rem; color: var(--text-primary);">${this.escapeHtml(message)}</p>
                             <div class="flex gap-4" style="justify-content: flex-end;">
                                 <button class="btn" id="confirm-cancel">Abbrechen</button>
-                                <button class="btn" id="confirm-ok" style="background: var(--danger); color: white; border-color: var(--danger);">Löschen</button>
+                                <button class="btn" id="confirm-ok" style="background: var(--danger); color: white; border-color: var(--danger);">Lï¿½schen</button>
                             </div>
                         </div>
                     </div>
@@ -6106,7 +6106,7 @@
             // ============================================================
 
             deleteCost(id) {
-                this.showConfirmDialog('Möchten Sie diese Kostenposition wirklich löschen?', () => {
+                this.showConfirmDialog('Mï¿½chten Sie diese Kostenposition wirklich lï¿½schen?', () => {
                     AppState.costs = AppState.costs.filter(c => c.id !== id);
                     AppState.save();
                     this.renderCostsTab();
@@ -6115,7 +6115,7 @@
             },
 
             deleteMilestone(id) {
-                this.showConfirmDialog('Möchten Sie diesen Meilenstein wirklich löschen?', () => {
+                this.showConfirmDialog('Mï¿½chten Sie diesen Meilenstein wirklich lï¿½schen?', () => {
                     AppState.milestones = AppState.milestones.filter(m => m.id !== id);
                     AppState.save();
                     this.renderMilestonesTab();
@@ -6124,7 +6124,7 @@
             },
 
             deleteRisk(id) {
-                this.showConfirmDialog('Möchten Sie dieses Risiko wirklich löschen?', () => {
+                this.showConfirmDialog('Mï¿½chten Sie dieses Risiko wirklich lï¿½schen?', () => {
                     AppState.risks = AppState.risks.filter(r => r.id !== id);
                     AppState.save();
                     this.renderRisksTab();
@@ -6133,7 +6133,7 @@
             },
 
             deleteTask(id) {
-                this.showConfirmDialog('Möchten Sie diese Aufgabe wirklich löschen?', () => {
+                this.showConfirmDialog('Mï¿½chten Sie diese Aufgabe wirklich lï¿½schen?', () => {
                     AppState.tasks = AppState.tasks.filter(t => t.id !== id);
                     AppState.save();
                     this.closeModal();
@@ -6225,7 +6225,7 @@
                     doc.setTextColor(0, 0, 0);
                     yPos += 6;
 
-                    // Priorität
+                    // Prioritï¿½t
                     doc.text(`Prio: ${project.priority || '-'}`, 20, yPos);
                     yPos += 6;
 
@@ -6246,7 +6246,7 @@
 
                         if (sopBaseline) {
                             if (sopCurrent > sopBaseline) {
-                                sopIndicator = ' (verzögert)';
+                                sopIndicator = ' (verzï¿½gert)';
                             } else if (sopCurrent < sopBaseline) {
                                 sopIndicator = ' (vorgezogen)';
                             }
@@ -6257,7 +6257,7 @@
                     }
                     yPos += 4;
 
-                    // Kosten-Daten für Balkendiagramm vorbereiten
+                    // Kosten-Daten fï¿½r Balkendiagramm vorbereiten
                     const costs = AppState.getProjectCosts(project.id);
                     const costsByCategory = AppState.getProjectCostsByCategory(project.id);
                     const totalActual = costs.reduce((sum, c) => sum + (c.amount || 0), 0);
@@ -6267,11 +6267,11 @@
                     // Vertikales Kosten-Balkendiagramm (Budget / IST / Forecast)
                     try {
                         doc.setFont('helvetica', 'bold');
-                        doc.text('Kostenübersicht:', 20, yPos);
+                        doc.text('Kostenï¿½bersicht:', 20, yPos);
                         yPos += 8;
 
                         const maxValue = Math.max(budget, totalActual, totalForecast);
-                        const chartHeight = 60; // Höhe des Diagramms
+                        const chartHeight = 60; // Hï¿½he des Diagramms
                         const barWidth = 25; // Breite jedes Balkens
                         const spacing = 15; // Abstand zwischen Balken
                         const chartBaseY = yPos + chartHeight; // Grundlinie des Diagramms
@@ -6410,7 +6410,7 @@
                 try {
                     const project = AppState.getProject(AppState.currentProjectId);
                     if (!project) {
-                        this.showAlert('Kein Projekt ausgewählt.');
+                        this.showAlert('Kein Projekt ausgewï¿½hlt.');
                         return;
                     }
 
