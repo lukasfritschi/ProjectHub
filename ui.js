@@ -5436,7 +5436,7 @@
 
                 this.closeModal();
                 this.renderResourcesTab();
-                this.showAlert(`? Ressource "${member.name}" wurde erfolgreich gebucht (${capacityPercent}%).${overbookingWarning}`);
+                this.showAlert(`ℹ️ Ressource "${member.name}" wurde erfolgreich gebucht (${capacityPercent}%).${overbookingWarning}`);
             },
 
             deleteResourceBooking(id) {
@@ -6283,7 +6283,7 @@
                 const variance = forecast - budget;
                 const variancePercent = budget > 0 ? (variance / budget) * 100 : 0;
                 const color = variance > 0 ? 'var(--danger)' : 'var(--success)';
-                const icon = variance > 0 ? '?' : '?';
+                const icon = variance > 0 ? '🔴' : '🟢';
 
                 return `
                     <span style="color: ${color};">
