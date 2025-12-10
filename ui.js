@@ -1120,7 +1120,7 @@
                                     <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
                                         <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;" onclick="UI.togglePartialPaymentsSection('${collapsibleId}')">
                                             <span style="font-weight: 500; font-size: 0.875rem;">
-                                                <span id="${collapsibleId}-arrow" style="display: inline-block; transition: transform 0.2s;">?</span>
+                                                <span id="${collapsibleId}-arrow" style="display: inline-block; transition: transform 0.2s;">▸</span>
                                                 Teilzahlungen
                                             </span>
                                         </div>
