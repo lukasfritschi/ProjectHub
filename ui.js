@@ -34,56 +34,60 @@
                     this.showManagementCommentsModal();
                 });
 
-                // Demo-Daten laden Button - öffnet Datei-Dialog
-                document.getElementById('btn-load-demo-data').addEventListener('click', () => {
-                    // Erstelle einen versteckten File-Input
-                    const fileInput = document.createElement('input');
-                    fileInput.type = 'file';
-                    fileInput.accept = '.json,application/json';
-                    fileInput.style.display = 'none';
+                // Demo-Daten laden Button - öffnet Datei-Dialog (nur wenn Button vorhanden ist)
+                const demoButton = document.getElementById('btn-load-demo-data');
+                if (demoButton) {
+                    demoButton.addEventListener('click', () => {
+                        // Erstelle einen versteckten File-Input
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = '.json,application/json';
+                        fileInput.style.display = 'none';
 
-                    fileInput.addEventListener('change', async (e) => {
-                        const file = e.target.files[0];
-                        if (!file) return;
+                        fileInput.addEventListener('change', async (e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
 
-                        // Bestätigungsdialog erstellen
-                        const confirmDiv = document.createElement('div');
-                        confirmDiv.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;';
-                        confirmDiv.innerHTML = `
-                            <div style="background: white; padding: 2rem; border-radius: 0.5rem; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-                                <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Demo-Daten laden?</h3>
-                                <p style="margin-bottom: 0.5rem; color: #6b7280;">
-                                    Datei: <strong>${file.name}</strong>
-                                </p>
-                                <p style="margin-bottom: 1.5rem; color: #6b7280;">
-                                    Alle vorhandenen Daten (Projekte, Ressourcen, Buchungen, etc.) werden gelöscht und durch die Daten aus dieser Datei ersetzt.
-                                    <br><br>
-                                    <strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong>
-                                </p>
-                                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
-                                    <button id="demo-cancel" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; cursor: pointer;">Abbrechen</button>
-                                    <button id="demo-confirm" style="padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; background: #059669; color: white; cursor: pointer;">Ja, Daten laden</button>
+                            // Bestätigungsdialog erstellen
+                            const confirmDiv = document.createElement('div');
+                            confirmDiv.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;';
+                            confirmDiv.innerHTML = `
+                                <div style="background: white; padding: 2rem; border-radius: 0.5rem; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                                    <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Demo-Daten laden?</h3>
+                                    <p style="margin-bottom: 0.5rem; color: #6b7280;">
+                                        Datei: <strong>${file.name}</strong>
+                                    </p>
+                                    <p style="margin-bottom: 1.5rem; color: #6b7280;">
+                                        Alle vorhandenen Daten (Projekte, Ressourcen, Buchungen, etc.) werden gelöscht und durch die Daten aus dieser Datei ersetzt.
+                                        <br><br>
+                                        <strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong>
+                                    </p>
+                                    <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                                        <button id="demo-cancel" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; cursor: pointer;">Abbrechen</button>
+                                        <button id="demo-confirm" style="padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; background: #059669; color: white; cursor: pointer;">Ja, Daten laden</button>
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-                        document.body.appendChild(confirmDiv);
+                            `;
+                            document.body.appendChild(confirmDiv);
 
-                        // Event-Listener für Buttons
-                        confirmDiv.querySelector('#demo-cancel').addEventListener('click', () => {
-                            confirmDiv.remove();
-                            fileInput.remove();
+                            // Event-Listener für Buttons
+                            confirmDiv.querySelector('#demo-cancel').addEventListener('click', () => {
+                                confirmDiv.remove();
+                                fileInput.remove();
+                            });
+
+                            confirmDiv.querySelector('#demo-confirm').addEventListener('click', async () => {
+                                confirmDiv.remove();
+                                await window.loadDemoDataFromJson(file);
+                                fileInput.remove();
+                            });
                         });
 
-                        confirmDiv.querySelector('#demo-confirm').addEventListener('click', async () => {
-                            confirmDiv.remove();
-                            await window.loadDemoDataFromJson(file);
-                            fileInput.remove();
-                        });
+                        document.body.appendChild(fileInput);
+                        fileInput.click();
                     });
+                }
 
-                    document.body.appendChild(fileInput);
-                    fileInput.click();
-                });
 
                 // Back to list
                 document.getElementById('btn-back-to-list').addEventListener('click', () => {
