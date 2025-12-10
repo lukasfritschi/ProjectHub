@@ -100,7 +100,7 @@
 
             const projects = AppState.projects;
             const members = AppState.members;
-
+        }
             if (projects.length === 0 || members.length === 0) return;
 
             // Helper function to find projects
