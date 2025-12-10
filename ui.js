@@ -297,13 +297,13 @@
                                 <div>
                                     <span style="color: var(--text-secondary);">Abweichung:</span><br>
                                     <strong class="font-mono" style="color: ${variance > 0 ? 'var(--danger)' : 'var(--success)'}">
-                                        ${variance > 0 ? '?' : '?'} ${this.formatCurrency(Math.abs(variance), project.currency)}
+                                        ${variance > 0 ? '📉' : '📈'} ${this.formatCurrency(Math.abs(variance), project.currency)}
                                     </strong>
                                 </div>
                             </div>
                             <div class="p-2" style="background: var(--bg-tertiary); border-radius: 0.375rem;">
                                 <span class="text-sm" style="color: var(--text-secondary);">Burnrate:</span>
-                                <strong class="font-mono ml-2">? ${this.formatCurrency(burnrate, project.currency)}/Monat</strong>
+                                <strong class="font-mono ml-2">🔥 ${this.formatCurrency(burnrate, project.currency)}/Monat</strong>
                             </div>
                         </div>
                     `;
