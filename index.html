@@ -408,25 +408,7 @@
     </style>
 <script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script></head>
 <body>
-	<body>
-    <div id="auth-loading-overlay"
-         style="
-            position: fixed;
-            inset: 0;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            font-family: system-ui, sans-serif;
-            font-size: 1.1rem;
-         ">
-        ProjectHub wird geladen...
-    </div>
-
-    <!-- HIER kommt dein bestehendes Tool-HTML -->
-    <!-- z.B. deine Container, Panels, Tabs etc. -->
-
+	
     <!-- Header -->
 	<div id="app-root" style="visibility:hidden;">
 	    <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
@@ -530,7 +512,6 @@
                             <th>Aktionen</th>
                         </tr>
                     </thead>
-                    <tbody>
                         <!-- Dynamic content -->
                     </tbody>
                 </table>
@@ -8806,17 +8787,13 @@
 	
 	    if (response.status === 401 && response.url.includes('/api/state')) {
 	        console.warn("Nicht eingeloggt – Redirect zu Microsoft Login...");
-	
-	        // Redirect auslösen
 	        window.location.href = '/.auth/login/aad';
-	
-	        // GANZ WICHTIG:
-	        // Fehler werfen, damit alle await/then-Ketten abbrechen
 	        throw new Error('Unauthorized – redirecting to login');
 	    }
 	
 	    return response;
 	};
+
 
 
     // ============================================================
@@ -8832,10 +8809,13 @@
 	    let unauthorized = false;
 	
 	    try {
-	        await AppState.load();   // ruft /api/state
+	        // State laden – hier kommen 401, 500, etc. rein
+	        await AppState.load();
 	
+	        // UI initialisieren
 	        UI.init();
 	
+	        // Deep-Linking
 	        const hash = window.location.hash;
 	        if (hash.startsWith('#project/')) {
 	            const projectId = hash.replace('#project/', '');
@@ -8847,15 +8827,20 @@
 	    } catch (err) {
 	        console.error("Init-Fehler:", err);
 	
-	        // Wenn der Fehler vom 401-Redirect kommt → nicht einblenden
+	        // Spezieller Fall: 401 → Redirect auf Login, UI bleibt versteckt
 	        if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
 	            unauthorized = true;
 	        } else {
-	            // Bei anderen Fehlern: App trotzdem sichtbar machen
-	            // und optional eine Fehlermeldung ins UI schreiben
+	            // Alle anderen Fehler: App trotzdem anzeigen,
+	            // damit du siehst, was los ist
+	            if (appRoot) {
+	                appRoot.style.visibility = 'visible';
+	            }
+	
+	            // Optional: schlichter Fehlerbanner oben in der App
 	            const errorBannerId = 'global-init-error';
 	            let banner = document.getElementById(errorBannerId);
-	            if (!banner) {
+	            if (!banner && appRoot) {
 	                banner = document.createElement('div');
 	                banner.id = errorBannerId;
 	                banner.style.padding = '0.75rem 1rem';
@@ -8864,19 +8849,18 @@
 	                banner.style.fontFamily = 'system-ui, sans-serif';
 	                banner.style.fontSize = '0.9rem';
 	                banner.textContent = 'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
-	                if (appRoot) {
-	                    appRoot.prepend(banner);
-	                }
+	                appRoot.prepend(banner);
 	            }
 	        }
 	
 	    } finally {
-	        // Nur sichtbar machen, wenn kein 401-Redirect-Fall
+	        // Nur wenn wir NICHT im 401/Redirect-Fall sind:
 	        if (appRoot && !unauthorized) {
 	            appRoot.style.visibility = 'visible';
 	        }
 	    }
 	});
+
 
 	
     </script>
