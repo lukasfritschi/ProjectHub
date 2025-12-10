@@ -4240,7 +4240,7 @@
                             ${this.formatCurrency(payment.amount, project.currency)}
                         </span>
                         <div style="display: flex; gap: 0.25rem;">
-                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;" onclick="UI.editPartialPayment('${cost.id}', ${index})">??</button>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;" onclick="UI.editPartialPayment('${cost.id}', ${index})">✏️</button>
                             <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem; background: var(--danger); color: white;" onclick="UI.deletePartialPayment('${cost.id}', ${index})">×</button>
                         </div>
                     </div>
