@@ -24,7 +24,7 @@
 					resourceBookings: this.resourceBookings
 				};
 
-				DataService.saveAll(data).catch(err => {
+				DataService.save(data).catch(err => {
 					console.error('Fehler beim Speichern in Azure /api/state:', err);
 					// Optional: Backup in localStorage
 					// try {
@@ -35,7 +35,7 @@
 
 			async load() {
 				try {
-					const data = await DataService.loadAll();
+					const data = await DataService.load();
 
 					this.projects = data.projects || [];
 					this.members = data.members || [];
@@ -353,10 +353,10 @@
                     // Calculate FTE for this booking
                     const fte = (booking.capacityPercent / 100) * ((member.availableCapacity || 80) / 100);
 
-                    // Calculate hours: FTE × working days × 8 hours/day
+                    // Calculate hours: FTE Ã— working days Ã— 8 hours/day
                     const hours = fte * workingDays * 8;
 
-                    // Calculate cost: hours × hourly rate
+                    // Calculate cost: hours Ã— hourly rate
                     const cost = hours * (member.hourlyRateInternal || 0);
 
                     return sum + cost;
@@ -658,4 +658,5 @@
                 return 'green';
             }
         };
+
 		window.AppState = AppState; 
