@@ -5209,12 +5209,12 @@
                 const extern = parseFloat(document.getElementById('modal-budget-extern').value) || 0;
                 const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) || 0;
 
-                // Forecast Intern is auto-calculated from bookings
-                const forecastIntern = AppState.calculateForecastFromBookings(AppState.currentProjectId);
+                const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) || 0;
                 const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) || 0;
                 const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) || 0;
 
-                // Check if forecast changed (only Extern & Investitionen, Intern is auto)
+                // ORIGINALE Werte (darf es NUR EINMAL geben)
+                const originalForecastIntern = budget.forecastIntern || budget.intern || 0;
                 const originalForecastExtern = budget.forecastExtern || budget.extern || 0;
                 const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen || 0;
 
