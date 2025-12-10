@@ -1,4 +1,3 @@
-    <script>
 		// ============================================================
 		// STATE MANAGEMENT
 		// ============================================================
@@ -293,7 +292,7 @@
                     const vt2 = this.generateId();
                     this.members.push({
                         id: vt2,
-                        name: 'Christina Müller',
+                        name: 'Christina MÃ¼ller',
                         role: 'Prozess-Ingenieurin',
                         competencyGroup: 'Verfahrenstechnik',
                         hourlyRateInternal: 88,
@@ -360,7 +359,7 @@
                     this.members.push({
                         id: lb3,
                         name: 'Benjamin Koch',
-                        role: 'Qualitätsingenieur',
+                        role: 'QualitÃ¤tsingenieur',
                         competencyGroup: 'Labor',
                         hourlyRateInternal: 88,
                         employmentLevel: 100,
@@ -376,15 +375,15 @@
                     if (this.projects.length === 0) {
                         const today = new Date();
 
-                        // PROJEKT 1: Hochdruck-Sensorsystem (Groß, hohe Prio, Gate 4)
+                        // PROJEKT 1: Hochdruck-Sensorsystem (GroÃŸ, hohe Prio, Gate 4)
                         const p1 = this.generateId();
                         this.projects.push({
                             id: p1,
                             name: 'Hochdruck-Sensorsystem HP-500',
-                            description: 'Entwicklung eines robusten Hochdruck-Sensors für industrielle Anwendungen bis 500 bar. Zielmarkt: Hydraulik, Öl & Gas.',
+                            description: 'Entwicklung eines robusten Hochdruck-Sensors fÃ¼r industrielle Anwendungen bis 500 bar. Zielmarkt: Hydraulik, Ã–l & Gas.',
                             projectLead: 'Andreas Hofmann',
                             sponsor: 'Dr. Peter Gruber',
-                            phase: 'Gate 4 – Industrialisierung/Qualifikation',
+                            phase: 'Gate 4 Â– Industrialisierung/Qualifikation',
                             startDate: '2025-01-15',
                             endDate: '2026-09-30',
                             plannedEndDate: '2026-09-30',
@@ -414,10 +413,10 @@
                         this.projects.push({
                             id: p2,
                             name: 'Miniatur-Drucksensor MDS-100',
-                            description: 'Kompakter Drucksensor für medizintechnische Applikationen mit hoher Genauigkeit und Biokompatibilität.',
+                            description: 'Kompakter Drucksensor fÃ¼r medizintechnische Applikationen mit hoher Genauigkeit und BiokompatibilitÃ¤t.',
                             projectLead: 'Julia Schneider',
                             sponsor: 'Dr. Elisabeth Steiner',
-                            phase: 'Gate 3 – Entwicklung/Konstruktion',
+                            phase: 'Gate 3 Â– Entwicklung/Konstruktion',
                             startDate: '2025-02-01',
                             endDate: '2026-03-31',
                             plannedEndDate: '2026-03-31',
@@ -447,10 +446,10 @@
                         this.projects.push({
                             id: p3,
                             name: 'IoT-Gateway-Modul IGW-2024',
-                            description: 'Wireless Gateway für Sensor-Netzwerke mit BLE, LoRa und NB-IoT Unterstützung. Cloud-Integration für Industrie 4.0.',
+                            description: 'Wireless Gateway fÃ¼r Sensor-Netzwerke mit BLE, LoRa und NB-IoT UnterstÃ¼tzung. Cloud-Integration fÃ¼r Industrie 4.0.',
                             projectLead: 'Stefan Weber',
                             sponsor: 'Markus Vogel',
-                            phase: 'Gate 3 – Entwicklung/Konstruktion',
+                            phase: 'Gate 3 Â– Entwicklung/Konstruktion',
                             startDate: '2025-03-01',
                             endDate: '2026-06-30',
                             plannedEndDate: '2026-06-30',
@@ -475,15 +474,15 @@
                             }
                         });
 
-                        // PROJEKT 4: Produktlinien-Update PL-Gen4 (Groß, höchste Prio, Gate 2)
+                        // PROJEKT 4: Produktlinien-Update PL-Gen4 (GroÃŸ, hÃ¶chste Prio, Gate 2)
                         const p4 = this.generateId();
                         this.projects.push({
                             id: p4,
                             name: 'Produktlinien-Update PL-Gen4',
-                            description: 'Umfassendes Update der gesamten Produktlinie. Neue Features: erweiterte Diagnose, IO-Link-Kompatibilität, verbesserte EMV.',
+                            description: 'Umfassendes Update der gesamten Produktlinie. Neue Features: erweiterte Diagnose, IO-Link-KompatibilitÃ¤t, verbesserte EMV.',
                             projectLead: 'Robert Huber',
                             sponsor: 'Dr. Peter Gruber',
-                            phase: 'Gate 2 – Definition/Konzept',
+                            phase: 'Gate 2 Â– Definition/Konzept',
                             startDate: '2025-01-01',
                             endDate: '2027-06-30',
                             plannedEndDate: '2027-06-30',
@@ -513,10 +512,10 @@
                         this.projects.push({
                             id: p5,
                             name: 'Automatische Kalibrierstation V3',
-                            description: 'Vollautomatische Kalibrierstation mit KI-gestützter Fehler-Detektion für höheren Durchsatz in der Produktion.',
+                            description: 'Vollautomatische Kalibrierstation mit KI-gestÃ¼tzter Fehler-Detektion fÃ¼r hÃ¶heren Durchsatz in der Produktion.',
                             projectLead: 'Oliver Richter',
                             sponsor: 'Thomas Brunner',
-                            phase: 'Gate 5 – Markteinführung/Serie',
+                            phase: 'Gate 5 Â– MarkteinfÃ¼hrung/Serie',
                             startDate: '2025-04-01',
                             endDate: '2026-10-31',
                             plannedEndDate: '2026-10-31',
@@ -546,10 +545,10 @@
                         this.projects.push({
                             id: p6,
                             name: 'Temperatur-Kompensationsmodul TCM-X',
-                            description: 'Erweiterungsmodul zur präzisen Temperaturkompensation für Drucksensoren in extremen Umgebungen (-40°C bis +150°C).',
+                            description: 'Erweiterungsmodul zur prÃ¤zisen Temperaturkompensation fÃ¼r Drucksensoren in extremen Umgebungen (-40Â°C bis +150Â°C).',
                             projectLead: 'Martin Schulz',
                             sponsor: 'Markus Vogel',
-                            phase: 'Gate 3 – Entwicklung/Konstruktion',
+                            phase: 'Gate 3 Â– Entwicklung/Konstruktion',
                             startDate: '2025-05-01',
                             endDate: '2026-02-28',
                             plannedEndDate: '2026-02-28',
@@ -582,7 +581,7 @@
                             description: 'Neue Generation der Diagnose-Software mit Cloud-Anbindung, Predictive Maintenance und erweiterten Analyse-Tools.',
                             projectLead: 'Stefan Weber',
                             sponsor: 'Dr. Elisabeth Steiner',
-                            phase: 'Gate 4 – Industrialisierung/Qualifikation',
+                            phase: 'Gate 4 Â– Industrialisierung/Qualifikation',
                             startDate: '2025-06-01',
                             endDate: '2026-12-31',
                             plannedEndDate: '2026-12-31',
@@ -607,15 +606,15 @@
                             }
                         });
 
-                        // PROJEKT 8: Kunststoff-Gehäuse-Familie KGF-2025 (Klein, niedrige Prio, Gate 2)
+                        // PROJEKT 8: Kunststoff-GehÃ¤use-Familie KGF-2025 (Klein, niedrige Prio, Gate 2)
                         const p8 = this.generateId();
                         this.projects.push({
                             id: p8,
-                            name: 'Kunststoff-Gehäuse-Familie KGF-2025',
-                            description: 'Modulare Kunststoff-Gehäuse-Familie für Sensoren. Fokus: Kostenreduktion, vereinfachte Montage, recycelbare Materialien.',
+                            name: 'Kunststoff-GehÃ¤use-Familie KGF-2025',
+                            description: 'Modulare Kunststoff-GehÃ¤use-Familie fÃ¼r Sensoren. Fokus: Kostenreduktion, vereinfachte Montage, recycelbare Materialien.',
                             projectLead: 'Nina Bauer',
                             sponsor: 'Thomas Brunner',
-                            phase: 'Gate 2 – Definition/Konzept',
+                            phase: 'Gate 2 Â– Definition/Konzept',
                             startDate: '2025-07-01',
                             endDate: '2026-05-31',
                             plannedEndDate: '2026-05-31',
@@ -640,15 +639,15 @@
                             }
                         });
 
-                        // PROJEKT 9: OEM-Sensormodul Automotive (Groß, hohe Prio, Gate 3)
+                        // PROJEKT 9: OEM-Sensormodul Automotive (GroÃŸ, hohe Prio, Gate 3)
                         const p9 = this.generateId();
                         this.projects.push({
                             id: p9,
                             name: 'OEM-Sensormodul Automotive AS-300',
-                            description: 'Hochvolumen-Sensormodul für Automotive-Anwendungen (ABS, ESP). Qualifikation nach ISO 26262 ASIL-B erforderlich.',
+                            description: 'Hochvolumen-Sensormodul fÃ¼r Automotive-Anwendungen (ABS, ESP). Qualifikation nach ISO 26262 ASIL-B erforderlich.',
                             projectLead: 'Thomas Meier',
                             sponsor: 'Dr. Peter Gruber',
-                            phase: 'Gate 3 – Entwicklung/Konstruktion',
+                            phase: 'Gate 3 Â– Entwicklung/Konstruktion',
                             startDate: '2025-02-01',
                             endDate: '2027-03-31',
                             plannedEndDate: '2027-03-31',
@@ -678,10 +677,10 @@
                         this.projects.push({
                             id: p10,
                             name: 'Support-Tool-Suite STS-Pro',
-                            description: 'Integrierte Software-Suite für Customer Support: Ferndiagnose, Konfiguration, Datenlogger, Report-Generator.',
+                            description: 'Integrierte Software-Suite fÃ¼r Customer Support: Ferndiagnose, Konfiguration, Datenlogger, Report-Generator.',
                             projectLead: 'Laura Zimmermann',
                             sponsor: 'Markus Vogel',
-                            phase: 'Gate 4 – Industrialisierung/Qualifikation',
+                            phase: 'Gate 4 Â– Industrialisierung/Qualifikation',
                             startDate: '2025-08-01',
                             endDate: '2026-08-31',
                             plannedEndDate: '2026-08-31',
@@ -981,10 +980,10 @@
                     // Calculate FTE for this booking
                     const fte = (booking.capacityPercent / 100) * ((member.availableCapacity || 80) / 100);
 
-                    // Calculate hours: FTE × working days × 8 hours/day
+                    // Calculate hours: FTE Ã— working days Ã— 8 hours/day
                     const hours = fte * workingDays * 8;
 
-                    // Calculate cost: hours × hourly rate
+                    // Calculate cost: hours Ã— hourly rate
                     const cost = hours * (member.hourlyRateInternal || 0);
 
                     return sum + cost;
@@ -1323,7 +1322,7 @@
                     this.showManagementCommentsModal();
                 });
 
-                // Demo-Daten laden Button - öffnet Datei-Dialog
+                // Demo-Daten laden Button - Ã¶ffnet Datei-Dialog
                 document.getElementById('btn-load-demo-data').addEventListener('click', () => {
                     // Erstelle einen versteckten File-Input
                     const fileInput = document.createElement('input');
@@ -1335,7 +1334,7 @@
                         const file = e.target.files[0];
                         if (!file) return;
 
-                        // Bestätigungsdialog erstellen
+                        // BestÃ¤tigungsdialog erstellen
                         const confirmDiv = document.createElement('div');
                         confirmDiv.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;';
                         confirmDiv.innerHTML = `
@@ -1345,9 +1344,9 @@
                                     Datei: <strong>${file.name}</strong>
                                 </p>
                                 <p style="margin-bottom: 1.5rem; color: #6b7280;">
-                                    Alle vorhandenen Daten (Projekte, Ressourcen, Buchungen, etc.) werden gelöscht und durch die Daten aus dieser Datei ersetzt.
+                                    Alle vorhandenen Daten (Projekte, Ressourcen, Buchungen, etc.) werden gelÃ¶scht und durch die Daten aus dieser Datei ersetzt.
                                     <br><br>
-                                    <strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong>
+                                    <strong>Diese Aktion kann nicht rÃ¼ckgÃ¤ngig gemacht werden!</strong>
                                 </p>
                                 <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
                                     <button id="demo-cancel" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; cursor: pointer;">Abbrechen</button>
@@ -1357,7 +1356,7 @@
                         `;
                         document.body.appendChild(confirmDiv);
 
-                        // Event-Listener für Buttons
+                        // Event-Listener fÃ¼r Buttons
                         confirmDiv.querySelector('#demo-cancel').addEventListener('click', () => {
                             confirmDiv.remove();
                             fileInput.remove();
@@ -1678,7 +1677,7 @@
                                 </td>
                                 <td class="font-mono" style="color: ${isOverbooked ? 'var(--danger)' : 'var(--success)'};">
                                     <strong>${utilizationPercent}%</strong>
-                                    ${isOverbooked ? ' ? ÜBERBUCHT!' : ''}
+                                    ${isOverbooked ? ' ? ÃœBERBUCHT!' : ''}
                                 </td>
                                 <td>
                                     <span style="color: ${isActive ? 'var(--success)' : 'var(--text-secondary)'};">
@@ -1715,7 +1714,7 @@
                                 <div class="text-2xl font-bold font-mono mt-1">${activeMembers.length}</div>
                             </div>
                             <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Überbuchte Ressourcen</div>
+                                <div class="text-sm" style="color: var(--text-secondary);">Ãœberbuchte Ressourcen</div>
                                 <div class="text-2xl font-bold font-mono mt-1" style="color: ${overbookedMembers.length > 0 ? 'var(--danger)' : 'var(--success)'}">
                                     ${overbookedMembers.length}
                                 </div>
@@ -1724,13 +1723,13 @@
 
                         ${overbookedMembers.length > 0 ? `
                             <div class="mt-4 p-4" style="background: rgba(244, 67, 54, 0.1); border-left: 4px solid var(--danger); border-radius: 0.5rem;">
-                                <h5 class="font-semibold mb-2" style="color: var(--danger);">? KRITISCHE ÜBERBUCHUNG</h5>
+                                <h5 class="font-semibold mb-2" style="color: var(--danger);">? KRITISCHE ÃœBERBUCHUNG</h5>
                                 ${overbookedMembers.map(member => {
                                     const util = AppState.getGlobalResourceUtilization(member.id);
                                     return `
                                         <div style="margin-bottom: 1rem;">
                                             <strong>${this.escapeHtml(member.name)}</strong>:
-                                            ${util.totalUtilization}% ausgelastet (verfügbar: ${member.availableCapacity}%)
+                                            ${util.totalUtilization}% ausgelastet (verfÃ¼gbar: ${member.availableCapacity}%)
                                             <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                                                 Projekte: ${util.byProject.filter(p => p.projectStatus === 'active').map(p =>
                                                     `${p.projectName} (${p.totalCapacity}%)`
@@ -1762,7 +1761,7 @@
                             ${overloadedGroups.length > 0 ? `
                                 <div class="mb-4 p-4" style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid var(--warning); border-radius: 0.5rem;">
                                     <h5 class="font-semibold mb-2" style="color: var(--warning);">
-                                        ? ${overloadedGroups.length} Kompetenzgruppe${overloadedGroups.length > 1 ? 'n' : ''} überlastet
+                                        ? ${overloadedGroups.length} Kompetenzgruppe${overloadedGroups.length > 1 ? 'n' : ''} Ã¼berlastet
                                     </h5>
                                     ${overloadedGroups.map(g => `
                                         <div style="margin-bottom: 0.5rem;">
@@ -1777,7 +1776,7 @@
                                     <tr>
                                         <th>Kompetenzgruppe</th>
                                         <th>Mitglieder</th>
-                                        <th>Gesamt-Kapazität (FTE)</th>
+                                        <th>Gesamt-KapazitÃ¤t (FTE)</th>
                                         <th>Gebuchte FTE</th>
                                         <th>Auslastung</th>
                                         <th>Status</th>
@@ -1787,7 +1786,7 @@
                                     ${groupUtilization.map(group => {
                                         const statusColor = group.isOverloaded ? 'var(--danger)' :
                                             (group.utilizationPercent > 80 ? 'var(--warning)' : 'var(--success)');
-                                        const statusText = group.isOverloaded ? '? Überlastet' :
+                                        const statusText = group.isOverloaded ? '? Ãœberlastet' :
                                             (group.utilizationPercent > 80 ? '? Hoch' : '? Normal');
 
                                         return `
@@ -1903,15 +1902,15 @@
                     <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: 0.5rem; flex-wrap: wrap;">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #1f2937; border: 2px solid #000; border-radius: 0.25rem;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P1 - höchste Priorität)</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P1 - hÃ¶chste PrioritÃ¤t)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #4b5563; border: 2px solid #000; border-radius: 0.25rem;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P3 - mittlere Priorität)</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P3 - mittlere PrioritÃ¤t)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #9ca3af; border: 2px solid #000; border-radius: 0.25rem;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P5 - niedrigste Priorität)</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">Aktiv (P5 - niedrigste PrioritÃ¤t)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 40px; height: 16px; background: #e5e7eb; border: 2px dashed #9ca3af; border-radius: 0.25rem;"></div>
@@ -1919,7 +1918,7 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 16px; height: 16px; background: #dc2626; border-radius: 50%;"></div>
-                            <span style="font-size: 0.75rem; color: var(--text-secondary);">? Ressourcen-Überlastung</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary);">? Ressourcen-Ãœberlastung</span>
                         </div>
                     </div>
                 `;
@@ -1992,7 +1991,7 @@
                         <div style="display: flex; margin-bottom: 0.6rem; align-items: center;">
                             <div style="width: 220px; font-weight: 500; font-size: 0.8rem; color: #000; padding-right: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${this.escapeHtml(project.name)}">
                                 ${this.escapeHtml(project.name)}
-                                ${hasOverload ? '<span style="color: #dc2626; font-weight: bold;" title="Ressourcen-Überlastung">?</span>' : ''}
+                                ${hasOverload ? '<span style="color: #dc2626; font-weight: bold;" title="Ressourcen-Ãœberlastung">?</span>' : ''}
                             </div>
                             <div style="flex: 1; position: relative; height: 30px; background: #f9fafb; border-radius: 0.25rem; min-width: 0;">
                                 ${quarters.map((quarter, idx) => {
@@ -2018,7 +2017,7 @@
                 const container = document.getElementById('portfolio-fte-timeline');
                 if (!container || timeline.length === 0) {
                     if (container) {
-                        container.innerHTML = '<p style="color: var(--text-secondary);">Keine Zeitdaten verfügbar</p>';
+                        container.innerHTML = '<p style="color: var(--text-secondary);">Keine Zeitdaten verfÃ¼gbar</p>';
                     }
                     return;
                 }
@@ -2044,7 +2043,7 @@
                     html += `
                         <div style="flex: 1; min-width: 60px; position: relative;">
                             <div style="height: 200px; display: flex; flex-direction: column; justify-content: flex-end; border: 1px solid var(--border-color); border-radius: 0.25rem; padding: 0.25rem; background: ${isCurrentWeek ? 'rgba(255, 200, 0, 0.05)' : 'var(--bg-tertiary)'};">
-                                <div style="background: ${barColor}; height: ${heightPercent}%; border-radius: 0.25rem; position: relative;" title="${period.startDate}: ${period.totalFTE} FTE${period.isOverloaded ? ' (ÜBERLAST!)' : ''}">
+                                <div style="background: ${barColor}; height: ${heightPercent}%; border-radius: 0.25rem; position: relative;" title="${period.startDate}: ${period.totalFTE} FTE${period.isOverloaded ? ' (ÃœBERLAST!)' : ''}">
                                     <div style="position: absolute; top: -20px; left: 0; right: 0; text-align: center; font-size: 0.75rem; font-weight: bold; color: ${barColor};">
                                         ${period.totalFTE}
                                     </div>
@@ -2063,7 +2062,7 @@
                 html += `<strong>Legende:</strong> `;
                 html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--success); border-radius: 2px; margin: 0 0.25rem;"></span> Normal `;
                 html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--warning); border-radius: 2px; margin: 0 0.25rem;"></span> Hoch (&gt;80%) `;
-                html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 2px; margin: 0 0.25rem;"></span> Überlast (&gt;${totalAvailableFTE} FTE)`;
+                html += `<span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 2px; margin: 0 0.25rem;"></span> Ãœberlast (&gt;${totalAvailableFTE} FTE)`;
                 html += `</div></div>`;
 
                 container.innerHTML = html;
@@ -2097,7 +2096,7 @@
 
                     const warnings = [];
                     if (overloadPeriods.length > 0) {
-                        warnings.push(`?? Überlast in ${overloadPeriods.length} Zeitraum(en)`);
+                        warnings.push(`?? Ãœberlast in ${overloadPeriods.length} Zeitraum(en)`);
                     }
 
                     return `
@@ -2293,7 +2292,7 @@
                     budgetContainer.innerHTML = `
                         <div class="card mb-6">
                             <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <h3 class="font-semibold">Projektbudget Übersicht</h3>
+                                <h3 class="font-semibold">Projektbudget Ãœbersicht</h3>
                                 <button class="btn" onclick="UI.showEditBudgetModal()">?? Budget bearbeiten</button>
                             </div>
                             <table>
@@ -2395,7 +2394,7 @@
                             <td class="font-mono font-semibold">${this.formatCurrency(cost.amount || 0, project.currency)}</td>
                             <td>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.showEditCostModal('${cost.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteCost('${cost.id}')">Löschen</button>
+                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteCost('${cost.id}')">LÃ¶schen</button>
                             </td>
                         </tr>
                     `;
@@ -2459,13 +2458,13 @@
                                     </div>
                                     <div>
                                         <span style="color: var(--text-secondary);">Phase:</span><br>
-                                        <strong>${this.escapeHtml(m.phase || m.name.split('–')[0]?.trim() || 'N/A')}</strong>
+                                        <strong>${this.escapeHtml(m.phase || m.name.split('Â–')[0]?.trim() || 'N/A')}</strong>
                                     </div>
                                 </div>
                             </div>
                             <div style="display: flex; gap: 0.5rem;">
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editMilestone('${m.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteMilestone('${m.id}')">Löschen</button>
+                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteMilestone('${m.id}')">LÃ¶schen</button>
                             </div>
                         </div>
                     </div>
@@ -2513,7 +2512,7 @@
                                 </div>
                                 <div style="display: flex; gap: 0.5rem;">
                                     <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editRisk('${r.id}')">Bearbeiten</button>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteRisk('${r.id}')">Löschen</button>
+                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteRisk('${r.id}')">LÃ¶schen</button>
                                 </div>
                             </div>
                         </div>
@@ -2543,7 +2542,7 @@
                             <td><span style="color: ${priorityColor};">?</span> ${t.priority}</td>
                             <td>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editTask('${t.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteTask('${t.id}')">Löschen</button>
+                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteTask('${t.id}')">LÃ¶schen</button>
                             </td>
                         </tr>
                     `;
@@ -2607,7 +2606,7 @@
                             <div class="text-2xl font-bold font-mono" style="color: var(--danger);">${criticalPathLength} / ${tasks.length}</div>
                         </div>
                         <div>
-                            <span class="text-sm" style="color: var(--text-secondary);">Verzögerungsrisiko</span>
+                            <span class="text-sm" style="color: var(--text-secondary);">VerzÃ¶gerungsrisiko</span>
                             <div class="text-2xl font-bold font-mono" style="color: ${criticalPathLength / tasks.length > 0.5 ? 'var(--danger)' : 'var(--warning)'}">
                                 ${criticalPathLength > 0 ? 'HOCH' : 'NIEDRIG'}
                             </div>
@@ -2649,11 +2648,11 @@
                     const start = new Date(task.startDate);
                     const end = new Date(task.endDate);
                     if (isNaN(start.getTime())) {
-                        errors.push(`Task ${task.name || task.id}: Ungültiges Startdatum`);
+                        errors.push(`Task ${task.name || task.id}: UngÃ¼ltiges Startdatum`);
                         return;
                     }
                     if (isNaN(end.getTime())) {
-                        errors.push(`Task ${task.name || task.id}: Ungültiges Enddatum`);
+                        errors.push(`Task ${task.name || task.id}: UngÃ¼ltiges Enddatum`);
                         return;
                     }
                     if (end < start) {
@@ -2666,7 +2665,7 @@
                         const taskIds = tasks.map(t => t.id);
                         const invalidDeps = task.dependencies.filter(dep => !taskIds.includes(dep.task));
                         if (invalidDeps.length > 0) {
-                            errors.push(`Task ${task.name || task.id}: Ungültige Abhängigkeiten zu ${invalidDeps.map(d => d.task).join(', ')}`);
+                            errors.push(`Task ${task.name || task.id}: UngÃ¼ltige AbhÃ¤ngigkeiten zu ${invalidDeps.map(d => d.task).join(', ')}`);
                         }
                     }
 
@@ -2685,7 +2684,7 @@
                     container.innerHTML = `
                         <div style="padding: 3rem; text-align: center;">
                             <h4 class="font-semibold mb-3" style="color: var(--text-secondary);">Keine Aufgaben vorhanden</h4>
-                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Für dieses Projekt sind noch keine Aufgaben oder Meilensteine erfasst.</p>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">FÃ¼r dieses Projekt sind noch keine Aufgaben oder Meilensteine erfasst.</p>
                             <button class="btn btn-primary" onclick="UI.showAddTaskModal()">+ Erste Aufgabe anlegen</button>
                         </div>
                     `;
@@ -2714,7 +2713,7 @@
                 if (validation.validTasks.length === 0) {
                     container.innerHTML = `
                         <div style="padding: 3rem; text-align: center;">
-                            <p style="color: var(--text-secondary);">Keine gültigen Aufgaben für Gantt-Darstellung vorhanden.</p>
+                            <p style="color: var(--text-secondary);">Keine gÃ¼ltigen Aufgaben fÃ¼r Gantt-Darstellung vorhanden.</p>
                         </div>
                     `;
                     return;
@@ -2812,7 +2811,7 @@
                 const { weeks, yearMonthStructure } = this.calculateWeekRange(ganttTasks);
 
                 if (weeks.length === 0) {
-                    container.innerHTML = '<p>Keine Daten für Wochenansicht vorhanden</p>';
+                    container.innerHTML = '<p>Keine Daten fÃ¼r Wochenansicht vorhanden</p>';
                     return;
                 }
 
@@ -2922,7 +2921,7 @@
                         month = {
                             monthIndex: week.month,
                             weeks: [],
-                            label: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][week.month]
+                            label: ['Jan', 'Feb', 'MÃ¤r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][week.month]
                         };
                         year.months.push(month);
                     }
@@ -3277,7 +3276,7 @@
                 const { months, yearQuarterStructure } = this.calculateMonthRange(ganttTasks);
 
                 if (months.length === 0) {
-                    container.innerHTML = '<p>Keine Daten für Quartalsansicht vorhanden</p>';
+                    container.innerHTML = '<p>Keine Daten fÃ¼r Quartalsansicht vorhanden</p>';
                     return;
                 }
 
@@ -3341,7 +3340,7 @@
                         quarter: quarter,
                         monthStart: monthStart,
                         monthEnd: monthEnd,
-                        label: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][current.getMonth()]
+                        label: ['Jan', 'Feb', 'MÃ¤r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'][current.getMonth()]
                     });
 
                     current.setMonth(current.getMonth() + 1);
@@ -3369,7 +3368,7 @@
             },
 
             drawQuarterGanttHeader(svg, months, yearQuarterStructure, leftPadding, monthWidth) {
-                const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+                const monthNames = ['Jan', 'Feb', 'MÃ¤r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
                 // Get current month for highlighting (not quarter!)
                 const today = new Date();
@@ -3745,7 +3744,7 @@
                 return weekNo;
             },
 
-            // NEU: Monatsheader über der Wochenzeile
+            // NEU: Monatsheader Ã¼ber der Wochenzeile
             addMonthHeaders(ganttInstance, svg) {
                 if (!svg || !ganttInstance || !ganttInstance.gantt_start || !ganttInstance.gantt_end) return;
 
@@ -3755,7 +3754,7 @@
                 const columnWidth = ganttInstance.options.column_width || 30;
 
                 // Monatsnamen (kurz, deutsch)
-                const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+                const monthNames = ['Jan', 'Feb', 'MÃ¤r', 'Apr', 'Mai', 'Jun',
                                    'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
                 // Alle Monate im Zeitraum durchgehen
@@ -3769,7 +3768,7 @@
                     // Letzter Tag des Monats
                     const monthEnd = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0);
 
-                    // Prüfe, ob Monat im sichtbaren Bereich liegt
+                    // PrÃ¼fe, ob Monat im sichtbaren Bereich liegt
                     const visibleStart = monthStart < ganttStart ? ganttStart : monthStart;
                     const visibleEnd = monthEnd > ganttEnd ? ganttEnd : monthEnd;
 
@@ -3794,7 +3793,7 @@
                         svg.appendChild(text);
                     }
 
-                    // Nächster Monat
+                    // NÃ¤chster Monat
                     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
                 }
             },
@@ -3811,7 +3810,7 @@
                 const padding = ganttInstance.options.padding || 18;
                 const columnWidth = ganttInstance.options.column_width || 30;
 
-                // Alle Wochenanfänge (Montag) im Zeitraum bestimmen
+                // Alle WochenanfÃ¤nge (Montag) im Zeitraum bestimmen
                 let current = new Date(ganttStart);
 
                 // Zum Montag der Woche springen
@@ -3870,7 +3869,7 @@
                         }
                     }
 
-                    // Nächste Woche
+                    // NÃ¤chste Woche
                     current = new Date(current.getTime() + (7 * 24 * 60 * 60 * 1000));
                 }
             },
@@ -4084,7 +4083,7 @@
                         const mondayX = this.getXForDate(svg, ganttInstance, week.date);
 
                         if (mondayX === null || isNaN(mondayX)) {
-                            console.warn('? Skipping week header – could not get X position', {
+                            console.warn('? Skipping week header Â– could not get X position', {
                                 weekIndex: index,
                                 weekNum: week.weekNum,
                                 weekDate: week.date.toISOString().split('T')[0]
@@ -4099,7 +4098,7 @@
                         const midWeekX = this.getXForDate(svg, ganttInstance, midWeekDate);
 
                         if (midWeekX === null || isNaN(midWeekX)) {
-                            console.warn('? Skipping week header – could not get mid-week X position', {
+                            console.warn('? Skipping week header Â– could not get mid-week X position', {
                                 weekIndex: index,
                                 weekNum: week.weekNum
                             });
@@ -4151,7 +4150,7 @@
                     console.log('?? Quarter view - Padding:', padding, 'ColumnWidth:', columnWidth);
 
                     // Month names (short German)
-                    const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+                    const monthNames = ['Jan', 'Feb', 'MÃ¤r', 'Apr', 'Mai', 'Jun',
                                        'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
                     let monthCount = 0;
@@ -4171,7 +4170,7 @@
                         const midMonthX = this.getXForDate(svg, ganttInstance, midMonthDate);
 
                         if (midMonthX === null || isNaN(midMonthX)) {
-                            console.warn('? Skipping month header – could not get X position', {
+                            console.warn('? Skipping month header Â– could not get X position', {
                                 monthIndex,
                                 monthName: monthNames[monthIndex],
                                 monthDate: monthStart.toISOString().split('T')[0]
@@ -4449,7 +4448,7 @@
                     tableBody.innerHTML = `
                         <tr>
                             <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                Keine Teammitglieder in diesem Projekt. Klicken Sie "+ Mitglied zum Projektteam hinzufügen", um Ressourcen zuzuweisen.
+                                Keine Teammitglieder in diesem Projekt. Klicken Sie "+ Mitglied zum Projektteam hinzufÃ¼gen", um Ressourcen zuzuweisen.
                             </td>
                         </tr>
                     `;
@@ -4509,7 +4508,7 @@
                 const availableMembers = allMembers.filter(m => !teamMemberIds.includes(m.id));
 
                 if (availableMembers.length === 0) {
-                    this.showAlert('Alle verfügbaren Ressourcen sind bereits im Projektteam.');
+                    this.showAlert('Alle verfÃ¼gbaren Ressourcen sind bereits im Projektteam.');
                     return;
                 }
 
@@ -4537,10 +4536,10 @@
                 const content = `
                     <div style="max-height: 500px; overflow-y: auto;">
                         <p style="margin-bottom: 1rem; color: var(--text-secondary);">
-                            Wählen Sie ein oder mehrere Teammitglieder aus dem globalen Ressourcenpool aus:
+                            WÃ¤hlen Sie ein oder mehrere Teammitglieder aus dem globalen Ressourcenpool aus:
                         </p>
                         <div style="margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 0.5rem; border-left: 4px solid var(--primary);">
-                            <strong>?? Hinweis:</strong> Die Auslastung zeigt die aktuelle globale Belegung über alle aktiven Projekte.
+                            <strong>?? Hinweis:</strong> Die Auslastung zeigt die aktuelle globale Belegung Ã¼ber alle aktiven Projekte.
                         </div>
                         <table class="table">
                             <thead>
@@ -4548,9 +4547,9 @@
                                     <th style="width: 60px;">Auswahl</th>
                                     <th>Name</th>
                                     <th>Rolle</th>
-                                    <th>Max. Kapazität</th>
+                                    <th>Max. KapazitÃ¤t</th>
                                     <th>Aktuelle Auslastung</th>
-                                    <th>Verfügbar</th>
+                                    <th>VerfÃ¼gbar</th>
                                     <th style="width: 60px;">Status</th>
                                 </tr>
                             </thead>
@@ -4568,7 +4567,7 @@
                                     if (member.isOverbooked || remainingPercent <= 0) {
                                         statusColor = 'var(--danger)';
                                         statusIcon = '?';
-                                        statusText = 'Überbucht';
+                                        statusText = 'Ãœberbucht';
                                     } else if (utilizationRatio >= 0.8) {
                                         statusColor = 'var(--warning)';
                                         statusIcon = '??';
@@ -4576,11 +4575,11 @@
                                     } else if (utilizationRatio >= 0.5) {
                                         statusColor = 'var(--warning)';
                                         statusIcon = '?';
-                                        statusText = 'Mäßig ausgelastet';
+                                        statusText = 'MÃ¤ÃŸig ausgelastet';
                                     } else {
                                         statusColor = 'var(--success)';
                                         statusIcon = '?';
-                                        statusText = 'Verfügbar';
+                                        statusText = 'VerfÃ¼gbar';
                                     }
 
                                     // Determine if selection should be discouraged
@@ -4615,13 +4614,13 @@
                         </table>
                         ${membersWithUtilization.some(m => m.remainingCapacity <= 0) ? `
                             <div class="mt-3 p-3" style="background: var(--warning-bg, #fff3cd); border-left: 4px solid var(--danger); border-radius: 0.25rem;">
-                                <strong>?? Achtung:</strong> Einige Ressourcen sind bereits voll oder überbucht. Sie können diese dennoch zum Team hinzufügen, sollten aber bei der Buchung die verfügbare Kapazität beachten.
+                                <strong>?? Achtung:</strong> Einige Ressourcen sind bereits voll oder Ã¼berbucht. Sie kÃ¶nnen diese dennoch zum Team hinzufÃ¼gen, sollten aber bei der Buchung die verfÃ¼gbare KapazitÃ¤t beachten.
                             </div>
                         ` : ''}
                     </div>
                 `;
 
-                const modal = this.createModal('Teammitglieder hinzufügen', content, [
+                const modal = this.createModal('Teammitglieder hinzufÃ¼gen', content, [
                     {
                         label: 'Abbrechen',
                         onClick: () => {
@@ -4629,7 +4628,7 @@
                         }
                     },
                     {
-                        label: 'Hinzufügen',
+                        label: 'HinzufÃ¼gen',
                         primary: true,
                         onClick: () => {
                             // Get all checked checkboxes
@@ -4638,7 +4637,7 @@
                                 .filter(checkbox => checkbox && checkbox.checked);
 
                             if (checkedBoxes.length === 0) {
-                                this.showAlert('Bitte wählen Sie mindestens ein Teammitglied aus.');
+                                this.showAlert('Bitte wÃ¤hlen Sie mindestens ein Teammitglied aus.');
                                 return;
                             }
 
@@ -4652,7 +4651,7 @@
 
                             this.closeModal();
                             this.renderProjectTeamTab();
-                            this.showAlert(`${addedCount} Teammitglied(er) erfolgreich zum Projekt hinzugefügt.`);
+                            this.showAlert(`${addedCount} Teammitglied(er) erfolgreich zum Projekt hinzugefÃ¼gt.`);
                         }
                     }
                 ], { wide: true }); // NEW: Use wide modal for better visibility
@@ -4682,7 +4681,7 @@
                         <div style="margin-top: 1rem; padding: 1rem; background: var(--warning-bg, #fff3cd); border-left: 4px solid var(--warning, #ffc107); border-radius: 0.25rem;">
                             <strong>?? Achtung:</strong>
                             <ul style="margin: 0.5rem 0 0 1.5rem;">
-                                ${projectBookings.length > 0 ? `<li>${projectBookings.length} Buchung(en) werden gelöscht</li>` : ''}
+                                ${projectBookings.length > 0 ? `<li>${projectBookings.length} Buchung(en) werden gelÃ¶scht</li>` : ''}
                                 ${assignedTasks.length > 0 ? `<li>${assignedTasks.length} Aufgabe(n) verlieren ihre Zuweisung</li>` : ''}
                             </ul>
                         </div>
@@ -4690,7 +4689,7 @@
                 }
 
                 const content = `
-                    <p>Möchten Sie <strong>${this.escapeHtml(member.name)}</strong> wirklich aus dem Projektteam entfernen?</p>
+                    <p>MÃ¶chten Sie <strong>${this.escapeHtml(member.name)}</strong> wirklich aus dem Projektteam entfernen?</p>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
                         Das Teammitglied bleibt im globalen Ressourcenpool erhalten.
                     </p>
@@ -4742,7 +4741,7 @@
                     tableBody.innerHTML = `
                         <tr>
                             <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                Keine Team-Mitglieder vorhanden. Klicken Sie "+ Mitglied hinzufügen", um ein neues Mitglied anzulegen.
+                                Keine Team-Mitglieder vorhanden. Klicken Sie "+ Mitglied hinzufÃ¼gen", um ein neues Mitglied anzulegen.
                             </td>
                         </tr>
                     `;
@@ -4761,7 +4760,7 @@
                                 <td class="font-mono" style="color: var(--primary);">
                                     <strong>${member.availableCapacity || 80}%</strong>
                                     <span style="color: var(--text-secondary); font-size: 0.85rem;">
-                                        (${member.employmentLevel || 100}% × 0.8)
+                                        (${member.employmentLevel || 100}% Ã— 0.8)
                                     </span>
                                 </td>
                                 <td>
@@ -4821,11 +4820,11 @@
                                 <div class="text-2xl font-bold font-mono mt-1">${activeMembers.length}</div>
                             </div>
                             <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Gesamt Verfügbare Kapazität</div>
+                                <div class="text-sm" style="color: var(--text-secondary);">Gesamt VerfÃ¼gbare KapazitÃ¤t</div>
                                 <div class="text-2xl font-bold font-mono mt-1">${totalCapacity}%</div>
                             </div>
                             <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Überbuchte Ressourcen</div>
+                                <div class="text-sm" style="color: var(--text-secondary);">Ãœberbuchte Ressourcen</div>
                                 <div class="text-2xl font-bold font-mono mt-1" style="color: ${memberUtilization.filter(m => m.isOverbooked).length > 0 ? 'var(--danger)' : 'var(--success)'}">
                                     ${memberUtilization.filter(m => m.isOverbooked).length}
                                 </div>
@@ -4834,12 +4833,12 @@
 
                         ${memberUtilization.filter(m => m.isOverbooked).length > 0 ? `
                             <div class="mt-4 p-4" style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid var(--warning); border-radius: 0.5rem;">
-                                <h5 class="font-semibold mb-2" style="color: var(--warning);">? Überbuchungswarnung</h5>
+                                <h5 class="font-semibold mb-2" style="color: var(--warning);">? Ãœberbuchungswarnung</h5>
                                 ${memberUtilization.filter(m => m.isOverbooked).map(({ member, bookedCapacity, utilizationPercent }) => `
                                     <div style="margin-bottom: 0.5rem;">
                                         <strong>${this.escapeHtml(member.name)}</strong>:
                                         ${utilizationPercent}% ausgelastet
-                                        (${bookedCapacity}% gebucht / ${member.availableCapacity}% verfügbar)
+                                        (${bookedCapacity}% gebucht / ${member.availableCapacity}% verfÃ¼gbar)
                                     </div>
                                 `).join('')}
                             </div>
@@ -4869,7 +4868,7 @@
             },
 
             showAddMemberModal() {
-                const modal = this.createModal('Neues Team-Mitglied hinzufügen', `
+                const modal = this.createModal('Neues Team-Mitglied hinzufÃ¼gen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
@@ -4882,7 +4881,7 @@
                         <div>
                             <label class="text-sm font-medium">Kompetenzgruppe *</label>
                             <select id="modal-member-competency" required>
-                                <option value="">-- Bitte wählen --</option>
+                                <option value="">-- Bitte wÃ¤hlen --</option>
                                 <option value="Entwicklung Mechanik">Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik">Entwicklung Elektronik</option>
                                 <option value="Software">Software</option>
@@ -4900,11 +4899,11 @@
                             <label class="text-sm font-medium">Anstellungsgrad (%)*</label>
                             <input type="number" id="modal-member-employment" min="1" max="100" value="100" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Verfügbare Kapazität wird automatisch berechnet (Anstellungsgrad × 0.8)
+                                VerfÃ¼gbare KapazitÃ¤t wird automatisch berechnet (Anstellungsgrad Ã— 0.8)
                             </p>
                         </div>
                         <div id="modal-member-capacity-preview" class="p-3" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <span style="color: var(--text-secondary);">Verfügbare Kapazität:</span>
+                            <span style="color: var(--text-secondary);">VerfÃ¼gbare KapazitÃ¤t:</span>
                             <span class="font-mono font-bold ml-2" id="capacity-preview-value">80%</span>
                         </div>
                     </div>
@@ -4914,7 +4913,7 @@
                         onClick: () => this.closeModal()
                     },
                     {
-                        label: 'Mitglied hinzufügen',
+                        label: 'Mitglied hinzufÃ¼gen',
                         onClick: () => this.handleAddMember(),
                         primary: true
                     }
@@ -4940,11 +4939,11 @@
                 const employment = parseInt(document.getElementById('modal-member-employment').value) || 100;
 
                 if (!name || !role || !competencyGroup) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
-                // Calculate available capacity (employment × 0.8)
+                // Calculate available capacity (employment Ã— 0.8)
                 const availableCapacity = Math.round(employment * 0.8);
 
                 const member = {
@@ -4964,7 +4963,7 @@
 
                 this.closeModal();
                 this.renderTeamTab();
-                this.showAlert(`Mitglied "${name}" wurde erfolgreich hinzugefügt.`);
+                this.showAlert(`Mitglied "${name}" wurde erfolgreich hinzugefÃ¼gt.`);
             },
 
             showEditMemberModal(memberId) {
@@ -4984,7 +4983,7 @@
                         <div>
                             <label class="text-sm font-medium">Kompetenzgruppe *</label>
                             <select id="modal-member-competency" required>
-                                <option value="">-- Bitte wählen --</option>
+                                <option value="">-- Bitte wÃ¤hlen --</option>
                                 <option value="Entwicklung Mechanik" ${member.competencyGroup === 'Entwicklung Mechanik' ? 'selected' : ''}>Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik" ${member.competencyGroup === 'Entwicklung Elektronik' ? 'selected' : ''}>Entwicklung Elektronik</option>
                                 <option value="Software" ${member.competencyGroup === 'Software' ? 'selected' : ''}>Software</option>
@@ -5002,11 +5001,11 @@
                             <label class="text-sm font-medium">Anstellungsgrad (%)*</label>
                             <input type="number" id="modal-member-employment" min="1" max="100" value="${member.employmentLevel || 100}" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Verfügbare Kapazität wird automatisch berechnet (Anstellungsgrad × 0.8)
+                                VerfÃ¼gbare KapazitÃ¤t wird automatisch berechnet (Anstellungsgrad Ã— 0.8)
                             </p>
                         </div>
                         <div id="modal-member-capacity-preview" class="p-3" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <span style="color: var(--text-secondary);">Verfügbare Kapazität:</span>
+                            <span style="color: var(--text-secondary);">VerfÃ¼gbare KapazitÃ¤t:</span>
                             <span class="font-mono font-bold ml-2" id="capacity-preview-value">${member.availableCapacity || 80}%</span>
                         </div>
                     </div>
@@ -5016,7 +5015,7 @@
                         onClick: () => this.closeModal()
                     },
                     {
-                        label: 'Änderungen speichern',
+                        label: 'Ã„nderungen speichern',
                         onClick: () => this.handleEditMember(memberId),
                         primary: true
                     }
@@ -5045,7 +5044,7 @@
                 const employment = parseInt(document.getElementById('modal-member-employment').value) || 100;
 
                 if (!name || !role || !competencyGroup) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -5075,7 +5074,7 @@
                 const action = isActive ? 'deaktivieren' : 'aktivieren';
 
                 this.showConfirmDialog(
-                    `Möchten Sie das Mitglied "${member.name}" wirklich ${action}?`,
+                    `MÃ¶chten Sie das Mitglied "${member.name}" wirklich ${action}?`,
                     () => {
                         member.active = !isActive;
                         AppState.save();
@@ -5107,7 +5106,7 @@
                                         <th>Ressource</th>
                                         <th>Rolle</th>
                                         <th>Zeitraum</th>
-                                        <th>Kapazität</th>
+                                        <th>KapazitÃ¤t</th>
                                         <th>Auslastung</th>
                                         <th>Status</th>
                                         <th>Aktionen</th>
@@ -5126,7 +5125,7 @@
 
                                         const statusColor = utilization.overbookWarning ? 'var(--warning)' : 'var(--success)';
                                         const statusIcon = utilization.overbookWarning ? '?' : '?';
-                                        const statusText = utilization.overbookWarning ? 'Überbucht' : 'OK';
+                                        const statusText = utilization.overbookWarning ? 'Ãœberbucht' : 'OK';
 
                                         return `
                                             <tr>
@@ -5149,7 +5148,7 @@
                                                     </button>
                                                     <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;"
                                                             onclick="UI.deleteResourceBooking('${booking.id}')">
-                                                        Löschen
+                                                        LÃ¶schen
                                                     </button>
                                                 </td>
                                             </tr>
@@ -5162,14 +5161,14 @@
 
                     <!-- Available Resources -->
                     <div class="card mb-6">
-                        <h3 class="font-semibold mb-4">Verfügbare Ressourcen</h3>
+                        <h3 class="font-semibold mb-4">VerfÃ¼gbare Ressourcen</h3>
                         <table>
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Rolle</th>
                                     <th>Anstellung</th>
-                                    <th>Verfügbar</th>
+                                    <th>VerfÃ¼gbar</th>
                                     <th>Stundensatz</th>
                                 </tr>
                             </thead>
@@ -5276,7 +5275,7 @@
                         <textarea
                             id="mgmt-comment-${project.id}"
                             rows="3"
-                            placeholder="Management-Kommentar für dieses Projekt (optional)..."
+                            placeholder="Management-Kommentar fÃ¼r dieses Projekt (optional)..."
                             style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);"
                         >${project.managementComment || ''}</textarea>
                     </div>
@@ -5285,7 +5284,7 @@
                 const modal = this.createModal('Management-Report Kommentare', `
                     <div style="max-height: 400px; overflow-y: auto;">
                         <p class="mb-4" style="color: var(--text-secondary);">
-                            Fügen Sie optional Kommentare für die einzelnen Projekte hinzu. Diese werden im PDF-Report angezeigt.
+                            FÃ¼gen Sie optional Kommentare fÃ¼r die einzelnen Projekte hinzu. Diese werden im PDF-Report angezeigt.
                         </p>
                         ${projectListHTML}
                     </div>
@@ -5366,7 +5365,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-sm font-medium">Währung *</label>
+                                <label class="text-sm font-medium">WÃ¤hrung *</label>
                                 <select id="modal-project-currency" required>
                                     <option value="CHF">CHF</option>
                                     <option value="EUR">EUR</option>
@@ -5375,7 +5374,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Priorität *</label>
+                            <label class="text-sm font-medium">PrioritÃ¤t *</label>
                             <select id="modal-project-priority" required>
                                 <option value="1">1 - Sehr hoch</option>
                                 <option value="2">2 - Hoch</option>
@@ -5384,7 +5383,7 @@
                                 <option value="5">5 - Sehr niedrig</option>
                             </select>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Projekte werden standardmäßig nach Priorität sortiert (1 = höchste Priorität)
+                                Projekte werden standardmÃ¤ÃŸig nach PrioritÃ¤t sortiert (1 = hÃ¶chste PrioritÃ¤t)
                             </p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
@@ -5408,7 +5407,7 @@
                 const priority = parseInt(document.getElementById('modal-project-priority').value) || 3;
 
                 if (!name || !description || !lead || !startDate || !endDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -5462,13 +5461,13 @@
                     ['completed', 'archived'] :
                     ['archived'];
 
-                const modal = this.createModal('Projekt abschließen / archivieren', `
+                const modal = this.createModal('Projekt abschlieÃŸen / archivieren', `
                     <div class="grid gap-4">
                         <div class="p-4" style="background: var(--warning-bg, rgba(234,88,12,0.1)); border-radius: 0.5rem; border-left: 4px solid var(--warning);">
                             <p style="margin-bottom: 0.5rem;"><strong>? Hinweis:</strong></p>
                             <p style="font-size: 0.875rem; color: var(--text-secondary);">
-                                Beim Archivieren oder Abschließen werden alle Ressourcenbuchungen dieses Projekts
-                                freigegeben und stehen anderen Projekten wieder zur Verfügung.
+                                Beim Archivieren oder AbschlieÃŸen werden alle Ressourcenbuchungen dieses Projekts
+                                freigegeben und stehen anderen Projekten wieder zur VerfÃ¼gung.
                             </p>
                         </div>
 
@@ -5479,13 +5478,13 @@
                         <div>
                             <label class="text-sm font-medium">Neuer Status *</label>
                             <select id="modal-archive-status" required>
-                                <option value="">Bitte wählen...</option>
+                                <option value="">Bitte wÃ¤hlen...</option>
                                 ${statusOptions.includes('completed') ? '<option value="completed">? Abgeschlossen (erfolgreich beendet)</option>' : ''}
                                 <option value="archived">?? Archiviert (nur lesend)</option>
                             </select>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
                                 <strong>Abgeschlossen:</strong> Projekt erfolgreich beendet, kann weiter bearbeitet werden<br>
-                                <strong>Archiviert:</strong> Projekt nur noch lesend, keine Bearbeitung mehr möglich
+                                <strong>Archiviert:</strong> Projekt nur noch lesend, keine Bearbeitung mehr mÃ¶glich
                             </p>
                         </div>
 
@@ -5507,7 +5506,7 @@
                 const comment = document.getElementById('modal-archive-comment').value;
 
                 if (!newStatus) {
-                    this.showAlert('Bitte wählen Sie einen Status aus.');
+                    this.showAlert('Bitte wÃ¤hlen Sie einen Status aus.');
                     return;
                 }
 
@@ -5592,9 +5591,9 @@
                             </p>
                         </div>
                         <div id="sop-comment-wrapper" style="display: none;">
-                            <label class="text-sm font-medium">Begründung für SOP-Änderung *</label>
-                            <textarea id="modal-edit-sop-comment" rows="2" placeholder="Bitte begründen Sie die Verschiebung des SOP-Datums"></textarea>
-                            <p class="text-sm mt-1" style="color: var(--warning);">? Eine Begründung ist bei SOP-Änderungen zwingend erforderlich.</p>
+                            <label class="text-sm font-medium">BegrÃ¼ndung fÃ¼r SOP-Ã„nderung *</label>
+                            <textarea id="modal-edit-sop-comment" rows="2" placeholder="Bitte begrÃ¼nden Sie die Verschiebung des SOP-Datums"></textarea>
+                            <p class="text-sm mt-1" style="color: var(--warning);">? Eine BegrÃ¼ndung ist bei SOP-Ã„nderungen zwingend erforderlich.</p>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -5612,7 +5611,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Priorität</label>
+                            <label class="text-sm font-medium">PrioritÃ¤t</label>
                             <select id="modal-edit-priority">
                                 <option value="1" ${(project.priority || 3) === 1 ? 'selected' : ''}>1 - Sehr hoch</option>
                                 <option value="2" ${(project.priority || 3) === 2 ? 'selected' : ''}>2 - Hoch</option>
@@ -5654,7 +5653,7 @@
                 const newEndDate = document.getElementById('modal-edit-end').value;
 
                 if (!newStartDate || !newEndDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -5666,7 +5665,7 @@
                 if (oldSop && newSop !== oldSop) {
                     const sopComment = document.getElementById('modal-edit-sop-comment').value.trim();
                     if (!sopComment) {
-                        this.showAlert('Bitte geben Sie eine Begründung für die SOP-Änderung ein.');
+                        this.showAlert('Bitte geben Sie eine BegrÃ¼ndung fÃ¼r die SOP-Ã„nderung ein.');
                         return;
                     }
                     project.sopChangeComment = sopComment;
@@ -5749,7 +5748,7 @@
                         <div id="partial-payments-field" style="display: none;">
                             <label class="text-sm font-medium">Teilzahlungen (nur informativ)</label>
                             <div id="partial-payments-list" style="margin-bottom: 0.5rem;"></div>
-                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufügen</button>
+                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufÃ¼gen</button>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
@@ -5762,7 +5761,7 @@
                         <div>
                             <label class="text-sm font-medium">Betrag (${project.currency}) *</label>
                             <input type="number" id="modal-cost-amount" step="0.01" min="0" placeholder="0.00" required>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">TatsÃ¤chlich angefallene Kosten (IST)</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveAddCost()">Speichern</button>
@@ -5821,7 +5820,7 @@
                 row.innerHTML = `
                     <input type="date" class="partial-payment-date" value="${date}" style="flex: 1; padding: 0.25rem; border: 1px solid var(--border); border-radius: 0.25rem; background: var(--bg-primary); color: var(--text-primary);">
                     <input type="number" class="partial-payment-amount" value="${amount}" step="0.01" min="0" placeholder="Betrag" style="flex: 1; padding: 0.25rem; border: 1px solid var(--border); border-radius: 0.25rem; background: var(--bg-primary); color: var(--text-primary);">
-                    <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--danger); color: white;" onclick="document.getElementById('${rowId}').remove()">×</button>
+                    <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--danger); color: white;" onclick="document.getElementById('${rowId}').remove()">Ã—</button>
                 `;
 
                 list.appendChild(row);
@@ -5882,14 +5881,14 @@
                         </span>
                         <div style="display: flex; gap: 0.25rem;">
                             <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;" onclick="UI.editPartialPayment('${cost.id}', ${index})">??</button>
-                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem; background: var(--danger); color: white;" onclick="UI.deletePartialPayment('${cost.id}', ${index})">×</button>
+                            <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem; background: var(--danger); color: white;" onclick="UI.deletePartialPayment('${cost.id}', ${index})">Ã—</button>
                         </div>
                     </div>
                 `).join('');
 
                 return `
                     ${paymentRows}
-                    <button class="btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem; margin-top: 0.5rem;" onclick="UI.addNewPartialPayment('${cost.id}')">+ Teilzahlung hinzufügen</button>
+                    <button class="btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem; margin-top: 0.5rem;" onclick="UI.addNewPartialPayment('${cost.id}')">+ Teilzahlung hinzufÃ¼gen</button>
                 `;
             },
 
@@ -5900,7 +5899,7 @@
                 const project = AppState.getProject(cost.projectId);
                 if (!project) return;
 
-                const modal = this.createModal('Neue Teilzahlung hinzufügen', `
+                const modal = this.createModal('Neue Teilzahlung hinzufÃ¼gen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
@@ -5926,7 +5925,7 @@
                 const amount = parseFloat(document.getElementById('new-partial-payment-amount').value);
 
                 if (!date || isNaN(amount) || amount <= 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -5939,7 +5938,7 @@
 
                 this.closeModal();
                 this.renderCostsTab();
-                this.showAlert('Teilzahlung wurde hinzugefügt.');
+                this.showAlert('Teilzahlung wurde hinzugefÃ¼gt.');
             },
 
             editPartialPayment(costId, paymentIndex) {
@@ -5977,7 +5976,7 @@
                 const amount = parseFloat(document.getElementById('edit-partial-payment-amount').value);
 
                 if (!date || isNaN(amount) || amount <= 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -5993,11 +5992,11 @@
                 const cost = AppState.costs.find(c => c.id === costId);
                 if (!cost || !cost.partialPayments || !cost.partialPayments[paymentIndex]) return;
 
-                const modal = this.createModal('Teilzahlung löschen', `
+                const modal = this.createModal('Teilzahlung lÃ¶schen', `
                     <div>
-                        <p style="margin-bottom: 1rem;">Möchten Sie diese Teilzahlung wirklich löschen?</p>
+                        <p style="margin-bottom: 1rem;">MÃ¶chten Sie diese Teilzahlung wirklich lÃ¶schen?</p>
                         <div class="flex gap-4">
-                            <button class="btn" style="background: var(--danger); color: white;" onclick="UI.confirmDeletePartialPayment('${costId}', ${paymentIndex})">Löschen</button>
+                            <button class="btn" style="background: var(--danger); color: white;" onclick="UI.confirmDeletePartialPayment('${costId}', ${paymentIndex})">LÃ¶schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -6013,7 +6012,7 @@
 
                 this.closeModal();
                 this.renderCostsTab();
-                this.showAlert('Teilzahlung wurde gelöscht.');
+                this.showAlert('Teilzahlung wurde gelÃ¶scht.');
             },
 
             saveAddCost() {
@@ -6026,7 +6025,7 @@
                 const partialPayments = this.getPartialPaymentsFromForm();
 
                 if (!description || !date || isNaN(amount) || amount < 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -6079,7 +6078,7 @@
                         <div id="partial-payments-field" style="display: none;">
                             <label class="text-sm font-medium">Teilzahlungen (nur informativ)</label>
                             <div id="partial-payments-list" style="margin-bottom: 0.5rem;"></div>
-                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufügen</button>
+                            <button type="button" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.addPartialPaymentRow()">+ Teilzahlung hinzufÃ¼gen</button>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
@@ -6092,7 +6091,7 @@
                         <div>
                             <label class="text-sm font-medium">Betrag (${project.currency}) *</label>
                             <input type="number" id="modal-edit-cost-amount" step="0.01" min="0" value="${cost.amount}" placeholder="0.00" required>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">TatsÃ¤chlich angefallene Kosten (IST)</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditCost('${costId}')">Speichern</button>
@@ -6132,7 +6131,7 @@
                 const partialPayments = this.getPartialPaymentsFromForm();
 
                 if (!description || !date || isNaN(amount) || amount < 0) {
-                    this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Felder korrekt aus.');
                     return;
                 }
 
@@ -6155,7 +6154,7 @@
             },
 
             showAddMilestoneModal() {
-                const modal = this.createModal('Meilenstein hinzufügen', `
+                const modal = this.createModal('Meilenstein hinzufÃ¼gen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
@@ -6200,7 +6199,7 @@
                 const progress = parseInt(document.getElementById('modal-milestone-progress').value);
 
                 if (!name || !plannedDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -6221,7 +6220,7 @@
                 this.closeModal();
                 this.renderMilestonesTab();
                 this.renderOverviewTab();
-                this.showAlert('Meilenstein wurde hinzugefügt.');
+                this.showAlert('Meilenstein wurde hinzugefÃ¼gt.');
             },
 
             showAddRiskModal() {
@@ -6346,7 +6345,7 @@
                                 <option value="">Nicht zugewiesen</option>
                                 ${responsibleOptions}
                             </select>
-                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? Fügen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
+                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? FÃ¼gen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -6364,7 +6363,7 @@
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <label class="text-sm font-medium">Priorität</label>
+                                <label class="text-sm font-medium">PrioritÃ¤t</label>
                                 <select id="modal-task-priority">
                                     <option value="low">Niedrig</option>
                                     <option value="medium" selected>Mittel</option>
@@ -6392,11 +6391,11 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Abhängigkeiten (Finish-to-Start)</label>
+                            <label class="text-sm font-medium">AbhÃ¤ngigkeiten (Finish-to-Start)</label>
                             <select id="modal-task-dependencies" multiple size="3">
                                 ${tasksOptions || '<option disabled>Keine anderen Aufgaben vorhanden</option>'}
                             </select>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen (Strg/Cmd + Klick für mehrere)</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">WÃ¤hlen Sie Aufgaben aus, die vor dieser abgeschlossen sein mÃ¼ssen (Strg/Cmd + Klick fÃ¼r mehrere)</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveAddTask()">Speichern</button>
@@ -6417,7 +6416,7 @@
                 const status = document.getElementById('modal-task-status').value;
 
                 if (!name || !startDate || !endDate) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
@@ -6490,7 +6489,7 @@
                                 <option value="">Nicht zugewiesen</option>
                                 ${responsibleOptions}
                             </select>
-                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? Fügen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
+                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">?? FÃ¼gen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -6508,7 +6507,7 @@
                         </div>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <label class="text-sm font-medium">Priorität</label>
+                                <label class="text-sm font-medium">PrioritÃ¤t</label>
                                 <select id="modal-task-priority">
                                     <option value="low" ${task.priority === 'low' ? 'selected' : ''}>Niedrig</option>
                                     <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>Mittel</option>
@@ -6536,15 +6535,15 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Abhängigkeiten (Finish-to-Start)</label>
+                            <label class="text-sm font-medium">AbhÃ¤ngigkeiten (Finish-to-Start)</label>
                             <select id="modal-task-dependencies" multiple size="3">
                                 ${tasksOptions || '<option disabled>Keine anderen Aufgaben vorhanden</option>'}
                             </select>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen</p>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">WÃ¤hlen Sie Aufgaben aus, die vor dieser abgeschlossen sein mÃ¼ssen</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditTask('${task.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteTask('${task.id}')">Löschen</button>
+                            <button class="btn" onclick="UI.deleteTask('${task.id}')">LÃ¶schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -6610,7 +6609,7 @@
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditMilestone('${milestone.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteMilestone('${milestone.id}')">Löschen</button>
+                            <button class="btn" onclick="UI.deleteMilestone('${milestone.id}')">LÃ¶schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -6680,7 +6679,7 @@
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditRisk('${risk.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteRisk('${risk.id}')">Löschen</button>
+                            <button class="btn" onclick="UI.deleteRisk('${risk.id}')">LÃ¶schen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
@@ -6759,9 +6758,9 @@
                             </div>
                         </div>
                         <div id="forecast-comment-container" class="hidden">
-                            <label class="text-sm font-medium" style="color: var(--warning);">Kommentar zur Forecast-Änderung *</label>
-                            <textarea id="modal-forecast-comment" rows="3" placeholder="Bitte begründen Sie die Änderung des Forecasts..." required></textarea>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Pflichtfeld bei Änderung des Forecasts</p>
+                            <label class="text-sm font-medium" style="color: var(--warning);">Kommentar zur Forecast-Ã„nderung *</label>
+                            <textarea id="modal-forecast-comment" rows="3" placeholder="Bitte begrÃ¼nden Sie die Ã„nderung des Forecasts..." required></textarea>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Pflichtfeld bei Ã„nderung des Forecasts</p>
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditBudget()">Speichern</button>
@@ -6835,7 +6834,7 @@
                 if (forecastChanged) {
                     const comment = document.getElementById('modal-forecast-comment').value.trim();
                     if (!comment) {
-                        this.showAlert('Bitte geben Sie einen Kommentar zur Forecast-Änderung ein.');
+                        this.showAlert('Bitte geben Sie einen Kommentar zur Forecast-Ã„nderung ein.');
                         return;
                     }
 
@@ -6890,7 +6889,7 @@
                 const teamMembers = AppState.members.filter(m => teamMemberIds.includes(m.id));
 
                 if (teamMembers.length === 0) {
-                    this.showAlert('Es sind keine Teammitglieder in diesem Projekt vorhanden. Bitte fügen Sie zuerst Mitglieder zum Projektteam hinzu.');
+                    this.showAlert('Es sind keine Teammitglieder in diesem Projekt vorhanden. Bitte fÃ¼gen Sie zuerst Mitglieder zum Projektteam hinzu.');
                     return;
                 }
 
@@ -6924,18 +6923,18 @@
                 membersWithAvailability.sort((a, b) => b.remainingCapacity - a.remainingCapacity);
 
                 const membersOptions = membersWithAvailability.map(m =>
-                    `<option value="${m.id}">${m.indicator} ${this.escapeHtml(m.name)} – ${m.remainingCapacity}% frei (${m.effectiveCapacity}% effektiv)</option>`
+                    `<option value="${m.id}">${m.indicator} ${this.escapeHtml(m.name)} Â– ${m.remainingCapacity}% frei (${m.effectiveCapacity}% effektiv)</option>`
                 ).join('');
 
                 const modal = this.createModal('Ressource buchen', `
                     <div class="grid gap-4">
                         <div style="padding: 0.75rem; background: var(--bg-tertiary); border-radius: 0.5rem; border-left: 4px solid var(--primary); margin-bottom: 0.5rem;">
-                            <strong>?? Verfügbarkeit:</strong> Die angezeigten Werte zeigen die aktuelle freie Kapazität nach Abzug aller Buchungen in anderen Projekten.
+                            <strong>?? VerfÃ¼gbarkeit:</strong> Die angezeigten Werte zeigen die aktuelle freie KapazitÃ¤t nach Abzug aller Buchungen in anderen Projekten.
                         </div>
                         <div>
                             <label class="text-sm font-medium">Ressource *</label>
                             <select id="modal-booking-member" required>
-                                <option value="">Bitte wählen...</option>
+                                <option value="">Bitte wÃ¤hlen...</option>
                                 ${membersOptions}
                             </select>
                         </div>
@@ -6953,7 +6952,7 @@
                             <label class="text-sm font-medium">Auslastung in % *</label>
                             <input type="number" id="modal-booking-capacity" min="0" max="100" step="5" placeholder="z.B. 50" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Prozent der verfügbaren Kapazität (z.B. 50% einer 80%-Kapazität = 40% Gesamtauslastung)
+                                Prozent der verfÃ¼gbaren KapazitÃ¤t (z.B. 50% einer 80%-KapazitÃ¤t = 40% Gesamtauslastung)
                             </p>
                         </div>
                         <div>
@@ -6989,9 +6988,9 @@
                     if (newUtilization > member.availableCapacity) {
                         warningContainer.classList.remove('hidden');
                         warningContainer.innerHTML = `
-                            <strong>? WARNUNG: Überbuchung!</strong><br>
+                            <strong>? WARNUNG: Ãœberbuchung!</strong><br>
                             Ressource ${this.escapeHtml(member.name)} wird zu ${newUtilization}% verplant
-                            (verfügbar: ${member.availableCapacity}%).
+                            (verfÃ¼gbar: ${member.availableCapacity}%).
                         `;
                     } else {
                         warningContainer.classList.add('hidden');
@@ -7012,20 +7011,20 @@
                 const description = document.getElementById('modal-booking-description').value;
 
                 if (!memberId || !startDate || !endDate || !capacityPercent) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
                 // NEW: Check if member is in project team
                 if (!AppState.isInProjectTeam(AppState.currentProjectId, memberId)) {
-                    this.showAlert('Fehler: Nur Mitglieder des Projektteams können gebucht werden.');
+                    this.showAlert('Fehler: Nur Mitglieder des Projektteams kÃ¶nnen gebucht werden.');
                     return;
                 }
 
                 // NEW: Validate booking dates against project timeframe
                 const project = AppState.getProject(AppState.currentProjectId);
                 if (!project) {
-                    this.showAlert('Fehler: Kein Projekt ausgewählt.');
+                    this.showAlert('Fehler: Kein Projekt ausgewÃ¤hlt.');
                     return;
                 }
 
@@ -7037,13 +7036,13 @@
                 if (bookingStart < projectStart || bookingEnd > projectEnd) {
                     this.showAlert(
                         `Die Ressource kann nur innerhalb des Projektzeitraums gebucht werden.\n\n` +
-                        `Projekt: ${this.formatDate(project.startDate)} – ${this.formatDate(project.endDate || project.plannedEndDate)}\n` +
-                        `Ihre Buchung: ${this.formatDate(startDate)} – ${this.formatDate(endDate)}`
+                        `Projekt: ${this.formatDate(project.startDate)} Â– ${this.formatDate(project.endDate || project.plannedEndDate)}\n` +
+                        `Ihre Buchung: ${this.formatDate(startDate)} Â– ${this.formatDate(endDate)}`
                     );
                     return;
                 }
 
-                // NEW: Überbuchungsschutz - Blockierung bei Überbuchung
+                // NEW: Ãœberbuchungsschutz - Blockierung bei Ãœberbuchung
                 const member = AppState.members.find(m => m.id === memberId);
                 if (!member) {
                     this.showAlert('Fehler: Ressource nicht gefunden.');
@@ -7053,13 +7052,13 @@
                 const utilization = AppState.calculateResourceUtilization(memberId, startDate, endDate);
                 const newUtilization = utilization.utilization + capacityPercent;
 
-                // NEW: Überbuchung erlaubt, aber mit deutlicher Warnung
+                // NEW: Ãœberbuchung erlaubt, aber mit deutlicher Warnung
                 let overbookingWarning = '';
                 if (newUtilization > member.availableCapacity) {
-                    overbookingWarning = `\n\n?? WARNUNG: ÜBERBUCHUNG!\n` +
-                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfügbar: ${member.availableCapacity}%).\n` +
-                        `Überschreitung: ${newUtilization - member.availableCapacity}%\n` +
-                        `Die Buchung wird trotzdem durchgeführt.`;
+                    overbookingWarning = `\n\n?? WARNUNG: ÃœBERBUCHUNG!\n` +
+                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfÃ¼gbar: ${member.availableCapacity}%).\n` +
+                        `Ãœberschreitung: ${newUtilization - member.availableCapacity}%\n` +
+                        `Die Buchung wird trotzdem durchgefÃ¼hrt.`;
                 }
 
                 const newBooking = {
@@ -7081,7 +7080,7 @@
             },
 
             deleteResourceBooking(id) {
-                this.showConfirmDialog('Möchten Sie diese Ressourcenbuchung wirklich löschen?', () => {
+                this.showConfirmDialog('MÃ¶chten Sie diese Ressourcenbuchung wirklich lÃ¶schen?', () => {
                     AppState.resourceBookings = AppState.resourceBookings.filter(b => b.id !== id);
                     AppState.save();
                     this.renderResourcesTab();
@@ -7127,15 +7126,15 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Kapazität (%) *</label>
+                            <label class="text-sm font-medium">KapazitÃ¤t (%) *</label>
                             <input type="number" id="modal-edit-booking-capacity" min="0" max="100" step="5" value="${booking.capacityPercent}" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                                Wie viel Prozent der verfügbaren Kapazität wird gebucht?
+                                Wie viel Prozent der verfÃ¼gbaren KapazitÃ¤t wird gebucht?
                             </p>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-edit-booking-description" rows="2" placeholder="Optional: Beschreibung der Tätigkeit">${this.escapeHtml(booking.description || '')}</textarea>
+                            <textarea id="modal-edit-booking-description" rows="2" placeholder="Optional: Beschreibung der TÃ¤tigkeit">${this.escapeHtml(booking.description || '')}</textarea>
                         </div>
                         <div id="edit-booking-warning-container" class="hidden p-4" style="background: var(--warning); color: white; border-radius: 0.5rem;">
                             <!-- Warning will be inserted here -->
@@ -7167,9 +7166,9 @@
                     if (newUtilization > member.availableCapacity) {
                         warningContainer.classList.remove('hidden');
                         warningContainer.innerHTML = `
-                            <strong>? WARNUNG: Überbuchung!</strong><br>
+                            <strong>? WARNUNG: Ãœberbuchung!</strong><br>
                             Ressource ${this.escapeHtml(member.name)} wird zu ${newUtilization}% verplant
-                            (verfügbar: ${member.availableCapacity}%).
+                            (verfÃ¼gbar: ${member.availableCapacity}%).
                         `;
                     } else {
                         warningContainer.classList.add('hidden');
@@ -7200,20 +7199,20 @@
                 const description = document.getElementById('modal-edit-booking-description').value;
 
                 if (!memberId || !startDate || !endDate || !capacityPercent) {
-                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    this.showAlert('Bitte fÃ¼llen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
                 // Check if member is in project team
                 if (!AppState.isInProjectTeam(AppState.currentProjectId, memberId)) {
-                    this.showAlert('Fehler: Nur Mitglieder des Projektteams können gebucht werden.');
+                    this.showAlert('Fehler: Nur Mitglieder des Projektteams kÃ¶nnen gebucht werden.');
                     return;
                 }
 
                 // Validate booking dates against project timeframe
                 const project = AppState.getProject(AppState.currentProjectId);
                 if (!project) {
-                    this.showAlert('Fehler: Kein Projekt ausgewählt.');
+                    this.showAlert('Fehler: Kein Projekt ausgewÃ¤hlt.');
                     return;
                 }
 
@@ -7225,8 +7224,8 @@
                 if (bookingStart < projectStart || bookingEnd > projectEnd) {
                     this.showAlert(
                         `Die Ressource kann nur innerhalb des Projektzeitraums gebucht werden.\n\n` +
-                        `Projekt: ${this.formatDate(project.startDate)} – ${this.formatDate(project.endDate || project.plannedEndDate)}\n` +
-                        `Ihre Buchung: ${this.formatDate(startDate)} – ${this.formatDate(endDate)}`
+                        `Projekt: ${this.formatDate(project.startDate)} Â– ${this.formatDate(project.endDate || project.plannedEndDate)}\n` +
+                        `Ihre Buchung: ${this.formatDate(startDate)} Â– ${this.formatDate(endDate)}`
                     );
                     return;
                 }
@@ -7244,10 +7243,10 @@
                 // Overbooking warning
                 let overbookingWarning = '';
                 if (newUtilization > member.availableCapacity) {
-                    overbookingWarning = `\n\n?? WARNUNG: ÜBERBUCHUNG!\n` +
-                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfügbar: ${member.availableCapacity}%).\n` +
-                        `Überschreitung: ${newUtilization - member.availableCapacity}%\n` +
-                        `Die Änderung wird trotzdem gespeichert.`;
+                    overbookingWarning = `\n\n?? WARNUNG: ÃœBERBUCHUNG!\n` +
+                        `Ressource "${member.name}" wird zu ${newUtilization}% ausgelastet (verfÃ¼gbar: ${member.availableCapacity}%).\n` +
+                        `Ãœberschreitung: ${newUtilization - member.availableCapacity}%\n` +
+                        `Die Ã„nderung wird trotzdem gespeichert.`;
                 }
 
                 // Update booking
@@ -7261,7 +7260,7 @@
 
                 this.closeModal();
                 this.renderResourcesTab();
-                this.showAlert(`? Buchung für "${member.name}" wurde erfolgreich aktualisiert (${capacityPercent}%).${overbookingWarning}`);
+                this.showAlert(`? Buchung fÃ¼r "${member.name}" wurde erfolgreich aktualisiert (${capacityPercent}%).${overbookingWarning}`);
             },
 
             createModal(title, content, buttons = [], options = {}) {
@@ -7363,7 +7362,7 @@
                             <p style="margin-bottom: 1.5rem; color: var(--text-primary);">${this.escapeHtml(message)}</p>
                             <div class="flex gap-4" style="justify-content: flex-end;">
                                 <button class="btn" id="confirm-cancel">Abbrechen</button>
-                                <button class="btn" id="confirm-ok" style="background: var(--danger); color: white; border-color: var(--danger);">Löschen</button>
+                                <button class="btn" id="confirm-ok" style="background: var(--danger); color: white; border-color: var(--danger);">LÃ¶schen</button>
                             </div>
                         </div>
                     </div>
@@ -7395,7 +7394,7 @@
             // ============================================================
 
             deleteCost(id) {
-                this.showConfirmDialog('Möchten Sie diese Kostenposition wirklich löschen?', () => {
+                this.showConfirmDialog('MÃ¶chten Sie diese Kostenposition wirklich lÃ¶schen?', () => {
                     AppState.costs = AppState.costs.filter(c => c.id !== id);
                     AppState.save();
                     this.renderCostsTab();
@@ -7404,7 +7403,7 @@
             },
 
             deleteMilestone(id) {
-                this.showConfirmDialog('Möchten Sie diesen Meilenstein wirklich löschen?', () => {
+                this.showConfirmDialog('MÃ¶chten Sie diesen Meilenstein wirklich lÃ¶schen?', () => {
                     AppState.milestones = AppState.milestones.filter(m => m.id !== id);
                     AppState.save();
                     this.renderMilestonesTab();
@@ -7413,7 +7412,7 @@
             },
 
             deleteRisk(id) {
-                this.showConfirmDialog('Möchten Sie dieses Risiko wirklich löschen?', () => {
+                this.showConfirmDialog('MÃ¶chten Sie dieses Risiko wirklich lÃ¶schen?', () => {
                     AppState.risks = AppState.risks.filter(r => r.id !== id);
                     AppState.save();
                     this.renderRisksTab();
@@ -7422,7 +7421,7 @@
             },
 
             deleteTask(id) {
-                this.showConfirmDialog('Möchten Sie diese Aufgabe wirklich löschen?', () => {
+                this.showConfirmDialog('MÃ¶chten Sie diese Aufgabe wirklich lÃ¶schen?', () => {
                     AppState.tasks = AppState.tasks.filter(t => t.id !== id);
                     AppState.save();
                     this.closeModal();
@@ -7440,7 +7439,7 @@
 
             renderSOPWithColor(project) {
                 if (!project.sopCurrentDate) {
-                    return '<span style="color: var(--text-secondary);">–</span>';
+                    return '<span style="color: var(--text-secondary);">Â–</span>';
                 }
 
                 const sopCurrent = new Date(project.sopCurrentDate);
@@ -7514,7 +7513,7 @@
                     doc.setTextColor(0, 0, 0);
                     yPos += 6;
 
-                    // Priorität
+                    // PrioritÃ¤t
                     doc.text(`Prio: ${project.priority || '-'}`, 20, yPos);
                     yPos += 6;
 
@@ -7535,7 +7534,7 @@
 
                         if (sopBaseline) {
                             if (sopCurrent > sopBaseline) {
-                                sopIndicator = ' (verzögert)';
+                                sopIndicator = ' (verzÃ¶gert)';
                             } else if (sopCurrent < sopBaseline) {
                                 sopIndicator = ' (vorgezogen)';
                             }
@@ -7546,7 +7545,7 @@
                     }
                     yPos += 4;
 
-                    // Kosten-Daten für Balkendiagramm vorbereiten
+                    // Kosten-Daten fÃ¼r Balkendiagramm vorbereiten
                     const costs = AppState.getProjectCosts(project.id);
                     const costsByCategory = AppState.getProjectCostsByCategory(project.id);
                     const totalActual = costs.reduce((sum, c) => sum + (c.amount || 0), 0);
@@ -7556,11 +7555,11 @@
                     // Vertikales Kosten-Balkendiagramm (Budget / IST / Forecast)
                     try {
                         doc.setFont('helvetica', 'bold');
-                        doc.text('Kostenübersicht:', 20, yPos);
+                        doc.text('KostenÃ¼bersicht:', 20, yPos);
                         yPos += 8;
 
                         const maxValue = Math.max(budget, totalActual, totalForecast);
-                        const chartHeight = 60; // Höhe des Diagramms
+                        const chartHeight = 60; // HÃ¶he des Diagramms
                         const barWidth = 25; // Breite jedes Balkens
                         const spacing = 15; // Abstand zwischen Balken
                         const chartBaseY = yPos + chartHeight; // Grundlinie des Diagramms
@@ -7631,7 +7630,7 @@
 
                             const impactColor = risk.impact === 'critical' || risk.impact === 'high' ? [239, 68, 68] : risk.impact === 'medium' ? [251, 191, 36] : [34, 197, 94];
                             doc.setTextColor(...impactColor);
-                            doc.text(`• ${risk.title || risk.description}`, 25, yPos);
+                            doc.text(`Â• ${risk.title || risk.description}`, 25, yPos);
                             doc.setTextColor(0, 0, 0);
                             yPos += 5;
                             doc.setFontSize(8);
@@ -7699,7 +7698,7 @@
                 try {
                     const project = AppState.getProject(AppState.currentProjectId);
                     if (!project) {
-                        this.showAlert('Kein Projekt ausgewählt.');
+                        this.showAlert('Kein Projekt ausgewÃ¤hlt.');
                         return;
                     }
 
@@ -7944,9 +7943,9 @@
 	    const response = await originalFetch(...args);
 	
 	    if (response.status === 401 && response.url.includes('/api/state')) {
-	        console.warn("Nicht eingeloggt – Redirect zu Microsoft Login...");
+	        console.warn("Nicht eingeloggt Â– Redirect zu Microsoft Login...");
 	        window.location.href = '/.auth/login/aad';
-	        throw new Error('Unauthorized – redirecting to login');
+	        throw new Error('Unauthorized Â– redirecting to login');
 	    }
 	
 	    return response;
@@ -7967,7 +7966,7 @@
 	    let unauthorized = false;
 	
 	    try {
-	        // State laden – hier kommen 401, 500, etc. rein
+	        // State laden Â– hier kommen 401, 500, etc. rein
 	        await AppState.load();
 	
 	        // UI initialisieren
@@ -8032,7 +8031,7 @@
             const AppState = window.AppState;
             if (!AppState) return;
 
-            // WICHTIG: Nur ausführen, wenn noch keine Buchungen vorhanden
+            // WICHTIG: Nur ausfÃ¼hren, wenn noch keine Buchungen vorhanden
             // Wenn bereits Demo-Daten existieren, nicht nochmal laden
             if (AppState.resourceBookings.length > 0) {
                 console.log('?? Demo-Daten bereits vorhanden (' + AppState.resourceBookings.length + ' Buchungen)');
@@ -8064,39 +8063,39 @@
                     { id: AppState.generateId(), projectId: p1.id, memberId: team1[5].id, startDate: '2025-04-01', endDate: '2025-06-30', capacityPercent: 60, description: 'Dokumentation' }
                 );
                 [
-                    { name: 'Gate 1 – Projekt-Vorbereitung', date: '2025-02-01', status: 'completed', description: 'Projektfreigabe' },
-                    { name: 'Gate 2 – Definition/Konzept', date: '2025-04-30', status: 'completed', description: 'Konzeptfreigabe' },
-                    { name: 'Gate 3 – Entwicklung/Konstruktion', date: '2025-08-31', status: 'pending', description: 'Design Freeze' },
-                    { name: 'Gate 4 – Industrialisierung/Qualifikation', date: '2026-02-28', status: 'pending', description: 'Prozessqualifikation' },
-                    { name: 'Gate 5 – Markteinführung/Serie', date: '2026-07-31', status: 'pending', description: 'Produktionsfreigabe' },
+                    { name: 'Gate 1 Â– Projekt-Vorbereitung', date: '2025-02-01', status: 'completed', description: 'Projektfreigabe' },
+                    { name: 'Gate 2 Â– Definition/Konzept', date: '2025-04-30', status: 'completed', description: 'Konzeptfreigabe' },
+                    { name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2025-08-31', status: 'pending', description: 'Design Freeze' },
+                    { name: 'Gate 4 Â– Industrialisierung/Qualifikation', date: '2026-02-28', status: 'pending', description: 'Prozessqualifikation' },
+                    { name: 'Gate 5 Â– MarkteinfÃ¼hrung/Serie', date: '2026-07-31', status: 'pending', description: 'Produktionsfreigabe' },
                     { name: 'SOP (Start of Production)', date: '2026-09-30', status: 'pending', description: 'Serienproduktion startet' }
                 ].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p1.id, name: ms.name, date: ms.date, status: ms.status, description: ms.description }));
                 [
                     { name: 'Druckkammer-Design finalisieren', status: 'done', startDate: '2025-02-01', endDate: '2025-04-15', progress: 100, responsible: team1[0].id, priority: 'high', duration: 73 },
-                    { name: 'EMV-Tests durchführen', status: 'in_progress', startDate: '2025-04-15', endDate: '2025-06-30', progress: 65, responsible: team1[4].id, priority: 'high', duration: 76 },
+                    { name: 'EMV-Tests durchfÃ¼hren', status: 'in_progress', startDate: '2025-04-15', endDate: '2025-06-30', progress: 65, responsible: team1[4].id, priority: 'high', duration: 76 },
                     { name: 'Lieferantenauswahl Dichtungen', status: 'done', startDate: '2025-02-15', endDate: '2025-04-30', progress: 100, responsible: team1[1].id, priority: 'medium', duration: 74 },
                     { name: 'Kalibrier-Protokoll erstellen', status: 'in_progress', startDate: '2025-05-01', endDate: '2025-07-15', progress: 50, responsible: team1[4].id, priority: 'high', duration: 75 },
                     { name: 'Produktionslinie-Layout', status: 'open', startDate: '2025-08-01', endDate: '2026-01-31', progress: 0, responsible: team1[3].id, priority: 'medium', duration: 183 },
                     { name: 'Technische Dokumentation', status: 'open', startDate: '2026-02-01', endDate: '2026-09-15', progress: 0, responsible: team1[5].id, priority: 'medium', duration: 227 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p1.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2024-04-01', dependencies: [] }));
                 [
-                    { title: 'Lieferverzögerung Spezial-Stahl', probability: 'medium', impact: 'high', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten evaluiert' },
-                    { title: 'EMV-Anforderungen nicht erreicht', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Zusätzliche Schirmung implementiert' },
-                    { title: 'Kostenüberschreitung Werkzeugbau', probability: 'high', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Alternate supplier sourcing' }
+                    { title: 'LieferverzÃ¶gerung Spezial-Stahl', probability: 'medium', impact: 'high', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten evaluiert' },
+                    { title: 'EMV-Anforderungen nicht erreicht', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'ZusÃ¤tzliche Schirmung implementiert' },
+                    { title: 'KostenÃ¼berschreitung Werkzeugbau', probability: 'high', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Alternate supplier sourcing' }
                 ].forEach(r => AppState.risks.push({ id: AppState.generateId(), projectId: p1.id, title: r.title, description: r.mitigation, probability: r.probability, impact: r.impact, category: r.category, status: r.status, mitigation: r.mitigation, owner: team1[0].id }));
                 AppState.costs.push(
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-05-15', type: 'internal_hours', category: 'Entwicklung', amount: 35000, description: 'Entwicklungsstunden Q2' },
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-08-20', type: 'internal_hours', category: 'Entwicklung', amount: 45000, description: 'Entwicklungsstunden Q3' },
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-11-10', type: 'internal_hours', category: 'Entwicklung', amount: 52000, description: 'Entwicklungsstunden Q4' },
                     { id: AppState.generateId(), projectId: p1.id, date: '2024-09-05', type: 'external_service', category: 'Extern', amount: 18000, description: 'FEM-Analyse extern' },
-                    { id: AppState.generateId(), projectId: p1.id, date: '2024-10-12', type: 'investment', category: 'Investitionen', amount: 78000, description: 'Prüfstand Hochdruckbereich' }
+                    { id: AppState.generateId(), projectId: p1.id, date: '2024-10-12', type: 'investment', category: 'Investitionen', amount: 78000, description: 'PrÃ¼fstand Hochdruckbereich' }
                 );
             }
 
             // Projekt 2: Miniatur-Drucksensor MDS-100
             const p2 = findProject('MDS-100');
             if (p2) {
-                const team2 = [findMember('Julia Schneider'), findMember('Petra Wagner'), findMember('Anna Graf'), findMember('Christina Müller')].filter(m => m);
+                const team2 = [findMember('Julia Schneider'), findMember('Petra Wagner'), findMember('Anna Graf'), findMember('Christina MÃ¼ller')].filter(m => m);
                 team2.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p2.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-09-15' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p2.id, memberId: team2[0].id, startDate: '2024-09-15', endDate: '2025-01-15', capacityPercent: 65, description: 'Mechanik-Design' },
@@ -8105,29 +8104,29 @@
                     { id: AppState.generateId(), projectId: p2.id, memberId: team2[3].id, startDate: '2025-03-01', endDate: '2025-04-30', capacityPercent: 70, description: 'Prozessplanung' }
                 );
                 [
-                    { name: 'Gate 1 – Projekt-Vorbereitung', date: '2025-02-15', status: 'completed' },
-                    { name: 'Gate 2 – Definition/Konzept', date: '2025-05-31', status: 'completed' },
-                    { name: 'Gate 3 – Entwicklung/Konstruktion', date: '2025-09-30', status: 'pending' },
-                    { name: 'Gate 4 – Industrialisierung/Qualifikation', date: '2026-01-31', status: 'pending' },
+                    { name: 'Gate 1 Â– Projekt-Vorbereitung', date: '2025-02-15', status: 'completed' },
+                    { name: 'Gate 2 Â– Definition/Konzept', date: '2025-05-31', status: 'completed' },
+                    { name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2025-09-30', status: 'pending' },
+                    { name: 'Gate 4 Â– Industrialisierung/Qualifikation', date: '2026-01-31', status: 'pending' },
                     { name: 'SOP (Start of Production)', date: '2026-03-31', status: 'pending' }
                 ].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p2.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
-                    { name: 'Biokompatibilitäts-Tests', status: 'in_progress', startDate: '2025-03-01', endDate: '2025-05-31', progress: 70, responsible: team2[2].id, priority: 'critical', duration: 91 },
+                    { name: 'BiokompatibilitÃ¤ts-Tests', status: 'in_progress', startDate: '2025-03-01', endDate: '2025-05-31', progress: 70, responsible: team2[2].id, priority: 'critical', duration: 91 },
                     { name: 'Miniaturisierung Sensorchip', status: 'in_progress', startDate: '2025-02-15', endDate: '2025-06-30', progress: 55, responsible: team2[1].id, priority: 'high', duration: 135 },
-                    { name: 'Gehäuse-Prototypen', status: 'open', startDate: '2025-07-01', endDate: '2025-11-30', progress: 20, responsible: team2[0].id, priority: 'medium', duration: 152 },
+                    { name: 'GehÃ¤use-Prototypen', status: 'open', startDate: '2025-07-01', endDate: '2025-11-30', progress: 20, responsible: team2[0].id, priority: 'medium', duration: 152 },
                     { name: 'Zulassungsdokumentation', status: 'open', startDate: '2025-12-01', endDate: '2026-03-15', progress: 0, responsible: team2[0].id, priority: 'high', duration: 104 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p2.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-02-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p2.id, title: 'Zulassungsverfahren verzögert', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Frühzeitige Abstimmung mit Behörden', owner: team2[0].id },
+                    { id: AppState.generateId(), projectId: p2.id, title: 'Zulassungsverfahren verzÃ¶gert', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'FrÃ¼hzeitige Abstimmung mit BehÃ¶rden', owner: team2[0].id },
                     { id: AppState.generateId(), projectId: p2.id, title: 'Miniaturisierung technisch nicht machbar', probability: 'low', impact: 'critical', category: 'Technisch', status: 'mitigated', mitigation: 'Alternative Chip-Technologie identifiziert', owner: team2[1].id }
                 );
                 AppState.costs.push(
                     { id: AppState.generateId(), projectId: p2.id, date: '2024-10-20', type: 'internal_hours', amount: 12000, description: 'Entwicklungskosten Q4' },
-                    { id: AppState.generateId(), projectId: p2.id, date: '2024-11-15', type: 'external_service', amount: 8500, description: 'Biokompatibilitätstests extern' }
+                    { id: AppState.generateId(), projectId: p2.id, date: '2024-11-15', type: 'external_service', amount: 8500, description: 'BiokompatibilitÃ¤tstests extern' }
                 );
             }
 
-            // Projekt 3-10 (kompakte Version für Dateigröße)
+            // Projekt 3-10 (kompakte Version fÃ¼r DateigrÃ¶ÃŸe)
             const p3 = findProject('IGW-2024');
             if (p3) {
                 const team3 = [findMember('Stefan Weber'), findMember('Martin Schulz'), findMember('Petra Wagner'), findMember('Benjamin Koch'), findMember('Sarah Fischer')].filter(m => m);
@@ -8139,7 +8138,7 @@
                     { id: AppState.generateId(), projectId: p3.id, memberId: team3[3].id, startDate: '2025-02-15', endDate: '2025-08-31', capacityPercent: 90, description: 'System-Integration' },
                     { id: AppState.generateId(), projectId: p3.id, memberId: team3[4].id, startDate: '2025-05-01', endDate: '2025-08-31', capacityPercent: 65, description: 'Dokumentation' }
                 );
-                [{ name: 'Gate 2 – Definition/Konzept', date: '2025-04-30', status: 'completed' }, { name: 'Gate 3 – Entwicklung/Konstruktion', date: '2025-10-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-06-30', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p3.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 2 Â– Definition/Konzept', date: '2025-04-30', status: 'completed' }, { name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2025-10-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-06-30', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p3.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Cloud-API Implementation', status: 'in_progress', startDate: '2025-04-01', endDate: '2025-07-31', progress: 60, responsible: team3[1].id, priority: 'high', duration: 121 },
                     { name: 'Funkzulassung (CE, FCC)', status: 'open', startDate: '2025-11-01', endDate: '2026-02-28', progress: 0, responsible: team3[3].id, priority: 'critical', duration: 119 },
@@ -8147,9 +8146,9 @@
                     { name: 'Feldtests', status: 'open', startDate: '2026-03-01', endDate: '2026-06-15', progress: 0, responsible: team3[2].id, priority: 'medium', duration: 106 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p3.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-03-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p3.id, title: 'Funkzulassung verzögert sich', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Externe Zulassungsberatung beauftragt', owner: team3[3].id },
+                    { id: AppState.generateId(), projectId: p3.id, title: 'Funkzulassung verzÃ¶gert sich', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Externe Zulassungsberatung beauftragt', owner: team3[3].id },
                     { id: AppState.generateId(), projectId: p3.id, title: 'LoRa-Reichweite unter Erwartung', probability: 'low', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Alternative Antennen-Design evaluieren', owner: team3[0].id },
-                    { id: AppState.generateId(), projectId: p3.id, title: 'Cloud-Provider Abhängigkeit', probability: 'low', impact: 'medium', category: 'Extern', status: 'mitigated', mitigation: 'Multi-Cloud-Strategie implementiert', owner: team3[1].id }
+                    { id: AppState.generateId(), projectId: p3.id, title: 'Cloud-Provider AbhÃ¤ngigkeit', probability: 'low', impact: 'medium', category: 'Extern', status: 'mitigated', mitigation: 'Multi-Cloud-Strategie implementiert', owner: team3[1].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p3.id, date: '2024-09-10', type: 'internal_hours', amount: 18000, description: 'Entwicklung Q3' }, { id: AppState.generateId(), projectId: p3.id, date: '2024-12-05', type: 'internal_hours', amount: 28000, description: 'Entwicklung Q4' });
             }
@@ -8166,7 +8165,7 @@
                     { id: AppState.generateId(), projectId: p4.id, memberId: team4[4].id, startDate: '2024-12-01', endDate: '2025-12-31', capacityPercent: 50, description: 'Testing' },
                     { id: AppState.generateId(), projectId: p4.id, memberId: team4[5].id, startDate: '2025-01-01', endDate: '2025-09-30', capacityPercent: 40, description: 'Support' }
                 );
-                [{ name: 'Gate 2 – Definition/Konzept', date: '2025-06-30', status: 'pending' }, { name: 'Gate 3 – Entwicklung/Konstruktion', date: '2026-03-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2027-06-30', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p4.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 2 Â– Definition/Konzept', date: '2025-06-30', status: 'pending' }, { name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2026-03-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2027-06-30', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p4.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Anforderungskatalog finalisieren', status: 'in_progress', startDate: '2025-01-15', endDate: '2025-05-31', progress: 75, responsible: team4[0].id, priority: 'critical', duration: 136 },
                     { name: 'Konzept-Review', status: 'open', startDate: '2025-06-01', endDate: '2025-09-30', progress: 0, responsible: team4[1].id, priority: 'high', duration: 121 },
@@ -8174,7 +8173,7 @@
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p4.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-01-01', dependencies: [] }));
                 AppState.risks.push(
                     { id: AppState.generateId(), projectId: p4.id, title: 'Technologie-Reife nicht ausreichend', probability: 'high', impact: 'critical', category: 'Technisch', status: 'open', mitigation: 'Prototyp-Tests im Q1/2025 geplant', owner: team4[0].id },
-                    { id: AppState.generateId(), projectId: p4.id, title: 'Budget-Überschreitung wahrscheinlich', probability: 'medium', impact: 'high', category: 'Budget', status: 'open', mitigation: 'Monatliches Controlling etabliert', owner: team4[0].id }
+                    { id: AppState.generateId(), projectId: p4.id, title: 'Budget-Ãœberschreitung wahrscheinlich', probability: 'medium', impact: 'high', category: 'Budget', status: 'open', mitigation: 'Monatliches Controlling etabliert', owner: team4[0].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p4.id, date: '2024-11-25', type: 'internal_hours', amount: 25000, description: 'Konzeptphase Q4' });
             }
@@ -8188,17 +8187,17 @@
                     { id: AppState.generateId(), projectId: p5.id, memberId: team5[2].id, startDate: '2024-01-15', endDate: '2024-12-31', capacityPercent: 45, description: 'Software KI-Modul' },
                     { id: AppState.generateId(), projectId: p5.id, memberId: team5[3].id, startDate: '2024-09-01', endDate: '2025-01-31', capacityPercent: 55, description: 'Validierung' }
                 );
-                [{ name: 'Gate 5 – Markteinführung/Serie', date: '2026-08-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-10-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p5.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 5 Â– MarkteinfÃ¼hrung/Serie', date: '2026-08-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-10-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p5.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Produktions-Freigabe-Tests', status: 'in_progress', startDate: '2025-08-01', endDate: '2026-01-31', progress: 80, responsible: team5[3].id, priority: 'critical', duration: 183 },
                     { name: 'KI-Modul Training', status: 'done', startDate: '2025-04-15', endDate: '2025-08-31', progress: 100, responsible: team5[2].id, priority: 'high', duration: 138 },
                     { name: 'Produktionslinie Setup', status: 'in_progress', startDate: '2026-02-01', endDate: '2026-10-15', progress: 65, responsible: team5[0].id, priority: 'high', duration: 256 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p5.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-04-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p5.id, title: 'SOP-Verzögerung (Gate 5 delayed)', probability: 'high', impact: 'medium', category: 'Terminplan', status: 'open', mitigation: 'Zusätzliche Ressourcen für Freigabe-Tests', owner: team5[0].id },
+                    { id: AppState.generateId(), projectId: p5.id, title: 'SOP-VerzÃ¶gerung (Gate 5 delayed)', probability: 'high', impact: 'medium', category: 'Terminplan', status: 'open', mitigation: 'ZusÃ¤tzliche Ressourcen fÃ¼r Freigabe-Tests', owner: team5[0].id },
                     { id: AppState.generateId(), projectId: p5.id, title: 'KI-Modell Genauigkeit unter Ziel', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Erweiterte Trainingsdaten integriert', owner: team5[2].id }
                 );
-                AppState.costs.push({ id: AppState.generateId(), projectId: p5.id, date: '2024-06-15', type: 'internal_hours', amount: 32000, description: 'Entwicklung Q2' }, { id: AppState.generateId(), projectId: p5.id, date: '2024-07-12', type: 'investment', amount: 68000, description: 'Kalibrierausrüstung' });
+                AppState.costs.push({ id: AppState.generateId(), projectId: p5.id, date: '2024-06-15', type: 'internal_hours', amount: 32000, description: 'Entwicklung Q2' }, { id: AppState.generateId(), projectId: p5.id, date: '2024-07-12', type: 'investment', amount: 68000, description: 'KalibrierausrÃ¼stung' });
             }
 
             const p6 = findProject('TCM-X');
@@ -8206,10 +8205,10 @@
                 const team6 = [findMember('Martin Schulz'), findMember('Anna Graf')].filter(m => m);
                 team6.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p6.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-11-01' }));
                 AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p6.id, memberId: team6[0].id, startDate: '2024-11-01', endDate: '2025-05-31', capacityPercent: 40, description: 'Elektronik-Design' });
-                [{ name: 'Gate 3 – Entwicklung/Konstruktion', date: '2025-11-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-02-28', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p6.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2025-11-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-02-28', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p6.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Temperatur-Sensor Kalibrierung', status: 'in_progress', startDate: '2025-05-15', endDate: '2025-09-30', progress: 40, responsible: team6[0].id, priority: 'high', duration: 138 },
-                    { name: 'Extrem-Tests (-40°C bis +150°C)', status: 'open', startDate: '2025-10-01', endDate: '2026-02-15', progress: 0, responsible: team6[1].id, priority: 'critical', duration: 137 }
+                    { name: 'Extrem-Tests (-40Â°C bis +150Â°C)', status: 'open', startDate: '2025-10-01', endDate: '2026-02-15', progress: 0, responsible: team6[1].id, priority: 'critical', duration: 137 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p6.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-05-01', dependencies: [] }));
                 AppState.risks.push(
                     { id: AppState.generateId(), projectId: p6.id, title: 'Extremtemperatur-Tests schlagen fehl', probability: 'medium', impact: 'critical', category: 'Technisch', status: 'open', mitigation: 'Material-Alternativen in Evaluation', owner: team6[0].id },
@@ -8226,7 +8225,7 @@
                     { id: AppState.generateId(), projectId: p7.id, memberId: team7[0].id, startDate: '2024-05-15', endDate: '2025-07-31', capacityPercent: 35, description: 'Software-Architektur' },
                     { id: AppState.generateId(), projectId: p7.id, memberId: team7[1].id, startDate: '2024-06-01', endDate: '2025-07-31', capacityPercent: 50, description: 'Backend-Development' }
                 );
-                [{ name: 'Gate 4 – Industrialisierung/Qualifikation', date: '2026-10-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-12-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p7.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 4 Â– Industrialisierung/Qualifikation', date: '2026-10-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-12-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p7.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Backend API Entwicklung', status: 'done', startDate: '2025-06-15', endDate: '2025-10-31', progress: 100, responsible: team7[1].id, priority: 'high', duration: 138 },
                     { name: 'Predictive Maintenance Algorithmus', status: 'in_progress', startDate: '2025-07-01', endDate: '2026-02-28', progress: 70, responsible: team7[0].id, priority: 'high', duration: 242 },
@@ -8234,7 +8233,7 @@
                     { name: 'Beta-Testing', status: 'open', startDate: '2026-06-01', endDate: '2026-12-15', progress: 0, responsible: team7[2].id, priority: 'medium', duration: 197 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p7.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-06-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p7.id, title: 'Cloud-Integration Komplexität unterschätzt', probability: 'medium', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Externe Cloud-Expertise zugezogen', owner: team7[1].id },
+                    { id: AppState.generateId(), projectId: p7.id, title: 'Cloud-Integration KomplexitÃ¤t unterschÃ¤tzt', probability: 'medium', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Externe Cloud-Expertise zugezogen', owner: team7[1].id },
                     { id: AppState.generateId(), projectId: p7.id, title: 'Predictive Maintenance Algorithmus Genauigkeit', probability: 'low', impact: 'high', category: 'Technisch', status: 'mitigated', mitigation: 'Umfangreiche Feldtests geplant', owner: team7[0].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p7.id, date: '2024-08-20', type: 'internal_hours', amount: 22000, description: 'Entwicklung Q3' });
@@ -8242,18 +8241,18 @@
 
             const p8 = findProject('KGF-2025');
             if (p8) {
-                const team8 = [findMember('Nina Bauer'), findMember('Christina Müller')].filter(m => m);
+                const team8 = [findMember('Nina Bauer'), findMember('Christina MÃ¼ller')].filter(m => m);
                 team8.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p8.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-12-01' }));
-                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p8.id, memberId: team8[0].id, startDate: '2024-12-01', endDate: '2025-09-30', capacityPercent: 35, description: 'Gehäuse-Design' });
-                [{ name: 'Gate 2 – Definition/Konzept', date: '2025-10-31', status: 'pending' }, { name: 'Gate 3 – Entwicklung/Konstruktion', date: '2026-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p8.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p8.id, memberId: team8[0].id, startDate: '2024-12-01', endDate: '2025-09-30', capacityPercent: 35, description: 'GehÃ¤use-Design' });
+                [{ name: 'Gate 2 Â– Definition/Konzept', date: '2025-10-31', status: 'pending' }, { name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2026-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p8.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Material-Studie Recycling-Kunststoffe', status: 'in_progress', startDate: '2025-07-15', endDate: '2025-10-15', progress: 60, responsible: team8[0].id, priority: 'high', duration: 92 },
                     { name: 'Spritzguss-Werkzeug Design', status: 'open', startDate: '2025-11-01', endDate: '2026-02-28', progress: 0, responsible: team8[0].id, priority: 'high', duration: 119 },
                     { name: 'Montage-Konzept', status: 'open', startDate: '2026-03-01', endDate: '2026-05-15', progress: 0, responsible: team8[1].id, priority: 'medium', duration: 75 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p8.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-07-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p8.id, title: 'Recycling-Material Verfügbarkeit unsicher', probability: 'high', impact: 'medium', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten qualifiziert', owner: team8[0].id },
-                    { id: AppState.generateId(), projectId: p8.id, title: 'Werkzeugkosten höher als geplant', probability: 'medium', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Budget-Reserve eingeplant', owner: team8[0].id }
+                    { id: AppState.generateId(), projectId: p8.id, title: 'Recycling-Material VerfÃ¼gbarkeit unsicher', probability: 'high', impact: 'medium', category: 'Lieferant', status: 'open', mitigation: 'Alternative Lieferanten qualifiziert', owner: team8[0].id },
+                    { id: AppState.generateId(), projectId: p8.id, title: 'Werkzeugkosten hÃ¶her als geplant', probability: 'medium', impact: 'medium', category: 'Budget', status: 'open', mitigation: 'Budget-Reserve eingeplant', owner: team8[0].id }
                 );
             }
 
@@ -8263,10 +8262,10 @@
                 team9.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p9.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-06-01' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p9.id, memberId: team9[0].id, startDate: '2024-06-01', endDate: '2026-02-28', capacityPercent: 55, description: 'Mechanik Lead & Safety' },
-                    { id: AppState.generateId(), projectId: p9.id, memberId: team9[1].id, startDate: '2024-07-01', endDate: '2026-02-28', capacityPercent: 45, description: 'Gehäuse-Design' },
+                    { id: AppState.generateId(), projectId: p9.id, memberId: team9[1].id, startDate: '2024-07-01', endDate: '2026-02-28', capacityPercent: 45, description: 'GehÃ¤use-Design' },
                     { id: AppState.generateId(), projectId: p9.id, memberId: team9[3].id, startDate: '2025-06-01', endDate: '2026-02-28', capacityPercent: 65, description: 'ISO 26262 Validierung' }
                 );
-                [{ name: 'Gate 3 – Entwicklung/Konstruktion', date: '2025-06-30', status: 'pending' }, { name: 'Gate 4 – Industrialisierung/Qualifikation', date: '2026-09-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2027-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p9.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 3 Â– Entwicklung/Konstruktion', date: '2025-06-30', status: 'pending' }, { name: 'Gate 4 Â– Industrialisierung/Qualifikation', date: '2026-09-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2027-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p9.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'ASIL-B Sicherheitskonzept', status: 'in_progress', startDate: '2025-03-01', endDate: '2025-08-31', progress: 65, responsible: team9[0].id, priority: 'critical', duration: 183 },
                     { name: 'ISO 26262 Dokumentation', status: 'in_progress', startDate: '2025-04-01', endDate: '2025-10-31', progress: 50, responsible: team9[3].id, priority: 'high', duration: 213 },
@@ -8274,9 +8273,9 @@
                     { name: 'Automotive-Zulassung', status: 'open', startDate: '2026-04-01', endDate: '2027-02-28', progress: 0, responsible: team9[0].id, priority: 'critical', duration: 334 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p9.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2024-06-01', dependencies: [] }));
                 AppState.risks.push(
-                    { id: AppState.generateId(), projectId: p9.id, title: 'ISO 26262 Zertifizierung verzögert', probability: 'medium', impact: 'critical', category: 'Regulatorisch', status: 'open', mitigation: 'Externe ISO 26262 Auditoren beauftragt', owner: team9[3].id },
-                    { id: AppState.generateId(), projectId: p9.id, title: 'ASIL-B Anforderungen nicht erfüllbar', probability: 'low', impact: 'critical', category: 'Technisch', status: 'mitigated', mitigation: 'Redundante Sicherheitsarchitektur implementiert', owner: team9[0].id },
-                    { id: AppState.generateId(), projectId: p9.id, title: 'OEM Anforderungsänderungen', probability: 'high', impact: 'high', category: 'Kunde', status: 'open', mitigation: 'Agile Entwicklung mit 2-Wochen-Sprints', owner: team9[0].id }
+                    { id: AppState.generateId(), projectId: p9.id, title: 'ISO 26262 Zertifizierung verzÃ¶gert', probability: 'medium', impact: 'critical', category: 'Regulatorisch', status: 'open', mitigation: 'Externe ISO 26262 Auditoren beauftragt', owner: team9[3].id },
+                    { id: AppState.generateId(), projectId: p9.id, title: 'ASIL-B Anforderungen nicht erfÃ¼llbar', probability: 'low', impact: 'critical', category: 'Technisch', status: 'mitigated', mitigation: 'Redundante Sicherheitsarchitektur implementiert', owner: team9[0].id },
+                    { id: AppState.generateId(), projectId: p9.id, title: 'OEM AnforderungsÃ¤nderungen', probability: 'high', impact: 'high', category: 'Kunde', status: 'open', mitigation: 'Agile Entwicklung mit 2-Wochen-Sprints', owner: team9[0].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p9.id, date: '2024-08-15', type: 'internal_hours', amount: 38000, description: 'Entwicklung Q3' }, { id: AppState.generateId(), projectId: p9.id, date: '2024-10-15', type: 'investment', amount: 95000, description: 'Automotive Test Equipment' });
             }
@@ -8289,7 +8288,7 @@
                     { id: AppState.generateId(), projectId: p10.id, memberId: team10[0].id, startDate: '2024-08-01', endDate: '2025-03-31', capacityPercent: 50, description: 'Projekt-Lead' },
                     { id: AppState.generateId(), projectId: p10.id, memberId: team10[1].id, startDate: '2024-08-15', endDate: '2025-03-31', capacityPercent: 55, description: 'Software-Entwicklung' }
                 );
-                [{ name: 'Gate 4 – Industrialisierung/Qualifikation', date: '2026-05-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-08-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p10.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
+                [{ name: 'Gate 4 Â– Industrialisierung/Qualifikation', date: '2026-05-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-08-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p10.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Ferndiagnose-Modul', status: 'done', startDate: '2025-08-15', endDate: '2025-12-31', progress: 100, responsible: team10[1].id, priority: 'high', duration: 138 },
                     { name: 'Konfigurationstool UI', status: 'in_progress', startDate: '2025-09-01', endDate: '2026-02-28', progress: 75, responsible: team10[1].id, priority: 'high', duration: 180 },
@@ -8319,7 +8318,7 @@
         window.loadDemoDataFromJson = async function(file) {
             const AppState = window.AppState;
             if (!AppState) {
-                console.error('? AppState nicht verfügbar');
+                console.error('? AppState nicht verfÃ¼gbar');
                 return false;
             }
 
@@ -8332,10 +8331,10 @@
 
                 // Validierung
                 if (!demoData.members || !demoData.projects) {
-                    throw new Error('Ungültige Demo-Daten: members oder projects fehlen');
+                    throw new Error('UngÃ¼ltige Demo-Daten: members oder projects fehlen');
                 }
 
-                // Lösche alle vorhandenen Daten
+                // LÃ¶sche alle vorhandenen Daten
                 AppState.members = [];
                 AppState.projects = [];
                 AppState.projectTeamMembers = [];
@@ -8373,7 +8372,7 @@
                 // Synchronisiere SOP aus Milestones
                 console.log('  9?? Synchronisiere SOP-Daten aus Milestones...');
                 AppState.projects.forEach(project => {
-                    // Finde SOP Milestone für dieses Projekt
+                    // Finde SOP Milestone fÃ¼r dieses Projekt
                     const sopMs = AppState.milestones.find(
                         m => m.projectId === project.id && m.name && m.name.includes('SOP')
                     );
@@ -8385,7 +8384,7 @@
                         project.sopChangeComment = project.sopChangeComment || '';
                     }
 
-                    // Stelle sicher, dass SOP-Felder existieren (für Abwärtskompatibilität)
+                    // Stelle sicher, dass SOP-Felder existieren (fÃ¼r AbwÃ¤rtskompatibilitÃ¤t)
                     if (!project.hasOwnProperty('sopBaselineDate')) {
                         project.sopBaselineDate = null;
                     }
@@ -8406,7 +8405,7 @@
                 console.log(`   ${AppState.projectTeamMembers.length} Teammitglieder`);
                 console.log(`   ${AppState.resourceBookings.length} Buchungen`);
 
-                // UI vollständig aktualisieren (ohne Reload, da localStorage nicht verfügbar)
+                // UI vollstÃ¤ndig aktualisieren (ohne Reload, da localStorage nicht verfÃ¼gbar)
                 console.log('?? Aktualisiere UI...');
                 if (window.UI) {
                     // Zeige Projektliste an
@@ -8448,8 +8447,8 @@
                 errorDiv.innerHTML = `
                     <h3 style="color: #dc2626; margin-bottom: 1rem;">? Fehler beim Laden der Demo-Daten</h3>
                     <p style="margin-bottom: 1rem;">${error.message}</p>
-                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem;">Bitte überprüfen Sie, dass die hochgeladene Datei eine gültige JSON-Datei ist.</p>
-                    <button onclick="this.parentElement.remove()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer;">Schließen</button>
+                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem;">Bitte Ã¼berprÃ¼fen Sie, dass die hochgeladene Datei eine gÃ¼ltige JSON-Datei ist.</p>
+                    <button onclick="this.parentElement.remove()" style="background: #dc2626; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer;">SchlieÃŸen</button>
                 `;
                 document.body.appendChild(errorDiv);
 
@@ -8457,15 +8456,15 @@
             }
         };
 
-        // Legacy-Funktion für Kompatibilität
+        // Legacy-Funktion fÃ¼r KompatibilitÃ¤t
         window.reloadDemoData = function() {
             const AppState = window.AppState;
             if (!AppState) {
-                console.error('AppState nicht verfügbar');
+                console.error('AppState nicht verfÃ¼gbar');
                 return;
             }
 
-            // Lösche alle projektbezogenen Daten
+            // LÃ¶sche alle projektbezogenen Daten
             AppState.projectTeamMembers = [];
             AppState.resourceBookings = [];
             AppState.milestones = [];
@@ -8485,4 +8484,3 @@
             setTimeout(() => location.reload(), 1000);
         };
     })();
-    </script>
