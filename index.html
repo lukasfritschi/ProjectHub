@@ -405,7 +405,35 @@
                 grid-template-columns: 1fr;
             }
         }
+        .app-footer {
+            border-top: 1px solid #e5e7eb;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary, #6b7280);
+            background: #f9fafb;
+        }
+        .app-footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+        }
+        .app-footer a {
+            color: inherit;
+            text-decoration: underline;
+        }
+        @media (max-width: 640px) {
+            .app-footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
     </style>
+</head>
 <body>
     <!-- Header -->
 	<div id="app-root">
@@ -837,10 +865,15 @@
                 <div id="resources-bookings-container"></div>
             </div>
         </div>
+        <footer class="app-footer">
+            <div class="app-footer-inner">
+                <span>© <span id="app-footer-year"></span> Lukas Fritschi. All rights reserved.</span>
+                <a href="/impressum.html">Impressum</a>
+            </div>
+        </footer>
     </div>
 	<script src="dataService.js"></script>
 	<script src="state.js"></script>
 	<script src="ui.js"></script>
 	<script src="main.js"></script>
-	<!-- <script src="app.js"></script> -->
 </body></html>

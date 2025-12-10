@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Impressum – ProjectHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem 3rem;
+            line-height: 1.6;
+            color: #111827;
+        }
+        h1, h2 {
+            font-weight: 600;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        a {
+            color: #111827;
+            text-decoration: underline;
+        }
+        .muted {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <h1>Impressum</h1>
+
+    <p class="muted">
+        Diese Seite ist ein privates Projektmanagement-Tool und richtet sich nicht an die breite Öffentlichkeit.
+    </p>
+
+    <h2>Verantwortlich für den Inhalt</h2>
+    <p>
+        Lukas Fritschi<br>
+		St.Gallerstrasse 31
+		8716 Schmerikon
+        Schweiz<br>
+        E-Mail: <a href="mailto:luki_fritschi#hotmail.com">luki_fritschi#hotmail.com</a>
+    </p>
+
+    <h2>Urheberrecht / Copyright</h2>
+    <p>
+        © <span id="year"></span> Lukas Fritschi. All rights reserved. Alle Rechte vorbehalten.
+    </p>
+    <p>
+        Sämtliche Inhalte, das Design sowie der zugrunde liegende Programmcode dieser Anwendung
+        unterliegen dem Urheberrecht. Eine Vervielfältigung, Bearbeitung oder Weitergabe
+        ist ohne ausdrückliche schriftliche Zustimmung von Lukas Fritschi nicht gestattet.
+    </p>
+
+    <h2>Haftungsausschluss</h2>
+    <p>
+        Diese Anwendung wird ohne Zusicherung oder Garantie bereitgestellt. Es wird keinerlei
+        Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität der dargestellten Daten übernommen.
+        Jegliche Haftung für Schäden materieller oder immaterieller Art, die direkt oder indirekt
+        aus der Nutzung der Anwendung entstehen, ist – soweit gesetzlich zulässig – ausgeschlossen.
+    </p>
+
+    <h2>Nutzung innerhalb von Organisationen</h2>
+    <p>
+        Sofern diese Anwendung innerhalb einer Organisation (z.&nbsp;B. eines Unternehmens)
+        eingesetzt wird, gelten ergänzend die internen Richtlinien der jeweiligen Organisation.
+        Es liegt in der Verantwortung der Organisation, die Einhaltung rechtlicher Vorgaben
+        (z.&nbsp;B. Datenschutz, Archivierung, Informationssicherheit) sicherzustellen.
+    </p>
+
+    <footer>
+        <div>© <span id="year-footer"></span> Lukas Fritschi. All rights reserved. Alle Rechte vorbehalten.</div>
+        <div class="muted" style="margin-top: 0.5rem;">
+            Dieses Impressum stellt keine Rechtsberatung dar. Für verbindliche rechtliche
+            Einschätzungen wenden Sie sich bitte an eine qualifizierte Fachperson.
+        </div>
+    </footer>
+
+    <script>
+        const y = new Date().getFullYear();
+        document.getElementById('year').textContent = y;
+        document.getElementById('year-footer').textContent = y;
+    </script>
+</body>
+</html>
