@@ -5182,15 +5182,6 @@
                     }
                 };
 
-
-                    const commentContainer = document.getElementById('forecast-comment-container');
-                    if (forecastChanged) {
-                        commentContainer.classList.remove('hidden');
-                    } else {
-                        commentContainer.classList.add('hidden');
-                    }
-                };
-
                 document.getElementById('modal-budget-intern').addEventListener('input', updateTotals);
                 document.getElementById('modal-budget-extern').addEventListener('input', updateTotals);
                 document.getElementById('modal-budget-investitionen').addEventListener('input', updateTotals);
