@@ -25,26 +25,14 @@
     window.UI = UI;
     
     document.addEventListener('DOMContentLoaded', async () => {
+        const appRoot = document.getElementById('app-root');
         let unauthorized = false;
 
         try {
-            // 1) State laden (hier kommen 401, 500, etc. rein)
             await AppState.load();
-
-            // 2) UI initialisieren
             UI.init();
 
-            // >>> HIER rein <<<
-            const loader = document.getElementById('loading-screen');
-            if (loader) loader.remove();
-
-            const appRoot = document.getElementById('app-root');
-            if (appRoot) appRoot.style.display = 'block';
-
-            // Optional, falls du preload nutzt
-            document.documentElement.classList.remove('preload');
-
-            // 3) Deep-Linking: Direkt ein Projekt öffnen, wenn im Hash übergeben
+            // Deep-Linking
             const hash = window.location.hash;
             if (hash && hash.startsWith('#project/')) {
                 const projectId = hash.replace('#project/', '');
@@ -56,21 +44,15 @@
         } catch (err) {
             console.error("Init-Fehler:", err);
 
-            // Spezieller Fall: 401 → Redirect zu Microsoft Login
-            // preload bleibt aktiv → Loader bleibt sichtbar, App bleibt verborgen
             if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
                 unauthorized = true;
+                // Security: preload bleibt aktiv → Loader bleibt sichtbar
                 return;
             }
 
-            // Alle anderen Fehler: preload entfernen, damit du die App + Banner siehst
-            document.documentElement.classList.remove('preload');
-
             // Fehlerbanner oben in der App
-            const appRoot = document.getElementById('app-root');
             const errorBannerId = 'global-init-error';
             let banner = document.getElementById(errorBannerId);
-
             if (!banner && appRoot) {
                 banner = document.createElement('div');
                 banner.id = errorBannerId;
@@ -84,16 +66,25 @@
                 appRoot.prepend(banner);
             }
 
-            return;
+            // Bei Fehlern (≠401) darf die App sichtbar werden, sonst hängst du im Loader
+            document.documentElement.classList.remove('preload');
 
         } finally {
-            // Nur wenn wir NICHT im 401/Redirect-Fall sind:
             if (!unauthorized) {
-                // EINZIGE “Show App”-Aktion: preload entfernen
+                // App freigeben
                 document.documentElement.classList.remove('preload');
+
+                // Loader entfernen (hard)
+                const loader = document.getElementById('loading-screen');
+                if (loader) loader.remove();
+
+                // Falls irgendwo noch inline display gesetzt wurde: zurück auf CSS-Default
+                if (appRoot) appRoot.style.removeProperty('display');
             }
         }
     });
+
+
 
 
         // ============================================================
