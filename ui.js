@@ -6,9 +6,9 @@
             // -----------------------------
             // UI-State: Kosten Filter & Suche
             // -----------------------------
-            UI.costsFilters = { q: '', type: '', status: '' };
-            UI._costsFilterBound = false;
-            UI._costsSearchTimer = null;
+            costsFilters = { q: '', type: '', status: '' };
+            _costsFilterBound = false;
+            _costsSearchTimer = null;
 
             currentTab: 'overview',
 
