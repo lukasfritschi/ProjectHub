@@ -24,62 +24,80 @@
     window.AppState = AppState;
     window.UI = UI;
     
-	document.addEventListener('DOMContentLoaded', async () => {
-	    const appRoot = document.getElementById('app-root');
-	    let unauthorized = false;
-	
-	    try {
-	        // State laden hier kommen 401, 500, etc. rein
-	        await AppState.load();
-	
-	        // UI initialisieren
-	        UI.init();
-	
-	        // Deep-Linking
-	        const hash = window.location.hash;
-	        if (hash.startsWith('#project/')) {
-	            const projectId = hash.replace('#project/', '');
-	            if (AppState.getProject(projectId)) {
-	                UI.showProjectDetails(projectId);
-	            }
-	        }
-	
-	    } catch (err) {
-	        console.error("Init-Fehler:", err);
-	
-	        // Spezieller Fall: 401 Redirect auf Login, UI bleibt versteckt
-	        if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
-	            unauthorized = true;
-	        } else {
-	            // Alle anderen Fehler: App trotzdem anzeigen,
-	            // damit du siehst, was los ist
-	            if (appRoot) {
-	                appRoot.style.visibility = 'visible';
-	            }
-	
-	            // Optional: schlichter Fehlerbanner oben in der App
-	            const errorBannerId = 'global-init-error';
-	            let banner = document.getElementById(errorBannerId);
-	            if (!banner && appRoot) {
-	                banner = document.createElement('div');
-	                banner.id = errorBannerId;
-	                banner.style.padding = '0.75rem 1rem';
-	                banner.style.background = '#fee2e2';
-	                banner.style.color = '#b91c1c';
-	                banner.style.fontFamily = 'system-ui, sans-serif';
-	                banner.style.fontSize = '0.9rem';
-	                banner.textContent = 'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 ℹ️ Console).';
-	                appRoot.prepend(banner);
-	            }
-	        }
-	
-	    } finally {
-	        // Nur wenn wir NICHT im 401/Redirect-Fall sind:
-	        if (appRoot && !unauthorized) {
-	            appRoot.style.visibility = 'visible';
-	        }
-	    }
-	});
+    document.addEventListener('DOMContentLoaded', async () => {
+        const appRoot = document.getElementById('app-root');
+        const loader = document.getElementById('loading-screen');
+        let unauthorized = false;
+
+        // Sicherheitsnetz: App ausblenden, Loader anzeigen
+        if (appRoot) {
+            appRoot.style.visibility = 'hidden';
+        }
+        if (loader) {
+            loader.style.display = 'flex';
+        }
+
+        try {
+            // 1) State laden (hier kommen 401, 500, etc. rein)
+            await AppState.load();
+
+            // 2) UI initialisieren
+            UI.init();
+
+            // 3) Deep-Linking: Direkt ein Projekt öffnen, wenn im Hash übergeben
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#project/')) {
+                const projectId = hash.replace('#project/', '');
+                if (AppState.getProject(projectId)) {
+                    UI.showProjectDetails(projectId);
+                }
+            }
+
+        } catch (err) {
+            console.error("Init-Fehler:", err);
+
+            // Spezieller Fall: 401 → Redirect zu Microsoft Login, UI bleibt verborgen,
+            // Loader bleibt sichtbar, bis der Browser weg-navigiert
+            if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
+                unauthorized = true;
+            } else {
+                // Alle anderen Fehler: App trotzdem anzeigen,
+                // damit du siehst, was los ist
+                if (appRoot) {
+                    appRoot.style.visibility = 'visible';
+                }
+
+                // Schlichter Fehlerbanner oben in der App
+                const errorBannerId = 'global-init-error';
+                let banner = document.getElementById(errorBannerId);
+                if (!banner && appRoot) {
+                    banner = document.createElement('div');
+                    banner.id = errorBannerId;
+                    banner.style.padding = '0.75rem 1rem';
+                    banner.style.background = '#fee2e2';
+                    banner.style.color = '#b91c1c';
+                    banner.style.fontFamily = 'system-ui, sans-serif';
+                    banner.style.fontSize = '0.9rem';
+                    banner.textContent =
+                        'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
+                    appRoot.prepend(banner);
+                }
+            }
+
+        } finally {
+            // Nur wenn wir NICHT im 401/Redirect-Fall sind:
+            if (!unauthorized) {
+                // Loader ausblenden
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+                // App einblenden
+                if (appRoot) {
+                    appRoot.style.visibility = 'visible';
+                }
+            }
+        }
+    });
 
         // ============================================================
     // DEMO-DATEN LOADER
