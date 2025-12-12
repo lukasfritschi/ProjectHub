@@ -38,6 +38,9 @@
             const loader = document.getElementById('loading-screen');
             if (loader) loader.remove();
 
+            const appRoot = document.getElementById('app-root');
+            if (appRoot) appRoot.style.display = 'block';
+
             // Optional, falls du preload nutzt
             document.documentElement.classList.remove('preload');
 
