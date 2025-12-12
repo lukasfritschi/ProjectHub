@@ -204,13 +204,16 @@
                 if (!project) return 0;
 
                 const costs = this.getProjectCosts(projectId);
-                const totalActual = costs.reduce((sum, c) => sum + (c.amount || 0), 0);
+                const totalActualIntern = costs
+                  .filter(c => c.type === 'internal_hours')
+                  .reduce((sum, c) => sum + (c.amount || 0), 0);
+
 
                 const startDate = new Date(project.startDate);
                 const today = new Date();
                 const monthsElapsed = Math.max(1, (today - startDate) / (1000 * 60 * 60 * 24 * 30.44));
 
-                return totalActual / monthsElapsed;
+                return totalActualIntern / monthsElapsed;
             },
 
             // Calculate resource utilization for a time period

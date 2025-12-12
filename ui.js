@@ -306,7 +306,7 @@
                                 </div>
                             </div>
                             <div class="p-2" style="background: var(--bg-tertiary); border-radius: 0.375rem;">
-                                <span class="text-sm" style="color: var(--text-secondary);">Burnrate:</span>
+                                <span class="text-sm" style="color: var(--text-secondary);">Burnrate (intern):</span>
                                 <strong class="font-mono ml-2">🔥 ${this.formatCurrency(burnrate, project.currency)}/Monat</strong>
                             </div>
                         </div>
@@ -1054,7 +1054,7 @@
                             </table>
                             <div class="grid grid-cols-2 gap-4 mt-4 p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
                                 <div>
-                                    <span class="text-sm" style="color: var(--text-secondary);">Burnrate</span>
+                                    <span class="text-sm" style="color: var(--text-secondary);">Burnrate (intern)</span>
                                     <div class="text-xl font-bold font-mono">⚡ ${this.formatCurrency(burnrate, project.currency)}/Monat</div>
                                 </div>
                                 <div>
