@@ -29,10 +29,13 @@
         let unauthorized = false;
 
         try {
+            // 1) State laden (kann 401 auslösen -> Redirect Flow)
             await AppState.load();
+
+            // 2) UI initialisieren
             UI.init();
 
-            // Deep-Linking
+            // 3) Deep-Linking: Direkt ein Projekt öffnen, wenn im Hash übergeben
             const hash = window.location.hash;
             if (hash && hash.startsWith('#project/')) {
                 const projectId = hash.replace('#project/', '');
@@ -44,13 +47,14 @@
         } catch (err) {
             console.error("Init-Fehler:", err);
 
+            // 401/Unauthorized: App NICHT freigeben (Security), Loader bleibt sichtbar
             if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
                 unauthorized = true;
-                // Security: preload bleibt aktiv → Loader bleibt sichtbar
                 return;
             }
 
-            // Fehlerbanner oben in der App
+            // Andere Fehler: App darf sichtbar werden (sonst “hängt” man im Loader)
+            // Optional: Fehlerbanner oben in der App anzeigen
             const errorBannerId = 'global-init-error';
             let banner = document.getElementById(errorBannerId);
             if (!banner && appRoot) {
@@ -66,28 +70,23 @@
                 appRoot.prepend(banner);
             }
 
-            // Bei Fehlern (≠401) darf die App sichtbar werden, sonst hängst du im Loader
-            document.documentElement.classList.remove('preload');
-
         } finally {
+            // Nur wenn wir NICHT im Unauthorized/Redirect-Fall sind:
             if (!unauthorized) {
-                // App freigeben
+                // App wirklich freigeben (verhindert InPrivate-Flash)
+                document.body.style.visibility = 'visible';
+
+                // Preload-Modus verlassen (falls du ihn nutzt)
                 document.documentElement.classList.remove('preload');
 
                 // Loader entfernen (hard)
                 const loader = document.getElementById('loading-screen');
                 if (loader) loader.remove();
-
-                // Falls irgendwo noch inline display gesetzt wurde: zurück auf CSS-Default
-                if (appRoot) appRoot.style.removeProperty('display');
             }
         }
     });
 
-
-
-
-        // ============================================================
+    // ============================================================
     // DEMO-DATEN LOADER
     // ============================================================
     (function() {
