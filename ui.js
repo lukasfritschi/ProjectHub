@@ -5210,6 +5210,7 @@
                 const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen || 0;
 
                 const forecastChanged =
+                    forecastIntern !== originalForecastIntern ||
                     forecastExtern !== originalForecastExtern ||
                     forecastInvestitionen !== originalForecastInvestitionen;
 
@@ -5222,7 +5223,7 @@
 
                     // Add to history (only Extern & Investitionen changes tracked, Intern is auto)
                     const forecastHistory = budget.forecastHistory || [];
-                    const previousForecastIntern = AppState.calculateForecastFromBookings(AppState.currentProjectId);
+                    const previousForecastIntern = originalForecastIntern;
                     forecastHistory.push({
                         timestamp: new Date().toISOString(),
                         oldForecast: {

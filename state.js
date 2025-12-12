@@ -183,7 +183,7 @@
                     intern: {
                         budget: budget.intern || 0,
                         actual: costs.filter(c => c.type === 'internal_hours').reduce((sum, c) => sum + (c.amount || 0), 0),
-                        forecast: forecastFromBookings // Automatically calculated from resource bookings
+                        forecast: budget.forecastIntern || budget.intern || 0
                     },
                     extern: {
                         budget: budget.extern || 0,
