@@ -1600,7 +1600,7 @@
                 document.getElementById('project-kpis').innerHTML = `
                     <div class="grid gap-4">
                         <div>
-                            <span class="text-sm" style="color: var(--text-secondary);">Meilensteine</span>
+                            <span class="text-sm" style="color: var(--text-secondary);">Gates</span>
                             <div class="text-2xl font-bold font-mono">${milestones.length}</div>
                         </div>
                         <div>
@@ -1836,7 +1836,7 @@
                 const container = document.getElementById('milestones-container');
 
                 if (milestones.length === 0) {
-                    container.innerHTML = '<div class="card"><p style="color: var(--text-secondary);">Keine Meilensteine definiert</p></div>';
+                    container.innerHTML = '<div class="card"><p style="color: var(--text-secondary);">Keine Gates definiert</p></div>';
                     return;
                 }
 
@@ -2090,7 +2090,7 @@
                     container.innerHTML = `
                         <div style="padding: 3rem; text-align: center;">
                             <h4 class="font-semibold mb-3" style="color: var(--text-secondary);">Keine Aufgaben vorhanden</h4>
-                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Für dieses Projekt sind noch keine Aufgaben oder Meilensteine erfasst.</p>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Für dieses Projekt sind noch keine Aufgaben oder Gates erfasst.</p>
                             <button class="btn btn-primary" onclick="UI.showAddTaskModal()">+ Erste Aufgabe anlegen</button>
                         </div>
                     `;
@@ -2157,7 +2157,7 @@
                     const msDate = parseDate(ms.date || ms.plannedDate);
                     ganttTasks.push({
                         id: ms.id,
-                        name: '◆ ' + (ms.name || 'Meilenstein'),
+                        name: '◆ ' + (ms.name || 'Gate'),
                         start: msDate,
                         end: msDate,
                         progress: ms.status === 'completed' ? 100 : 0,
@@ -5574,7 +5574,7 @@
             },
 
             showAddMilestoneModal() {
-                const modal = this.createModal('Meilenstein hinzufügen', `
+                const modal = this.createModal('Gate hinzufügen', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
@@ -5640,7 +5640,7 @@
                 this.closeModal();
                 this.renderMilestonesTab();
                 this.renderOverviewTab();
-                this.showAlert('Meilenstein wurde hinzugefügt.');
+                this.showAlert('Gate wurde hinzugefügt.');
             },
 
             showAddRiskModal() {
@@ -6003,7 +6003,7 @@
             },
 
             showEditMilestoneModal(milestone) {
-                const modal = this.createModal('Meilenstein bearbeiten', `
+                const modal = this.createModal('Gate bearbeiten', `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
@@ -6051,7 +6051,7 @@
                 this.closeModal();
                 this.renderMilestonesTab();
                 this.renderGanttTab();
-                this.showAlert('Meilenstein wurde aktualisiert.');
+                this.showAlert('Gate wurde aktualisiert.');
             },
 
             showEditRiskModal(risk) {
@@ -6823,7 +6823,7 @@
             },
 
             deleteMilestone(id) {
-                this.showConfirmDialog('Möchten Sie diesen Meilenstein wirklich löschen?', () => {
+                this.showConfirmDialog('Möchten Sie diesen Gate wirklich löschen?', () => {
                     AppState.milestones = AppState.milestones.filter(m => m.id !== id);
                     AppState.save();
                     this.renderMilestonesTab();
@@ -7255,7 +7255,7 @@
                     if (milestones.length > 0) {
                         yPos += 5;
                         doc.setFont('helvetica', 'bold');
-                        doc.text('Meilensteine:', 15, yPos);
+                        doc.text('Gates:', 15, yPos);
                         yPos += 8;
                         doc.setFont('helvetica', 'normal');
 
@@ -7772,7 +7772,7 @@
                 console.log('  4?? Importiere Ressourcen-Buchungen...');
                 AppState.resourceBookings = demoData.resourceBookings || [];
 
-                console.log('  5?? Importiere Meilensteine...');
+                console.log('  5?? Importiere Gates...');
                 AppState.milestones = demoData.milestones || [];
 
                 console.log('  6?? Importiere Aufgaben...');
