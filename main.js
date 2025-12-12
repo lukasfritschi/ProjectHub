@@ -25,17 +25,7 @@
     window.UI = UI;
     
     document.addEventListener('DOMContentLoaded', async () => {
-        const appRoot = document.getElementById('app-root');
-        const loader = document.getElementById('loading-screen');
         let unauthorized = false;
-
-        // Sicherheitsnetz: App ausblenden, Loader anzeigen
-        if (appRoot) {
-            appRoot.style.visibility = 'hidden';
-        }
-        if (loader) {
-            loader.style.display = 'flex';
-        }
 
         try {
             // 1) State laden (hier kommen 401, 500, etc. rein)
@@ -56,48 +46,45 @@
         } catch (err) {
             console.error("Init-Fehler:", err);
 
-            // Spezieller Fall: 401 → Redirect zu Microsoft Login, UI bleibt verborgen,
-            // Loader bleibt sichtbar, bis der Browser weg-navigiert
+            // Spezieller Fall: 401 → Redirect zu Microsoft Login
+            // preload bleibt aktiv → Loader bleibt sichtbar, App bleibt verborgen
             if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
                 unauthorized = true;
-            } else {
-                // Alle anderen Fehler: App trotzdem anzeigen,
-                // damit du siehst, was los ist
-                if (appRoot) {
-                    appRoot.style.visibility = 'visible';
-                }
-
-                // Schlichter Fehlerbanner oben in der App
-                const errorBannerId = 'global-init-error';
-                let banner = document.getElementById(errorBannerId);
-                if (!banner && appRoot) {
-                    banner = document.createElement('div');
-                    banner.id = errorBannerId;
-                    banner.style.padding = '0.75rem 1rem';
-                    banner.style.background = '#fee2e2';
-                    banner.style.color = '#b91c1c';
-                    banner.style.fontFamily = 'system-ui, sans-serif';
-                    banner.style.fontSize = '0.9rem';
-                    banner.textContent =
-                        'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
-                    appRoot.prepend(banner);
-                }
+                return;
             }
+
+            // Alle anderen Fehler: preload entfernen, damit du die App + Banner siehst
+            document.documentElement.classList.remove('preload');
+
+            // Fehlerbanner oben in der App
+            const appRoot = document.getElementById('app-root');
+            const errorBannerId = 'global-init-error';
+            let banner = document.getElementById(errorBannerId);
+
+            if (!banner && appRoot) {
+                banner = document.createElement('div');
+                banner.id = errorBannerId;
+                banner.style.padding = '0.75rem 1rem';
+                banner.style.background = '#fee2e2';
+                banner.style.color = '#b91c1c';
+                banner.style.fontFamily = 'system-ui, sans-serif';
+                banner.style.fontSize = '0.9rem';
+                banner.textContent =
+                    'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
+                appRoot.prepend(banner);
+            }
+
+            return;
 
         } finally {
             // Nur wenn wir NICHT im 401/Redirect-Fall sind:
             if (!unauthorized) {
-                // Loader ausblenden
-                if (loader) {
-                    loader.style.display = 'none';
-                }
-                // App einblenden
-                if (appRoot) {
-                    appRoot.style.visibility = 'visible';
-                }
+                // EINZIGE “Show App”-Aktion: preload entfernen
+                document.documentElement.classList.remove('preload');
             }
         }
     });
+
 
         // ============================================================
     // DEMO-DATEN LOADER
