@@ -97,7 +97,7 @@
                 if (this.phaseTemplates.length === 0) {
                     this.phaseTemplates.push({
                         id: this.generateId(),
-                        name: 'Standard Software-Projekt',
+                        name: 'Standard Verfahrenstechnik-Projekt',
                         phases: [
                             { name: 'Konzept', order: 1 },
                             { name: 'Entwicklung', order: 2 },
@@ -4290,10 +4290,10 @@
                                 <option value="">-- Bitte wählen --</option>
                                 <option value="Entwicklung Mechanik">Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik">Entwicklung Elektronik</option>
-                                <option value="Software">Software</option>
-                                <option value="Projektleitung">Projektleitung</option>
-                                <option value="Design">Design</option>
-                                <option value="Testing & QA">Testing & QA</option>
+                                <option value="Verfahrenstechnik">Verfahrenstechnik</option>
+                                <option value="Abteilungs-/Bereichsleiter">Abteilungs-/Bereichsleiter</option>
+                                <option value="Labor">Labor</option>
+                                <option value="Produktsupport">Produktsupport</option>
                                 <option value="Sonstige">Sonstige</option>
                             </select>
                         </div>
@@ -4392,10 +4392,10 @@
                                 <option value="">-- Bitte wählen --</option>
                                 <option value="Entwicklung Mechanik" ${member.competencyGroup === 'Entwicklung Mechanik' ? 'selected' : ''}>Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik" ${member.competencyGroup === 'Entwicklung Elektronik' ? 'selected' : ''}>Entwicklung Elektronik</option>
-                                <option value="Software" ${member.competencyGroup === 'Software' ? 'selected' : ''}>Software</option>
-                                <option value="Projektleitung" ${member.competencyGroup === 'Projektleitung' ? 'selected' : ''}>Projektleitung</option>
-                                <option value="Design" ${member.competencyGroup === 'Design' ? 'selected' : ''}>Design</option>
-                                <option value="Testing & QA" ${member.competencyGroup === 'Testing & QA' ? 'selected' : ''}>Testing & QA</option>
+                                <option value="Verfahrenstechnik" ${member.competencyGroup === 'Verfahrenstechnik' ? 'selected' : ''}>Verfahrenstechnik</option>
+                                <option value="Abteilungs-/Bereichsleiter" ${member.competencyGroup === 'Abteilungs-/Bereichsleiter' ? 'selected' : ''}>Abteilungs-/Bereichsleiter</option>
+                                <option value="Labor" ${member.competencyGroup === 'Labor' ? 'selected' : ''}>Labor</option>
+                                <option value="Produktsupport" ${member.competencyGroup === 'Produktsupport' ? 'selected' : ''}>Produktsupport</option>
                                 <option value="Sonstige" ${member.competencyGroup === 'Sonstige' ? 'selected' : ''}>Sonstige</option>
                             </select>
                         </div>
@@ -7472,7 +7472,7 @@
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p1.id, memberId: team1[0].id, startDate: '2024-04-01', endDate: '2025-02-28', capacityPercent: 70, description: 'Mechanik-Lead' },
                     { id: AppState.generateId(), projectId: p1.id, memberId: team1[1].id, startDate: '2024-04-01', endDate: '2025-01-31', capacityPercent: 60, description: 'Konstruktion' },
-                    { id: AppState.generateId(), projectId: p1.id, memberId: team1[2].id, startDate: '2024-12-01', endDate: '2025-06-30', capacityPercent: 75, description: 'Elektronik-Design' },
+                    { id: AppState.generateId(), projectId: p1.id, memberId: team1[2].id, startDate: '2024-12-01', endDate: '2025-06-30', capacityPercent: 75, description: 'Elektronik-Labor' },
                     { id: AppState.generateId(), projectId: p1.id, memberId: team1[3].id, startDate: '2025-02-01', endDate: '2025-06-30', capacityPercent: 85, description: 'Industrialisierung' },
                     { id: AppState.generateId(), projectId: p1.id, memberId: team1[4].id, startDate: '2025-01-15', endDate: '2025-05-31', capacityPercent: 80, description: 'Testing & Validation' },
                     { id: AppState.generateId(), projectId: p1.id, memberId: team1[5].id, startDate: '2025-04-01', endDate: '2025-06-30', capacityPercent: 60, description: 'Dokumentation' }
@@ -7480,13 +7480,13 @@
                 [
                     { name: 'Gate 1  Projekt-Vorbereitung', date: '2025-02-01', status: 'completed', description: 'Projektfreigabe' },
                     { name: 'Gate 2  Definition/Konzept', date: '2025-04-30', status: 'completed', description: 'Konzeptfreigabe' },
-                    { name: 'Gate 3  Entwicklung/Konstruktion', date: '2025-08-31', status: 'pending', description: 'Design Freeze' },
+                    { name: 'Gate 3  Entwicklung/Konstruktion', date: '2025-08-31', status: 'pending', description: 'Labor Freeze' },
                     { name: 'Gate 4  Industrialisierung/Qualifikation', date: '2026-02-28', status: 'pending', description: 'Prozessqualifikation' },
                     { name: 'Gate 5  Markteinführung/Serie', date: '2026-07-31', status: 'pending', description: 'Produktionsfreigabe' },
                     { name: 'SOP (Start of Production)', date: '2026-09-30', status: 'pending', description: 'Serienproduktion startet' }
                 ].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p1.id, name: ms.name, date: ms.date, status: ms.status, description: ms.description }));
                 [
-                    { name: 'Druckkammer-Design finalisieren', status: 'done', startDate: '2025-02-01', endDate: '2025-04-15', progress: 100, responsible: team1[0].id, priority: 'high', duration: 73 },
+                    { name: 'Druckkammer-Labor finalisieren', status: 'done', startDate: '2025-02-01', endDate: '2025-04-15', progress: 100, responsible: team1[0].id, priority: 'high', duration: 73 },
                     { name: 'EMV-Tests durchführen', status: 'in_progress', startDate: '2025-04-15', endDate: '2025-06-30', progress: 65, responsible: team1[4].id, priority: 'high', duration: 76 },
                     { name: 'Lieferantenauswahl Dichtungen', status: 'done', startDate: '2025-02-15', endDate: '2025-04-30', progress: 100, responsible: team1[1].id, priority: 'medium', duration: 74 },
                     { name: 'Kalibrier-Protokoll erstellen', status: 'in_progress', startDate: '2025-05-01', endDate: '2025-07-15', progress: 50, responsible: team1[4].id, priority: 'high', duration: 75 },
@@ -7513,7 +7513,7 @@
                 const team2 = [findMember('Julia Schneider'), findMember('Petra Wagner'), findMember('Anna Graf'), findMember('Christina Müller')].filter(m => m);
                 team2.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p2.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-09-15' }));
                 AppState.resourceBookings.push(
-                    { id: AppState.generateId(), projectId: p2.id, memberId: team2[0].id, startDate: '2024-09-15', endDate: '2025-01-15', capacityPercent: 65, description: 'Mechanik-Design' },
+                    { id: AppState.generateId(), projectId: p2.id, memberId: team2[0].id, startDate: '2024-09-15', endDate: '2025-01-15', capacityPercent: 65, description: 'Mechanik-Labor' },
                     { id: AppState.generateId(), projectId: p2.id, memberId: team2[1].id, startDate: '2024-12-01', endDate: '2025-04-30', capacityPercent: 70, description: 'PCB-Layout' },
                     { id: AppState.generateId(), projectId: p2.id, memberId: team2[2].id, startDate: '2025-02-15', endDate: '2025-04-30', capacityPercent: 80, description: 'Validierung' },
                     { id: AppState.generateId(), projectId: p2.id, memberId: team2[3].id, startDate: '2025-03-01', endDate: '2025-04-30', capacityPercent: 70, description: 'Prozessplanung' }
@@ -7549,7 +7549,7 @@
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p3.id, memberId: team3[0].id, startDate: '2024-07-01', endDate: '2025-03-31', capacityPercent: 75, description: 'System-Architektur' },
                     { id: AppState.generateId(), projectId: p3.id, memberId: team3[1].id, startDate: '2024-11-01', endDate: '2025-08-31', capacityPercent: 80, description: 'Firmware-Entwicklung' },
-                    { id: AppState.generateId(), projectId: p3.id, memberId: team3[2].id, startDate: '2024-07-15', endDate: '2025-01-31', capacityPercent: 60, description: 'PCB-Design' },
+                    { id: AppState.generateId(), projectId: p3.id, memberId: team3[2].id, startDate: '2024-07-15', endDate: '2025-01-31', capacityPercent: 60, description: 'PCB-Labor' },
                     { id: AppState.generateId(), projectId: p3.id, memberId: team3[3].id, startDate: '2025-02-15', endDate: '2025-08-31', capacityPercent: 90, description: 'System-Integration' },
                     { id: AppState.generateId(), projectId: p3.id, memberId: team3[4].id, startDate: '2025-05-01', endDate: '2025-08-31', capacityPercent: 65, description: 'Dokumentation' }
                 );
@@ -7562,7 +7562,7 @@
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p3.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-03-01', dependencies: [] }));
                 AppState.risks.push(
                     { id: AppState.generateId(), projectId: p3.id, title: 'Funkzulassung verzögert sich', probability: 'medium', impact: 'high', category: 'Regulatorisch', status: 'open', mitigation: 'Externe Zulassungsberatung beauftragt', owner: team3[3].id },
-                    { id: AppState.generateId(), projectId: p3.id, title: 'LoRa-Reichweite unter Erwartung', probability: 'low', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Alternative Antennen-Design evaluieren', owner: team3[0].id },
+                    { id: AppState.generateId(), projectId: p3.id, title: 'LoRa-Reichweite unter Erwartung', probability: 'low', impact: 'medium', category: 'Technisch', status: 'open', mitigation: 'Alternative Antennen-Labor evaluieren', owner: team3[0].id },
                     { id: AppState.generateId(), projectId: p3.id, title: 'Cloud-Provider Abhängigkeit', probability: 'low', impact: 'medium', category: 'Extern', status: 'mitigated', mitigation: 'Multi-Cloud-Strategie implementiert', owner: team3[1].id }
                 );
                 AppState.costs.push({ id: AppState.generateId(), projectId: p3.id, date: '2024-09-10', type: 'internal_hours', amount: 18000, description: 'Entwicklung Q3' }, { id: AppState.generateId(), projectId: p3.id, date: '2024-12-05', type: 'internal_hours', amount: 28000, description: 'Entwicklung Q4' });
@@ -7599,7 +7599,7 @@
                 team5.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p5.id, memberId: m.id, roleInProject: m.role, addedDate: '2023-11-01' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p5.id, memberId: team5[0].id, startDate: '2023-11-01', endDate: '2025-01-31', capacityPercent: 40, description: 'Prozess-Engineering' },
-                    { id: AppState.generateId(), projectId: p5.id, memberId: team5[2].id, startDate: '2024-01-15', endDate: '2024-12-31', capacityPercent: 45, description: 'Software KI-Modul' },
+                    { id: AppState.generateId(), projectId: p5.id, memberId: team5[2].id, startDate: '2024-01-15', endDate: '2024-12-31', capacityPercent: 45, description: 'Verfahrenstechnik KI-Modul' },
                     { id: AppState.generateId(), projectId: p5.id, memberId: team5[3].id, startDate: '2024-09-01', endDate: '2025-01-31', capacityPercent: 55, description: 'Validierung' }
                 );
                 [{ name: 'Gate 5  Markteinführung/Serie', date: '2026-08-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-10-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p5.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
@@ -7619,7 +7619,7 @@
             if (p6) {
                 const team6 = [findMember('Martin Schulz'), findMember('Anna Graf')].filter(m => m);
                 team6.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p6.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-11-01' }));
-                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p6.id, memberId: team6[0].id, startDate: '2024-11-01', endDate: '2025-05-31', capacityPercent: 40, description: 'Elektronik-Design' });
+                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p6.id, memberId: team6[0].id, startDate: '2024-11-01', endDate: '2025-05-31', capacityPercent: 40, description: 'Elektronik-Labor' });
                 [{ name: 'Gate 3  Entwicklung/Konstruktion', date: '2025-11-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-02-28', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p6.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Temperatur-Sensor Kalibrierung', status: 'in_progress', startDate: '2025-05-15', endDate: '2025-09-30', progress: 40, responsible: team6[0].id, priority: 'high', duration: 138 },
@@ -7637,7 +7637,7 @@
                 const team7 = [findMember('Stefan Weber'), findMember('Martin Schulz'), findMember('Michael Berger')].filter(m => m);
                 team7.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p7.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-05-15' }));
                 AppState.resourceBookings.push(
-                    { id: AppState.generateId(), projectId: p7.id, memberId: team7[0].id, startDate: '2024-05-15', endDate: '2025-07-31', capacityPercent: 35, description: 'Software-Architektur' },
+                    { id: AppState.generateId(), projectId: p7.id, memberId: team7[0].id, startDate: '2024-05-15', endDate: '2025-07-31', capacityPercent: 35, description: 'Verfahrenstechnik-Architektur' },
                     { id: AppState.generateId(), projectId: p7.id, memberId: team7[1].id, startDate: '2024-06-01', endDate: '2025-07-31', capacityPercent: 50, description: 'Backend-Development' }
                 );
                 [{ name: 'Gate 4  Industrialisierung/Qualifikation', date: '2026-10-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-12-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p7.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
@@ -7658,11 +7658,11 @@
             if (p8) {
                 const team8 = [findMember('Nina Bauer'), findMember('Christina Müller')].filter(m => m);
                 team8.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p8.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-12-01' }));
-                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p8.id, memberId: team8[0].id, startDate: '2024-12-01', endDate: '2025-09-30', capacityPercent: 35, description: 'Gehäuse-Design' });
+                AppState.resourceBookings.push({ id: AppState.generateId(), projectId: p8.id, memberId: team8[0].id, startDate: '2024-12-01', endDate: '2025-09-30', capacityPercent: 35, description: 'Gehäuse-Labor' });
                 [{ name: 'Gate 2  Definition/Konzept', date: '2025-10-31', status: 'pending' }, { name: 'Gate 3  Entwicklung/Konstruktion', date: '2026-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p8.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [
                     { name: 'Material-Studie Recycling-Kunststoffe', status: 'in_progress', startDate: '2025-07-15', endDate: '2025-10-15', progress: 60, responsible: team8[0].id, priority: 'high', duration: 92 },
-                    { name: 'Spritzguss-Werkzeug Design', status: 'open', startDate: '2025-11-01', endDate: '2026-02-28', progress: 0, responsible: team8[0].id, priority: 'high', duration: 119 },
+                    { name: 'Spritzguss-Werkzeug Labor', status: 'open', startDate: '2025-11-01', endDate: '2026-02-28', progress: 0, responsible: team8[0].id, priority: 'high', duration: 119 },
                     { name: 'Montage-Konzept', status: 'open', startDate: '2026-03-01', endDate: '2026-05-15', progress: 0, responsible: team8[1].id, priority: 'medium', duration: 75 }
                 ].forEach(t => AppState.tasks.push({ id: AppState.generateId(), projectId: p8.id, name: t.name, description: '', status: t.status, startDate: t.startDate, endDate: t.endDate, dueDate: t.endDate, progress: t.progress, responsible: t.responsible, priority: t.priority, duration: t.duration, createdDate: '2025-07-01', dependencies: [] }));
                 AppState.risks.push(
@@ -7677,7 +7677,7 @@
                 team9.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p9.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-06-01' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p9.id, memberId: team9[0].id, startDate: '2024-06-01', endDate: '2026-02-28', capacityPercent: 55, description: 'Mechanik Lead & Safety' },
-                    { id: AppState.generateId(), projectId: p9.id, memberId: team9[1].id, startDate: '2024-07-01', endDate: '2026-02-28', capacityPercent: 45, description: 'Gehäuse-Design' },
+                    { id: AppState.generateId(), projectId: p9.id, memberId: team9[1].id, startDate: '2024-07-01', endDate: '2026-02-28', capacityPercent: 45, description: 'Gehäuse-Labor' },
                     { id: AppState.generateId(), projectId: p9.id, memberId: team9[3].id, startDate: '2025-06-01', endDate: '2026-02-28', capacityPercent: 65, description: 'ISO 26262 Validierung' }
                 );
                 [{ name: 'Gate 3  Entwicklung/Konstruktion', date: '2025-06-30', status: 'pending' }, { name: 'Gate 4  Industrialisierung/Qualifikation', date: '2026-09-30', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2027-03-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p9.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
@@ -7701,7 +7701,7 @@
                 team10.forEach(m => AppState.projectTeamMembers.push({ id: AppState.generateId(), projectId: p10.id, memberId: m.id, roleInProject: m.role, addedDate: '2024-08-01' }));
                 AppState.resourceBookings.push(
                     { id: AppState.generateId(), projectId: p10.id, memberId: team10[0].id, startDate: '2024-08-01', endDate: '2025-03-31', capacityPercent: 50, description: 'Projekt-Lead' },
-                    { id: AppState.generateId(), projectId: p10.id, memberId: team10[1].id, startDate: '2024-08-15', endDate: '2025-03-31', capacityPercent: 55, description: 'Software-Entwicklung' }
+                    { id: AppState.generateId(), projectId: p10.id, memberId: team10[1].id, startDate: '2024-08-15', endDate: '2025-03-31', capacityPercent: 55, description: 'Verfahrenstechnik-Entwicklung' }
                 );
                 [{ name: 'Gate 4  Industrialisierung/Qualifikation', date: '2026-05-31', status: 'pending' }, { name: 'SOP (Start of Production)', date: '2026-08-31', status: 'pending' }].forEach(ms => AppState.milestones.push({ id: AppState.generateId(), projectId: p10.id, name: ms.name, date: ms.date, status: ms.status, description: '' }));
                 [

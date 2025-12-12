@@ -3367,10 +3367,10 @@
                                 <option value="">-- Bitte wählen --</option>
                                 <option value="Entwicklung Mechanik">Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik">Entwicklung Elektronik</option>
-                                <option value="Software">Software</option>
-                                <option value="Projektleitung">Projektleitung</option>
-                                <option value="Design">Design</option>
-                                <option value="Testing & QA">Testing & QA</option>
+                                <option value="Verfahrenstechnik">Verfahrenstechnik</option>
+                                <option value="Abteilungs-/Bereichsleiter">Abteilungs-/Bereichsleiter</option>
+                                <option value="Labor">Labor</option>
+                                <option value="Produktsupport">Produktsupport</option>
                                 <option value="Sonstige">Sonstige</option>
                             </select>
                         </div>
@@ -3469,10 +3469,10 @@
                                 <option value="">-- Bitte wählen --</option>
                                 <option value="Entwicklung Mechanik" ${member.competencyGroup === 'Entwicklung Mechanik' ? 'selected' : ''}>Entwicklung Mechanik</option>
                                 <option value="Entwicklung Elektronik" ${member.competencyGroup === 'Entwicklung Elektronik' ? 'selected' : ''}>Entwicklung Elektronik</option>
-                                <option value="Software" ${member.competencyGroup === 'Software' ? 'selected' : ''}>Software</option>
-                                <option value="Projektleitung" ${member.competencyGroup === 'Projektleitung' ? 'selected' : ''}>Projektleitung</option>
-                                <option value="Design" ${member.competencyGroup === 'Design' ? 'selected' : ''}>Design</option>
-                                <option value="Testing & QA" ${member.competencyGroup === 'Testing & QA' ? 'selected' : ''}>Testing & QA</option>
+                                <option value="Verfahrenstechnik" ${member.competencyGroup === 'Verfahrenstechnik' ? 'selected' : ''}>Verfahrenstechnik</option>
+                                <option value="Abteilungs-/Bereichsleiter" ${member.competencyGroup === 'Abteilungs-/Bereichsleiter' ? 'selected' : ''}>Abteilungs-/Bereichsleiter</option>
+                                <option value="Labor" ${member.competencyGroup === 'Labor' ? 'selected' : ''}>Labor</option>
+                                <option value="Produktsupport" ${member.competencyGroup === 'Produktsupport' ? 'selected' : ''}>Produktsupport</option>
                                 <option value="Sonstige" ${member.competencyGroup === 'Sonstige' ? 'selected' : ''}>Sonstige</option>
                             </select>
                         </div>
@@ -3981,7 +3981,7 @@
                             <label class="text-sm font-medium">Neuer Status *</label>
                             <select id="modal-archive-status" required>
                                 <option value="">Bitte wählen...</option>
-                                ${statusOptions.includes('completed') ? '<option value="completed">? Abgeschlossen (erfolgreich beendet)</option>' : ''}
+                                ${statusOptions.includes('completed') ? '<option value="completed">🎯 Abgeschlossen (erfolgreich beendet)</option>' : ''}
                                 <option value="archived">📦 Archiviert (nur lesend)</option>
                             </select>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
