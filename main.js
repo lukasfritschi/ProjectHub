@@ -1,3 +1,16 @@
+(function () {
+  const desc = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'style');
+  // nur Logging, keine Funktionalität ändern
+  const origSet = CSSStyleDeclaration.prototype.setProperty;
+  CSSStyleDeclaration.prototype.setProperty = function (name, value, priority) {
+    if (this === document.body?.style && name === 'visibility') {
+      console.warn('[VISIBILITY] body visibility set to:', value, 'priority:', priority, new Error().stack);
+    }
+    return origSet.call(this, name, value, priority);
+  };
+})();
+
+
 	// ============================================================
 	// GLOBAL AUTH HANDLING FOR FETCH (401 LOGIN)
 	// ============================================================
@@ -26,16 +39,15 @@
     
     document.addEventListener('DOMContentLoaded', async () => {
         const appRoot = document.getElementById('app-root');
-        let unauthorized = false;
+        let readyToShow = false;
 
         try {
-            // 1) State laden (kann 401 auslösen -> Redirect Flow)
+            // Wenn AppState.load intern bei 401 redirectet/throwt, kommen wir hier nicht sauber durch
             await AppState.load();
 
-            // 2) UI initialisieren
             UI.init();
 
-            // 3) Deep-Linking: Direkt ein Projekt öffnen, wenn im Hash übergeben
+            // Deep-Linking
             const hash = window.location.hash;
             if (hash && hash.startsWith('#project/')) {
                 const projectId = hash.replace('#project/', '');
@@ -44,17 +56,19 @@
                 }
             }
 
+            // NUR wenn wir bis hierhin gekommen sind, gilt: ready
+            readyToShow = true;
+
         } catch (err) {
             console.error("Init-Fehler:", err);
 
-            // 401/Unauthorized: App NICHT freigeben (Security), Loader bleibt sichtbar
-            if (err && typeof err.message === 'string' && err.message.includes('Unauthorized')) {
-                unauthorized = true;
+            // 401: NICHT ready (Body bleibt hidden, Loader bleibt sichtbar)
+            if (err?.message?.includes('Unauthorized')) {
                 return;
             }
 
-            // Andere Fehler: App darf sichtbar werden (sonst “hängt” man im Loader)
-            // Optional: Fehlerbanner oben in der App anzeigen
+            // Andere Fehler: wir erlauben trotzdem die Anzeige + Banner,
+            // sonst hängt man dauerhaft im Loader
             const errorBannerId = 'global-init-error';
             let banner = document.getElementById(errorBannerId);
             if (!banner && appRoot) {
@@ -70,21 +84,25 @@
                 appRoot.prepend(banner);
             }
 
-        } finally {
-            // Nur wenn wir NICHT im Unauthorized/Redirect-Fall sind:
-            if (!unauthorized) {
-                // App wirklich freigeben (verhindert InPrivate-Flash)
-                document.body.style.visibility = 'visible';
+            // In diesem Fall wollen wir die App trotzdem zeigen
+            readyToShow = true;
 
-                // Preload-Modus verlassen (falls du ihn nutzt)
+        } finally {
+            if (readyToShow) {
+                // Preload beenden
                 document.documentElement.classList.remove('preload');
 
-                // Loader entfernen (hard)
+                // Loader entfernen
                 const loader = document.getElementById('loading-screen');
                 if (loader) loader.remove();
+
+                // Body freigeben (einziger Ort!)
+                document.body.style.visibility = 'visible';
             }
+            // else: NICHTS tun → Body bleibt hidden → kein Flash möglich
         }
     });
+
 
     // ============================================================
     // DEMO-DATEN LOADER
