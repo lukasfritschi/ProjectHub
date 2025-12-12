@@ -3,6 +3,13 @@
         // ============================================================
 
         const UI = {
+            // -----------------------------
+            // UI-State: Kosten Filter & Suche
+            // -----------------------------
+            UI.costsFilters = { q: '', type: '', status: '' };
+            UI._costsFilterBound = false;
+            UI._costsSearchTimer = null;
+
             currentTab: 'overview',
 
             init() {
@@ -991,6 +998,107 @@
 
             renderCostsTab() {
                 const costs = AppState.getProjectCosts(AppState.currentProjectId);
+                // ------------------------------------------------------------
+                // Filter & Suche initialisieren (einmalig binden)
+                // ------------------------------------------------------------
+                const searchEl = document.getElementById('costs-search');
+                const typeEl = document.getElementById('costs-filter-type');
+                const statusEl = document.getElementById('costs-filter-status');
+                const resetEl = document.getElementById('costs-filter-reset');
+                const countEl = document.getElementById('costs-filter-count');
+
+                // Controls mit gespeichertem State befüllen
+                if (searchEl) searchEl.value = this.costsFilters.q || '';
+                if (typeEl) typeEl.value = this.costsFilters.type || '';
+                if (statusEl) statusEl.value = this.costsFilters.status || '';
+
+                if (!this._costsFilterBound) {
+                  this._costsFilterBound = true;
+
+                  if (searchEl) {
+                    searchEl.addEventListener('input', () => {
+                      // Debounce
+                      clearTimeout(this._costsSearchTimer);
+                      this._costsSearchTimer = setTimeout(() => {
+                        this.costsFilters.q = (searchEl.value || '').trim();
+                        this.renderCostsTab();
+                      }, 150);
+                    });
+                  }
+
+                  if (typeEl) {
+                    typeEl.addEventListener('change', () => {
+                      this.costsFilters.type = typeEl.value || '';
+                      this.renderCostsTab();
+                    });
+                  }
+
+                  if (statusEl) {
+                    statusEl.addEventListener('change', () => {
+                      this.costsFilters.status = statusEl.value || '';
+                      this.renderCostsTab();
+                    });
+                  }
+
+                  if (resetEl) {
+                    resetEl.addEventListener('click', () => {
+                      this.costsFilters = { q: '', type: '', status: '' };
+                      if (searchEl) searchEl.value = '';
+                      if (typeEl) typeEl.value = '';
+                      if (statusEl) statusEl.value = '';
+                      this.renderCostsTab();
+                    });
+                  }
+                }
+
+                // ------------------------------------------------------------
+                // Filter anwenden
+                // ------------------------------------------------------------
+                const totalCount = costs.length;
+
+                let filteredCosts = [...costs];
+
+                // Kostenart
+                if (this.costsFilters.type) {
+                  filteredCosts = filteredCosts.filter(c => c.type === this.costsFilters.type);
+                }
+
+                // Status
+                if (this.costsFilters.status) {
+                  if (this.costsFilters.status === '__none__') {
+                    filteredCosts = filteredCosts.filter(c => !c.status);
+                  } else {
+                    filteredCosts = filteredCosts.filter(c => (c.status || '') === this.costsFilters.status);
+                  }
+                }
+
+                // Suche (Beschreibung, Datum, Betrag, Statuslabel, Typ)
+                const q = (this.costsFilters.q || '').toLowerCase();
+                if (q) {
+                  filteredCosts = filteredCosts.filter(c => {
+                    const amountStr = String(c.amount ?? '').toLowerCase();
+                    const dateStr = String(c.date ?? '').toLowerCase();
+                    const descStr = String(c.description ?? '').toLowerCase();
+                    const typeStr = String(this.getCostTypeLabel(c.type) ?? '').toLowerCase();
+                    const statusStr = String(c.status ?? '').toLowerCase();
+                    const refStr = String(c.referenceNo ?? '').toLowerCase();
+
+                    return (
+                      descStr.includes(q) ||
+                      refStr.includes(q) ||
+                      dateStr.includes(q) ||
+                      amountStr.includes(q) ||
+                      typeStr.includes(q) ||
+                      statusStr.includes(q)
+                    );
+                  });
+                }
+
+                // Trefferanzeige
+                if (countEl) {
+                  countEl.textContent = `${filteredCosts.length} / ${totalCount}`;
+                }
+
                 const project = AppState.getProject(AppState.currentProjectId);
                 const costsByCategory = AppState.getProjectCostsByCategory(AppState.currentProjectId);
                 const burnrate = AppState.calculateBurnrate(AppState.currentProjectId);
@@ -1068,12 +1176,13 @@
                     `;
                 }
 
-                // Render cost details table (IST only)
-                const tbody = document.querySelector('#costs-table tbody');
-                if (!tbody) return;
-
                 if (costs.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
+                    return;
+                }
+
+                if (filteredCosts.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten gefunden</td></tr>';
                     return;
                 }
 
