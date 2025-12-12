@@ -7,7 +7,6 @@
             // UI-State: Kosten Filter & Suche
             // -----------------------------
             costsFilters : { q: '', type: '', status: '' },
-            _costsFilterBound : false,
             _costsSearchTimer : null,
 
             currentTab: 'overview',
@@ -1003,6 +1002,7 @@
                 // ------------------------------------------------------------
                 // Filter & Suche initialisieren (einmalig binden)
                 // ------------------------------------------------------------
+                // Filter Controls holen (müssen im statischen HTML stehen!)
                 const searchEl = document.getElementById('costs-search');
                 const typeEl = document.getElementById('costs-filter-type');
                 const statusEl = document.getElementById('costs-filter-status');
@@ -1014,44 +1014,44 @@
                 if (typeEl) typeEl.value = this.costsFilters.type || '';
                 if (statusEl) statusEl.value = this.costsFilters.status || '';
 
-                if (!this._costsFilterBound) {
-                  this._costsFilterBound = true;
+                // Debounce Timer (lokal über UI-Objekt)
+                if (this._costsSearchTimer === undefined) this._costsSearchTimer = null;
 
-                  if (searchEl) {
-                    searchEl.addEventListener('input', () => {
-                      // Debounce
-                      clearTimeout(this._costsSearchTimer);
-                      this._costsSearchTimer = setTimeout(() => {
-                        this.costsFilters.q = (searchEl.value || '').trim();
-                        this.renderCostsTab();
-                      }, 150);
-                    });
-                  }
-
-                  if (typeEl) {
-                    typeEl.addEventListener('change', () => {
-                      this.costsFilters.type = typeEl.value || '';
+                // Handler jedes Mal setzen (robust gegen DOM-Rebuild)
+                if (searchEl) {
+                  searchEl.oninput = () => {
+                    clearTimeout(this._costsSearchTimer);
+                    this._costsSearchTimer = setTimeout(() => {
+                      this.costsFilters.q = (searchEl.value || '').trim();
                       this.renderCostsTab();
-                    });
-                  }
-
-                  if (statusEl) {
-                    statusEl.addEventListener('change', () => {
-                      this.costsFilters.status = statusEl.value || '';
-                      this.renderCostsTab();
-                    });
-                  }
-
-                  if (resetEl) {
-                    resetEl.addEventListener('click', () => {
-                      this.costsFilters = { q: '', type: '', status: '' };
-                      if (searchEl) searchEl.value = '';
-                      if (typeEl) typeEl.value = '';
-                      if (statusEl) statusEl.value = '';
-                      this.renderCostsTab();
-                    });
-                  }
+                    }, 150);
+                  };
                 }
+
+                if (typeEl) {
+                  typeEl.onchange = () => {
+                    this.costsFilters.type = typeEl.value || '';
+                    this.renderCostsTab();
+                  };
+                }
+
+                if (statusEl) {
+                  statusEl.onchange = () => {
+                    this.costsFilters.status = statusEl.value || '';
+                    this.renderCostsTab();
+                  };
+                }
+
+                if (resetEl) {
+                  resetEl.onclick = () => {
+                    this.costsFilters = { q: '', type: '', status: '' };
+                    if (searchEl) searchEl.value = '';
+                    if (typeEl) typeEl.value = '';
+                    if (statusEl) statusEl.value = '';
+                    this.renderCostsTab();
+                  };
+                }
+
 
                 // ------------------------------------------------------------
                 // Filter anwenden
@@ -1179,13 +1179,14 @@
                 }
 
                 if (costs.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
-                    return;
+                  tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
+                  if (countEl) countEl.textContent = `0 / 0`;
+                  return;
                 }
 
                 if (filteredCosts.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten gefunden</td></tr>';
-                    return;
+                  tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten gefunden</td></tr>';
+                  return;
                 }
 
                 tbody.innerHTML = costs.map(cost => {
