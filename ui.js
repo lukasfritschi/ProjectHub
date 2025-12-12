@@ -3845,11 +3845,13 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Phase *</label>
-                                <select id="modal-project-phase" required>
+                                <select id="modal-milestone-phase">
+                                    <option value="Vorbereitung">Vorbereitung</option>
+                                    <option value="Machbarkeit">Machbarkeit</option>
                                     <option value="Konzept">Konzept</option>
                                     <option value="Entwicklung">Entwicklung</option>
-                                    <option value="Test">Test</option>
-                                    <option value="Rollout">Rollout</option>
+                                    <option value="Industrialisierung">Industrialisierung</option>
+                                    <option value="Markteinführung">Markteinführung</option>
                                 </select>
                             </div>
                             <div>
@@ -4108,10 +4110,12 @@
                             <div>
                                 <label class="text-sm font-medium">Phase</label>
                                 <select id="modal-edit-phase">
+                                    <option value="Vorbereitung" ${project.phase === 'Vorbereitung' ? 'selected' : ''}>Vorbereitung</option>
+                                    <option value="Machbarkeit" ${project.phase === 'Machbarkeit' ? 'selected' : ''}>Machbarkeit</option>
                                     <option value="Konzept" ${project.phase === 'Konzept' ? 'selected' : ''}>Konzept</option>
                                     <option value="Entwicklung" ${project.phase === 'Entwicklung' ? 'selected' : ''}>Entwicklung</option>
-                                    <option value="Test" ${project.phase === 'Test' ? 'selected' : ''}>Test</option>
-                                    <option value="Rollout" ${project.phase === 'Rollout' ? 'selected' : ''}>Rollout</option>
+                                    <option value="Industrialisierung" ${project.phase === 'Industrialisierung' ? 'selected' : ''}>Industrialisierung</option>
+                                    <option value="Markteinführung" ${project.phase === 'Markteinführung' ? 'selected' : ''}>Markteinführung</option>
                                 </select>
                             </div>
                         </div>
@@ -4702,10 +4706,12 @@
                             <div>
                                 <label class="text-sm font-medium">Phase</label>
                                 <select id="modal-milestone-phase">
+                                    <option value="Vorbereitung">Vorbereitung</option>
+                                    <option value="Machbarkeit">Machbarkeit</option>
                                     <option value="Konzept">Konzept</option>
                                     <option value="Entwicklung">Entwicklung</option>
-                                    <option value="Test">Test</option>
-                                    <option value="Rollout">Rollout</option>
+                                    <option value="Industrialisierung">Industrialisierung</option>
+                                    <option value="Markteinführung">Markteinführung</option>
                                 </select>
                             </div>
                             <div>
