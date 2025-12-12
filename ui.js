@@ -998,6 +998,8 @@
 
             renderCostsTab() {
                 const costs = AppState.getProjectCosts(AppState.currentProjectId);
+                const tbody = document.querySelector('#costs-table tbody');
+                if (!tbody) return;
                 // ------------------------------------------------------------
                 // Filter & Suche initialisieren (einmalig binden)
                 // ------------------------------------------------------------
