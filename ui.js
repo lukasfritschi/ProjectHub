@@ -1189,7 +1189,7 @@
                   return;
                 }
 
-                tbody.innerHTML = costs.map(cost => {
+                tbody.innerHTML = filteredCosts.map(cost => {
                     let statusHtml = '';
                     let hasPartialPayments = false;
 
