@@ -259,6 +259,7 @@
                     const totalForecast = costsByCategory.intern.forecast + costsByCategory.extern.forecast + costsByCategory.investitionen.forecast;
                     const burnrate = AppState.calculateBurnrate(project.id);
                     const variance = totalForecast - totalBudget;
+                    const pnDisplay = project.projectNumber ? ('Nr. ' + this.escapeHtml(project.projectNumber) + ' · ') : '';
 
                     const priorityLabels = {1: 'Sehr hoch', 2: 'Hoch', 3: 'Mittel', 4: 'Niedrig', 5: 'Sehr niedrig'};
                     const priority = project.priority || 3;
@@ -275,7 +276,7 @@
                                             P${priority}
                                         </span>
                                     </div>
-                                    <p class="text-sm" style="color: var(--text-secondary);">${this.escapeHtml(project.projectLead)}</p>
+                                    <p class="text-sm" style="color: var(--text-secondary);">${pnDisplay}${this.escapeHtml(project.projectLead)}</p>
                                 </div>
                             </div>
                             <p class="text-sm mb-4" style="color: var(--text-secondary);">${this.escapeHtml(project.description.substring(0, 100))}...</p>
@@ -869,6 +870,11 @@
                                     <span style="color: var(--text-secondary);">Sponsor:</span><br>
                                     <strong>${this.escapeHtml(project.sponsor)}</strong>
                                 </div>
+                                <div>
+                                    <span style="color: var(--text-secondary);">Projektnummer:</span><br>
+                                    <strong>${this.escapeHtml(project.projectNumber || '-')}</strong>
+                                </div>
+
                                 <div>
                                     <span style="color: var(--text-secondary);">Phase:</span><br>
                                     <strong>${this.escapeHtml(project.phase)}</strong>
@@ -3801,6 +3807,11 @@
                             <input type="text" id="modal-project-name" placeholder="z.B. Digitalisierung HR" required>
                         </div>
                         <div>
+                            <label class="text-sm font-medium">Projektnummer *</label>
+                            <input type="text" id="modal-project-number" placeholder="z.B. PRJ-2025-001" required>
+                        </div>
+
+                        <div>
                             <label class="text-sm font-medium">Beschreibung *</label>
                             <textarea id="modal-project-description" rows="3" placeholder="Kurze Projektbeschreibung" required></textarea>
                         </div>
@@ -3873,6 +3884,7 @@
 
             saveNewProject() {
                 const name = document.getElementById('modal-project-name').value;
+                const projectNumber = document.getElementById('modal-project-number').value;
                 const description = document.getElementById('modal-project-description').value;
                 const lead = document.getElementById('modal-project-lead').value;
                 const sponsor = document.getElementById('modal-project-sponsor').value;
@@ -3883,14 +3895,25 @@
                 const currency = document.getElementById('modal-project-currency').value;
                 const priority = parseInt(document.getElementById('modal-project-priority').value) || 3;
 
-                if (!name || !description || !lead || !startDate || !endDate) {
+                if (!name || !projectnumber || !description || !lead || !startDate || !endDate) {
                     this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
                     return;
+                }
+
+                const pn = (projectNumber || '').trim().toLowerCase();
+                const duplicate = AppState.projects.some(p => {
+                  const existing = (p.projectNumber || '').trim().toLowerCase();
+                  return existing && existing === pn;
+                });
+                if (duplicate) {
+                  this.showAlert('Diese Projektnummer existiert bereits. Bitte wählen Sie eine eindeutige Nummer.');
+                  return;
                 }
 
                 const newProject = {
                     id: AppState.generateId(),
                     name,
+                    projectNumber: projectNumber.trim(),
                     description,
                     projectLead: lead,
                     sponsor,
@@ -4037,6 +4060,11 @@
                             <input type="text" id="modal-edit-name" value="${this.escapeHtml(project.name)}" required>
                         </div>
                         <div>
+                            <label class="text-sm font-medium">Projektnummer *</label>
+                            <input type="text" id="modal-edit-project-number"
+                                value="${this.escapeHtml(project.projectNumber || '')}" required>
+                        </div>
+                        <div>
                             <label class="text-sm font-medium">Beschreibung *</label>
                             <textarea id="modal-edit-description" rows="3" required>${this.escapeHtml(project.description)}</textarea>
                         </div>
@@ -4124,7 +4152,20 @@
 
             saveEditProject() {
                 const project = AppState.getProject(AppState.currentProjectId);
+                const projectNumber = document.getElementById('modal-edit-project-number').value;
                 if (!project) return;
+
+                const pn = (projectNumber || '').trim().toLowerCase();
+                const duplicate = AppState.projects.some(p => {
+                  if (p.id === project.id) return false;
+                  const existing = (p.projectNumber || '').trim().toLowerCase();
+                  return existing && existing === pn;
+                });
+                if (duplicate) {
+                  this.showAlert('Diese Projektnummer existiert bereits. Bitte wählen Sie eine eindeutige Nummer.');
+                  return;
+                }
+
 
                 const newStartDate = document.getElementById('modal-edit-start').value;
                 const newEndDate = document.getElementById('modal-edit-end').value;
@@ -4184,6 +4225,7 @@
                 }
 
                 project.name = document.getElementById('modal-edit-name').value;
+                project.projectNumber = projectNumber.trim();
                 project.description = document.getElementById('modal-edit-description').value;
                 project.projectLead = document.getElementById('modal-edit-project-lead').value;
                 project.sponsor = document.getElementById('modal-edit-sponsor').value;
