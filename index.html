@@ -435,9 +435,20 @@
     </style>
 </head>
 <body>
+    <!-- Vollflächige Lade-Seite -->
+    <div id="loading-screen">
+        <div class="loading-inner">
+            <img src="assets/LFG.png" alt="LFG Logo" class="loading-logo">
+            <div class="loading-title">Project Hub wird geladen …</div>
+            <div class="loading-subtitle">
+                Verbindung zu Microsoft herstellen & Projektdaten laden.
+            </div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
     <!-- Header -->
-	<div id="app-root">
-	    <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
+    <div id="app-root" style="visibility: hidden;">
+        <header style="border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;">
 	        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
 	            <div>
 	                <h1 class="text-2xl font-bold font-mono">Project Hub</h1>
