@@ -1,14 +1,25 @@
-(function () {
-  const desc = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'style');
-  // nur Logging, keine Funktionalität ändern
-  const origSet = CSSStyleDeclaration.prototype.setProperty;
-  CSSStyleDeclaration.prototype.setProperty = function (name, value, priority) {
-    if (this === document.body?.style && name === 'visibility') {
-      console.warn('[VISIBILITY] body visibility set to:', value, 'priority:', priority, new Error().stack);
+    async function ensureAuthenticatedOrRedirect() {
+      const res = await fetch('/.auth/me', { cache: 'no-store' });
+
+      // Falls aus irgendeinem Grund kein OK -> direkt Login
+      if (!res.ok) {
+        const redirect = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+        window.location.href = `/.auth/login/aad?post_login_redirect_uri=${redirect}`;
+        return false;
+      }
+
+      const data = await res.json();
+      const principal = data && data.clientPrincipal;
+
+      if (!principal) {
+        const redirect = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+        window.location.href = `/.auth/login/aad?post_login_redirect_uri=${redirect}`;
+        return false;
+      }
+
+      return true;
     }
-    return origSet.call(this, name, value, priority);
-  };
-})();
+
 
 
 	// ============================================================
@@ -38,71 +49,61 @@
     window.UI = UI;
     
     document.addEventListener('DOMContentLoaded', async () => {
-        const appRoot = document.getElementById('app-root');
-        let readyToShow = false;
+      const appRoot = document.getElementById('app-root');
+      let readyToShow = false;
 
-        try {
-            // Wenn AppState.load intern bei 401 redirectet/throwt, kommen wir hier nicht sauber durch
-            await AppState.load();
+      try {
+        // 0) Auth bestätigen (InPrivate-safe)
+        const ok = await ensureAuthenticatedOrRedirect();
+        if (!ok) return; // NICHT freigeben
 
-            UI.init();
+        // 1) State laden
+        await AppState.load();
 
-            // Deep-Linking
-            const hash = window.location.hash;
-            if (hash && hash.startsWith('#project/')) {
-                const projectId = hash.replace('#project/', '');
-                if (AppState.getProject(projectId)) {
-                    UI.showProjectDetails(projectId);
-                }
-            }
+        // 2) UI initialisieren
+        UI.init();
 
-            // NUR wenn wir bis hierhin gekommen sind, gilt: ready
-            readyToShow = true;
-
-        } catch (err) {
-            console.error("Init-Fehler:", err);
-
-            // 401: NICHT ready (Body bleibt hidden, Loader bleibt sichtbar)
-            if (err?.message?.includes('Unauthorized')) {
-                return;
-            }
-
-            // Andere Fehler: wir erlauben trotzdem die Anzeige + Banner,
-            // sonst hängt man dauerhaft im Loader
-            const errorBannerId = 'global-init-error';
-            let banner = document.getElementById(errorBannerId);
-            if (!banner && appRoot) {
-                banner = document.createElement('div');
-                banner.id = errorBannerId;
-                banner.style.padding = '0.75rem 1rem';
-                banner.style.background = '#fee2e2';
-                banner.style.color = '#b91c1c';
-                banner.style.fontFamily = 'system-ui, sans-serif';
-                banner.style.fontSize = '0.9rem';
-                banner.textContent =
-                    'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
-                appRoot.prepend(banner);
-            }
-
-            // In diesem Fall wollen wir die App trotzdem zeigen
-            readyToShow = true;
-
-        } finally {
-            if (readyToShow) {
-                // Preload beenden
-                document.documentElement.classList.remove('preload');
-
-                // Loader entfernen
-                const loader = document.getElementById('loading-screen');
-                if (loader) loader.remove();
-
-                // Body freigeben (einziger Ort!)
-                document.body.style.visibility = 'visible';
-            }
-            // else: NICHTS tun → Body bleibt hidden → kein Flash möglich
+        // 3) Deep-Linking
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#project/')) {
+          const projectId = hash.replace('#project/', '');
+          if (AppState.getProject(projectId)) UI.showProjectDetails(projectId);
         }
-    });
 
+        readyToShow = true;
+
+      } catch (err) {
+        console.error('Init-Fehler:', err);
+
+        // Bei echten Fehlern (≠ Auth): Banner zeigen und trotzdem freigeben
+        const errorBannerId = 'global-init-error';
+        let banner = document.getElementById(errorBannerId);
+        if (!banner && appRoot) {
+          banner = document.createElement('div');
+          banner.id = errorBannerId;
+          banner.style.padding = '0.75rem 1rem';
+          banner.style.background = '#fee2e2';
+          banner.style.color = '#b91c1c';
+          banner.style.fontFamily = 'system-ui, sans-serif';
+          banner.style.fontSize = '0.9rem';
+          banner.textContent =
+            'Fehler beim Initialisieren von ProjectHub. Details in der Browser-Konsole (F12 → Console).';
+          appRoot.prepend(banner);
+        }
+
+        readyToShow = true;
+
+      } finally {
+        if (readyToShow) {
+          document.documentElement.classList.remove('preload');
+
+          const loader = document.getElementById('loading-screen');
+          if (loader) loader.remove();
+
+          document.body.style.visibility = 'visible';
+        }
+      }
+    });
 
     // ============================================================
     // DEMO-DATEN LOADER
