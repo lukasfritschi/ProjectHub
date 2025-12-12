@@ -2157,7 +2157,7 @@
                     const msDate = parseDate(ms.date || ms.plannedDate);
                     ganttTasks.push({
                         id: ms.id,
-                        name: '? ' + (ms.name || 'Meilenstein'),
+                        name: '◆ ' + (ms.name || 'Meilenstein'),
                         start: msDate,
                         end: msDate,
                         progress: ms.status === 'completed' ? 100 : 0,
