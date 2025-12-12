@@ -1073,7 +1073,7 @@
                 if (!tbody) return;
 
                 if (costs.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
                     return;
                 }
 
@@ -1105,6 +1105,7 @@
                         <tr>
                             <td>${this.formatDate(cost.date)}</td>
                             <td>${this.escapeHtml(cost.description)}</td>
+                            <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
                             <td>${this.getCostTypeLabel(cost.type)}</td>
                             <td>${statusHtml}</td>
                             <td class="font-mono font-semibold">${this.formatCurrency(cost.amount || 0, project.currency)}</td>
@@ -1120,7 +1121,7 @@
                         const collapsibleId = `partial-payments-${cost.id}`;
                         mainRow += `
                             <tr>
-                                <td colspan="6" style="padding: 0; border-top: none;">
+                                <td colspan="7" style="padding: 0; border-top: none;">
                                     <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
                                         <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;" onclick="UI.togglePartialPaymentsSection('${collapsibleId}')">
                                             <span style="font-weight: 500; font-size: 0.875rem;">
@@ -4122,6 +4123,10 @@
                             <label class="text-sm font-medium">Beschreibung *</label>
                             <input type="text" id="modal-cost-description" placeholder="z.B. Entwicklung Backend-API" required>
                         </div>
+                        <div id="cost-reference-field" style="display:none;">
+                            <label class="text-sm font-medium">Bestell-/Rechnungsnummer</label>
+                            <input type="text" id="modal-cost-reference" placeholder="z.B. PO12345 / RE-98765">
+                        </div>
                         <div>
                             <label class="text-sm font-medium">Betrag (${project.currency}) *</label>
                             <input type="number" id="modal-cost-amount" step="0.01" min="0" placeholder="0.00" required>
@@ -4139,21 +4144,22 @@
             },
 
             toggleCostStatusField() {
-                // Support both add and edit modals
-                const typeSelect = document.getElementById('modal-cost-type') || document.getElementById('modal-edit-cost-type');
-                const statusField = document.getElementById('cost-status-field');
+              const typeSelect =
+                document.getElementById('modal-cost-type') ||
+                document.getElementById('modal-edit-cost-type');
 
-                if (typeSelect && statusField) {
-                    const type = typeSelect.value;
-                    // Show status only for external_service and investment (NOT for internal_hours)
-                    if (type === 'external_service' || type === 'investment') {
-                        statusField.style.display = 'block';
-                    } else {
-                        statusField.style.display = 'none';
-                    }
-                }
-                // Also trigger partial amount field check
-                this.togglePartialAmountField();
+              const statusField = document.getElementById('cost-status-field');
+              const refField = document.getElementById('cost-reference-field');
+
+              if (typeSelect) {
+                const type = typeSelect.value;
+                const isExternal = (type === 'external_service' || type === 'investment');
+
+                if (statusField) statusField.style.display = isExternal ? 'block' : 'none';
+                if (refField) refField.style.display = isExternal ? 'block' : 'none';
+              }
+
+              this.togglePartialAmountField();
             },
 
             togglePartialAmountField() {
@@ -4387,6 +4393,7 @@
                 const statusSelect = document.getElementById('modal-cost-status');
                 const status = statusSelect ? statusSelect.value : '';
                 const partialPayments = this.getPartialPaymentsFromForm();
+                const referenceNo = (document.getElementById('modal-cost-reference')?.value || '').trim();
 
                 if (!description || !date || isNaN(amount) || amount < 0) {
                     this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
@@ -4394,14 +4401,15 @@
                 }
 
                 const newCost = {
-                    id: AppState.generateId(),
-                    projectId: AppState.currentProjectId,
-                    type,
-                    date,
-                    description,
-                    amount,
-                    status: status || undefined,
-                    partialPayments: partialPayments.length > 0 ? partialPayments : undefined // Nur informativ, wird nicht in Berechnungen verwendet
+                  id: AppState.generateId(),
+                  projectId: AppState.currentProjectId,
+                  type,
+                  date,
+                  description,
+                  amount,
+                  status: status || undefined,
+                  referenceNo: referenceNo || undefined,
+                  partialPayments: partialPayments.length > 0 ? partialPayments : undefined
                 };
 
                 AppState.costs.push(newCost);
@@ -4452,6 +4460,12 @@
                             <label class="text-sm font-medium">Beschreibung *</label>
                             <input type="text" id="modal-edit-cost-description" value="${this.escapeHtml(cost.description)}" placeholder="z.B. Entwicklung Backend-API" required>
                         </div>
+                        <div id="cost-reference-field" style="display:none;">
+                            <label class="text-sm font-medium">Bestell-/Rechnungsnummer</label>
+                            <input type="text" id="modal-cost-reference"
+                                value="${this.escapeHtml(cost.referenceNo || '')}"
+                                placeholder="z.B. PO12345 / RE-98765">
+                        </div>
                         <div>
                             <label class="text-sm font-medium">Betrag (${project.currency}) *</label>
                             <input type="number" id="modal-edit-cost-amount" step="0.01" min="0" value="${cost.amount}" placeholder="0.00" required>
@@ -4493,6 +4507,7 @@
                 const statusSelect = document.getElementById('modal-cost-status');
                 const status = statusSelect ? statusSelect.value : '';
                 const partialPayments = this.getPartialPaymentsFromForm();
+                const referenceNo = (document.getElementById('modal-cost-reference')?.value || '').trim();
 
                 if (!description || !date || isNaN(amount) || amount < 0) {
                     this.showAlert('Bitte füllen Sie alle Felder korrekt aus.');
@@ -4506,6 +4521,7 @@
                 cost.amount = amount;
                 cost.status = status || undefined;
                 cost.partialPayments = partialPayments.length > 0 ? partialPayments : undefined; // Nur informativ, wird nicht in Berechnungen verwendet
+                cost.referenceNo = referenceNo || undefined;
                 // Remove old partialAmount field (migration)
                 delete cost.partialAmount;
 
