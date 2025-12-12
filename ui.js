@@ -259,7 +259,7 @@
                     const totalForecast = costsByCategory.intern.forecast + costsByCategory.extern.forecast + costsByCategory.investitionen.forecast;
                     const burnrate = AppState.calculateBurnrate(project.id);
                     const variance = totalForecast - totalBudget;
-                    const pnDisplay = project.projectNumber ? ('Nr. ' + this.escapeHtml(project.projectNumber) + ' · ') : '';
+                    const pnDisplay = project.projectNumber ? ('Projekt Nr.: ' + this.escapeHtml(project.projectNumber) + ' · ') : '';
 
                     const priorityLabels = {1: 'Sehr hoch', 2: 'Hoch', 3: 'Mittel', 4: 'Niedrig', 5: 'Sehr niedrig'};
                     const priority = project.priority || 3;
