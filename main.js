@@ -34,6 +34,13 @@
             // 2) UI initialisieren
             UI.init();
 
+            // >>> HIER rein <<<
+            const loader = document.getElementById('loading-screen');
+            if (loader) loader.remove();
+
+            // Optional, falls du preload nutzt
+            document.documentElement.classList.remove('preload');
+
             // 3) Deep-Linking: Direkt ein Projekt öffnen, wenn im Hash übergeben
             const hash = window.location.hash;
             if (hash && hash.startsWith('#project/')) {
