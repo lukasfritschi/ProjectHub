@@ -7375,7 +7375,7 @@
                         color = 'var(--danger)';
                         icon = '🔴';
                     } else if (isOrange) {
-                        color = '#facc15'; // warmes Gelb (Tailwind yellow-400)
+                        color = '#eab308'; // warmes Gelb (Tailwind yellow-400)
                         icon = '🟠';
                     }
                 }
