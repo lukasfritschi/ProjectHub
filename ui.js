@@ -6482,15 +6482,45 @@
 
             getBudgetVarianceHTML(forecast, budget, currency) {
                 const variance = forecast - budget;
-                const variancePercent = budget > 0 ? (variance / budget) * 100 : 0;
-                const color = variance > 0 ? 'var(--danger)' : 'var(--success)';
-                const icon = variance > 0 ? '🔴' : '🟢';
+
+                // Percent only makes sense if budget > 0. If budget is 0, we evaluate only absolute thresholds.
+                const hasBudget = budget > 0;
+                const variancePercent = hasBudget ? (variance / budget) * 100 : null;
+
+                // Traffic-light logic:
+                // - Green: variance <= 0 (forecast at or below budget)
+                // - Orange: variance > 0 AND (variancePercent <= 10% OR variance <= 100000)
+                // - Red: variance > 0 AND (variancePercent > 10% OR variance > 100000)
+                let color = 'var(--success)';
+                let icon = '🟢';
+
+                if (variance > 0) {
+                    const overPercent = hasBudget ? variancePercent > 10 : false;
+                    const withinPercent = hasBudget ? (variancePercent > 0 && variancePercent <= 10) : false;
+
+                    const overAbs = variance > 100000;
+                    const withinAbs = variance <= 100000;
+
+                    const isRed = overAbs || overPercent || (!hasBudget && overAbs);
+                    const isOrange = !isRed && (withinPercent || withinAbs);
+
+                    if (isRed) {
+                        color = 'var(--danger)';
+                        icon = '🔴';
+                    } else if (isOrange) {
+                        color = 'var(--warning)';
+                        icon = '🟠';
+                    }
+                }
+
+                const percentDisplay = hasBudget ? `(${Math.abs(variancePercent).toFixed(1)}%)` : '(—)';
 
                 return `
                     <span style="color: ${color};">
                         ${icon} ${this.formatCurrency(Math.abs(variance), currency)}
-                        (${Math.abs(variancePercent).toFixed(1)}%)
+                        ${percentDisplay}
                     </span>
                 `;
             }
+
         };
