@@ -6509,7 +6509,7 @@
                         color = 'var(--danger)';
                         icon = '🔴';
                     } else if (isOrange) {
-                        color = 'var(--warning)';
+                        color = '#facc15'; // warmes Gelb (Tailwind yellow-400)
                         icon = '🟠';
                     }
                 }
