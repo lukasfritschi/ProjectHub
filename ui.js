@@ -3845,7 +3845,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Phase *</label>
-                                <select id="modal-milestone-phase">
+                                <select id="modal-project-phase">
                                     <option value="Vorbereitung">Vorbereitung</option>
                                     <option value="Machbarkeit">Machbarkeit</option>
                                     <option value="Konzept">Konzept</option>
@@ -4705,7 +4705,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Phase</label>
-                                <select id="modal-milestone-phase">
+                                <select id="modal-project-phase">
                                     <option value="Vorbereitung">Vorbereitung</option>
                                     <option value="Machbarkeit">Machbarkeit</option>
                                     <option value="Konzept">Konzept</option>
