@@ -3808,7 +3808,7 @@
                         </div>
                         <div>
                             <label class="text-sm font-medium">Projektnummer *</label>
-                            <input type="text" id="modal-project-number" placeholder="z.B. PRJ-2025-001" required>
+                            <input type="text" id="modal-project-number" placeholder="z.B. 25E123 | 12345" required>
                         </div>
 
                         <div>
@@ -3897,7 +3897,7 @@
                 const currency = document.getElementById('modal-project-currency').value;
                 const priority = parseInt(document.getElementById('modal-project-priority').value) || 3;
 
-                if (!name || !projectnumber || !description || !lead || !startDate || !endDate) {
+                if (!name || !projectNumber || !description || !lead || !startDate || !endDate) {
                     this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
                     return;
                 }
