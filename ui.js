@@ -4782,7 +4782,7 @@
                             <div>
                                 <label class="text-sm font-medium">Wahrscheinlichkeit</label>
                                 <select id="modal-risk-probability">
-                                    <option value="low">Niedrig</option>
+                                    <option value="Niedrig">Niedrig</option>
                                     <option value="medium">Mittel</option>
                                     <option value="high">Hoch</option>
                                 </select>
