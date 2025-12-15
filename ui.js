@@ -4734,7 +4734,7 @@
             saveAddMilestone() {
                 const name = document.getElementById('modal-milestone-name').value;
                 const description = document.getElementById('modal-milestone-description').value;
-                const phase = document.getElementById('modal-milestone-phase').value;
+                const phase = document.getElementById('modal-project-phase').value;
                 const plannedDate = document.getElementById('modal-milestone-date').value;
                 const progress = parseInt(document.getElementById('modal-milestone-progress').value);
 
