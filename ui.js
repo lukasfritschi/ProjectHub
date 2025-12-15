@@ -307,8 +307,8 @@
                                 </div>
                                 <div>
                                     <span style="color: var(--text-secondary);">Abweichung (Forecast zu Budget):</span><br>
-                                    <strong class="font-mono" style="color: ${variance > 0 ? 'var(--danger)' : 'var(--success)'}">
-                                        ${variance > 0 ? '📉' : '📈'} ${this.formatCurrency(Math.abs(variance), project.currency)}
+                                    <strong class="font-mono">
+                                    ${this.getBudgetVarianceHTML(totalForecast, totalBudget, project.currency)}
                                     </strong>
                                 </div>
                             </div>
@@ -1175,10 +1175,11 @@
                                 </div>
                                 <div>
                                     <span class="text-sm" style="color: var(--text-secondary);">Abweichung (Forecast zu Budget)</span>
-                                    <div class="text-xl font-bold font-mono" style="color: ${totalVariance > 0 ? 'var(--danger)' : 'var(--success)'}">
-                                        ${this.formatCurrency(totalVariance, project.currency)} (${variancePercent.toFixed(1)}%)
+                                    <div class="text-xl font-bold font-mono">
+                                    ${this.getBudgetVarianceHTML(totalForecast, totalBudget, project.currency)}
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     `;
