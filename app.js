@@ -6737,12 +6737,13 @@
                     }
                 });
 
-                // Close on outside click
-                overlay.addEventListener('click', (e) => {
-                    if (e.target === overlay) {
-                        this.closeModal();
-                    }
+                // Close on outside press (pointerdown avoids accidental close when text is selected via drag)
+                overlay.addEventListener('pointerdown', (e) => {
+                  if (e.target === overlay) {
+                    this.closeModal();
+                  }
                 });
+
 
                 return overlay;
             },
@@ -6808,11 +6809,12 @@
                     onConfirm();
                 });
 
-                overlay.addEventListener('click', (e) => {
+                overlay.addEventListener('pointerdown', (e) => {
                     if (e.target === overlay) {
                         overlay.remove();
                     }
                 });
+
             },
 
             // ============================================================
