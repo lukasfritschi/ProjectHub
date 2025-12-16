@@ -6150,6 +6150,74 @@
 
                     doc.text(`Phase: ${project.phase || '-'}`, 20, yPos);
                     yPos += 6;
+
+                    // Nächstes Gate aus Milestones ableiten (Variante A: Gates = Milestones)
+                    let milestones = [];
+                    if (typeof AppState.getProjectMilestones === 'function') {
+                        milestones = AppState.getProjectMilestones(project.id) || [];
+                    } else if (typeof AppState.getProjectMilestone === 'function') {
+                        // falls eure Funktion anders heisst (nur als Fallback)
+                        milestones = AppState.getProjectMilestone(project.id) || [];
+                    } else if (project.milestones && Array.isArray(project.milestones)) {
+                        milestones = project.milestones;
+                    }
+
+                    let nextGate = null;
+                    let nextGateTime = null;
+
+                    for (let i = 0; i < milestones.length; i++) {
+                        const ms = milestones[i];
+                        if (!ms) continue;
+
+                        // Gate-Erkennung (name/type/category enthält "gate")
+                        const n = ms.name != null ? String(ms.name) : '';
+                        const t = ms.type != null ? String(ms.type) : '';
+                        const c = ms.category != null ? String(ms.category) : '';
+                        const hay = (n + ' ' + t + ' ' + c).toLowerCase();
+                        if (hay.indexOf('gate') === -1) continue;
+
+                        // Erledigt? (completed/done/status)
+                        let done = false;
+                        if (ms.completed === true) done = true;
+                        if (ms.done === true) done = true;
+                        if (!done) {
+                            const st = ms.status != null ? String(ms.status).toLowerCase() : '';
+                            if (st.indexOf('done') !== -1) done = true;
+                            if (st.indexOf('complete') !== -1) done = true;
+                            if (st.indexOf('erledigt') !== -1) done = true;
+                        }
+                        if (done) continue;
+
+                        // Datum (date/dueDate)
+                        const rawDate = ms.date != null ? ms.date : (ms.dueDate != null ? ms.dueDate : null);
+                        if (!rawDate) continue;
+
+                        const d = new Date(rawDate);
+                        const time = d.getTime();
+                        if (isNaN(time)) continue;
+
+                        // Nächstes (kleinstes Datum in der Zukunft/nahen Zukunft) – rein nach Datum sortiert
+                        if (nextGateTime === null || time < nextGateTime) {
+                            nextGateTime = time;
+                            nextGate = ms;
+                        }
+                    }
+
+                    let nextGateText = '-';
+                    if (nextGate) {
+                        const gateName = (nextGate.name != null && String(nextGate.name).trim() !== '')
+                            ? String(nextGate.name)
+                            : 'Gate';
+
+                        const rawDate = nextGate.date != null ? nextGate.date : (nextGate.dueDate != null ? nextGate.dueDate : null);
+                        const gateDate = rawDate ? this.formatDate(rawDate) : '-';
+
+                        nextGateText = gateName + ' (' + gateDate + ')';
+                    }
+
+                    doc.text('Nächstes Gate: ' + nextGateText, 20, yPos);
+                    yPos += 6;
+
                     doc.text(`Fortschritt: ${project.progress ?? 0}%`, 20, yPos);
                     yPos += 6;
                     doc.text(`Projektleiter: ${project.projectLead || '-'}`, 20, yPos);
