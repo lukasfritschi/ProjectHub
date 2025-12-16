@@ -3581,41 +3581,34 @@
                 const memberName = member && member.name ? member.name : 'Dieses Mitglied';
 
                 // 1) Referenz-Check: ist Member in irgendeinem Projekt-Team?
-                if (typeof AppState.isInProjectTeam === 'function') {
-                    const used = AppState.isInProjectTeam(memberId);
-                    if (used) {
+                const links = AppState.projectTeamMembers || [];
+                let projectId = null;
 
-                        // Projektname ermitteln (für bessere Fehlermeldung)
-                        const links = AppState.projectTeamMembers || [];
-                        let projectId = null;
-
-                        for (let i = 0; i < links.length; i++) {
-                            const l = links[i];
-                            if (l && l.memberId === memberId) {
-                                projectId = l.projectId;
-                                break;
-                            }
-                        }
-
-                        let projectName = null;
-                        if (projectId) {
-                            const projects = AppState.getAllProjects();
-                            for (let i = 0; i < projects.length; i++) {
-                                if (projects[i] && projects[i].id === projectId) {
-                                    projectName = projects[i].name;
-                                    break;
-                                }
-                            }
-                        }
-
-                        this.showAlert(
-                            memberName + ' kann nicht gelöscht werden, weil es im Projekt-Team von "' +
-                            (projectName || projectId || 'unbekannt') + '" verwendet wird.'
-                        );
-                        return;
+                for (let i = 0; i < links.length; i++) {
+                    const l = links[i];
+                    if (l && l.memberId === memberId) {
+                        projectId = l.projectId;
+                        break;
                     }
                 }
 
+                if (projectId) {
+                    // Projektname auflösen (optional, aber hilfreich)
+                    let projectName = null;
+                    const projects = AppState.getAllProjects();
+                    for (let i = 0; i < projects.length; i++) {
+                        if (projects[i] && projects[i].id === projectId) {
+                            projectName = projects[i].name;
+                            break;
+                        }
+                    }
+
+                    this.showAlert(
+                        memberName + ' kann nicht gelöscht werden, weil es im Projekt-Team von "' +
+                        (projectName || projectId || 'unbekannt') + '" verwendet wird.'
+                    );
+                    return;
+                }
 
                 // 2) Bestätigung
                 const ok = window.confirm(memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.');
