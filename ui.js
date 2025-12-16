@@ -5368,13 +5368,32 @@
 
                 const budget = project.budget || { forecastHistory: [] };
 
-                const intern = parseFloat(document.getElementById('modal-budget-intern').value) ?? 0;
-                const extern = parseFloat(document.getElementById('modal-budget-extern').value) ?? 0;
-                const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) ?? 0;
+                const budgetInternInput = document.getElementById('modal-budget-intern');
+                const budgetExternInput = document.getElementById('modal-budget-extern');
+                const budgetInvestitionenInput = document.getElementById('modal-budget-investitionen');
 
-                const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) ?? 0;
-                const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) ?? 0;
-                const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) ?? 0;
+                const intern = budgetInternInput.value === '' ? 0 : parseFloat(budgetInternInput.value);
+                const extern = budgetExternInput.value === '' ? 0 : parseFloat(budgetExternInput.value);
+                const investitionen = budgetInvestitionenInput.value === '' ? 0 : parseFloat(budgetInvestitionenInput.value);
+
+                // Leere Felder automatisch auf 0 setzen
+                budgetInternInput.value = intern;
+                budgetExternInput.value = extern;
+                budgetInvestitionenInput.value = investitionen;
+
+                const forecastInternInput = document.getElementById('modal-forecast-intern');
+                const forecastExternInput = document.getElementById('modal-forecast-extern');
+                const forecastInvestitionenInput = document.getElementById('modal-forecast-investitionen');
+
+                const forecastIntern = forecastInternInput.value === '' ? 0 : parseFloat(forecastInternInput.value);
+                const forecastExtern = forecastExternInput.value === '' ? 0 : parseFloat(forecastExternInput.value);
+                const forecastInvestitionen = forecastInvestitionenInput.value === '' ? 0 : parseFloat(forecastInvestitionenInput.value);
+
+                // Leere Felder im UI automatisch auf 0 setzen
+                forecastInternInput.value = forecastIntern;
+                forecastExternInput.value = forecastExtern;
+                forecastInvestitionenInput.value = forecastInvestitionen;
+
 
                 // ORIGINALE Werte (darf es NUR EINMAL geben)
                 const originalForecastIntern =
