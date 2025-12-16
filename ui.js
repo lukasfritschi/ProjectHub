@@ -1281,7 +1281,7 @@
 
                     UI.showEditCostModal(costId);
                   });
-                }
+                },
 
 
             renderMilestonesTab() {
