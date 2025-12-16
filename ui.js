@@ -5443,7 +5443,7 @@
                     forecastExtern,
                     forecastInvestitionen,
                     forecastTotal: forecastIntern + forecastExtern + forecastInvestitionen,
-                    forecastHistory: budget.forecastHistory || []
+                    forecastHistory: budget.forecastHistory || [],
                     forecastInitialized: budget.forecastInitialized === true
                 };
 
