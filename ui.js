@@ -3502,7 +3502,13 @@
                         label: 'Änderungen speichern',
                         onClick: () => this.handleEditMember(memberId),
                         primary: true
-                    }
+                    },
+                    {
+                        label: 'Löschen',
+                        onClick: () => this.deleteMember(memberId),
+                        danger: true
+                    },
+
                 ]);
 
                 // Update capacity preview
@@ -3567,6 +3573,71 @@
                     }
                 );
             },
+
+            deleteMember(memberId) {
+                // Member finden (für Anzeige/Confirm)
+                const members = AppState.members || [];
+                const member = members.find(m => m && m.id === memberId);
+                const memberName = member && member.name ? member.name : 'Dieses Mitglied';
+
+                // 1) Referenz-Check: ist Member in irgendeinem Projekt-Team?
+                if (typeof AppState.isInProjectTeam === 'function') {
+                    const used = AppState.isInProjectTeam(memberId);
+                    if (used) {
+
+                        // Projektname ermitteln (für bessere Fehlermeldung)
+                        const links = AppState.projectTeamMembers || [];
+                        let projectId = null;
+
+                        for (let i = 0; i < links.length; i++) {
+                            const l = links[i];
+                            if (l && l.memberId === memberId) {
+                                projectId = l.projectId;
+                                break;
+                            }
+                        }
+
+                        let projectName = null;
+                        if (projectId) {
+                            const projects = AppState.getAllProjects();
+                            for (let i = 0; i < projects.length; i++) {
+                                if (projects[i] && projects[i].id === projectId) {
+                                    projectName = projects[i].name;
+                                    break;
+                                }
+                            }
+                        }
+
+                        this.showAlert(
+                            memberName + ' kann nicht gelöscht werden, weil es im Projekt-Team von "' +
+                            (projectName || projectId || 'unbekannt') + '" verwendet wird.'
+                        );
+                        return;
+                    }
+                }
+
+
+                // 2) Bestätigung
+                const ok = window.confirm(memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.');
+                if (!ok) return;
+
+                // 3) Löschen: Member entfernen
+                AppState.members = members.filter(m => m && m.id !== memberId);
+
+                // 4) Sicherheit: auch allfällige Team-Links entfernen (sollte eigentlich nie nötig sein, aber sauber)
+                if (AppState.projectTeamMembers && Array.isArray(AppState.projectTeamMembers)) {
+                    AppState.projectTeamMembers = AppState.projectTeamMembers.filter(l => l && l.memberId !== memberId);
+                }
+
+                AppState.save();
+
+                // 5) UI refresh
+                this.closeModal();
+                this.renderGlobalTeam();
+                this.showAlert('Mitglied wurde gelöscht.');
+            },
+
+
 
             renderResourcesTab() {
                 const bookings = AppState.getProjectResourceBookings(AppState.currentProjectId);
