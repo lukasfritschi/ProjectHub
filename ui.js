@@ -5408,6 +5408,7 @@
                     if (!isFirstForecastEntry) {
                         const forecastHistory = budget.forecastHistory || [];
                         const previousForecastIntern = originalForecastIntern;
+
                         forecastHistory.push({
                             timestamp: new Date().toISOString(),
                             oldForecast: {
@@ -5424,30 +5425,9 @@
                             },
                             comment
                         });
+
                         budget.forecastHistory = forecastHistory;
                     }
-                }
-
-                    // Add to history (only Extern & Investitionen changes tracked, Intern is auto)
-                    const forecastHistory = budget.forecastHistory || [];
-                    const previousForecastIntern = originalForecastIntern;
-                    forecastHistory.push({
-                        timestamp: new Date().toISOString(),
-                        oldForecast: {
-                            intern: previousForecastIntern, // Always current auto-calculated value
-                            extern: originalForecastExtern,
-                            investitionen: originalForecastInvestitionen,
-                            total: previousForecastIntern + originalForecastExtern + originalForecastInvestitionen
-                        },
-                        newForecast: {
-                            intern: forecastIntern, // Current auto-calculated value
-                            extern: forecastExtern,
-                            investitionen: forecastInvestitionen,
-                            total: forecastIntern + forecastExtern + forecastInvestitionen
-                        },
-                        comment
-                    });
-                    budget.forecastHistory = forecastHistory;
                 }
 
                 project.budget = {

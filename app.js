@@ -6256,6 +6256,7 @@
                 const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen || 0;
 
                 const forecastChanged =
+                    forecastIntern !== originalForecastIntern ||
                     forecastExtern !== originalForecastExtern ||
                     forecastInvestitionen !== originalForecastInvestitionen;
 
@@ -6274,6 +6275,7 @@
                     if (!isFirstForecastEntry) {
                         const forecastHistory = budget.forecastHistory || [];
                         const previousForecastIntern = originalForecastIntern;
+
                         forecastHistory.push({
                             timestamp: new Date().toISOString(),
                             oldForecast: {
@@ -6290,6 +6292,7 @@
                             },
                             comment
                         });
+
                         budget.forecastHistory = forecastHistory;
                     }
                 }
