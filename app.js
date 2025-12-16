@@ -6198,8 +6198,8 @@
                 // Store original forecast values (Intern is auto-calculated, so only track Extern & Investitionen)
                 const originalForecastExtern = budget.forecastExtern || budget.extern;
                 const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
-                const isFirstForecastEntry = !(Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0);
-
+                const isFirstForecastEntry = !(budget.forecastInitialized === true ||
+                    (Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0));
 
                 // Auto-calculate totals
                 const updateTotals = () => {
@@ -6260,10 +6260,15 @@
                     forecastExtern !== originalForecastExtern ||
                     forecastInvestitionen !== originalForecastInvestitionen;
 
-                const isFirstForecastEntry = !(Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0);
+                const isFirstForecastEntry = !(budget.forecastInitialized === true ||
+                    (Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0));
+
 
                 if (forecastChanged) {
                     const comment = (document.getElementById('modal-forecast-comment')?.value || '').trim();
+                    if (forecastChanged && isFirstForecastEntry) {
+                    budget.forecastInitialized = true; // merkt sich: Forecast wurde schon einmal gesetzt
+                    }
 
                     // Kommentar nur ab der 2. Forecast-Änderung erzwingen
                     if (!isFirstForecastEntry && !comment) {
@@ -6329,6 +6334,7 @@
                     forecastInvestitionen,
                     forecastTotal: forecastIntern + forecastExtern + forecastInvestitionen,
                     forecastHistory: budget.forecastHistory || []
+                    forecastInitialized: budget.forecastInitialized === true
                 };
 
                 AppState.save();
