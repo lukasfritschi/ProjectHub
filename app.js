@@ -7028,9 +7028,17 @@
                     doc.setFont('helvetica', 'normal');
 
                     const status = AppState.calculateProjectStatus(project.id);
-                    const statusColor = status === 'green' ? [34, 197, 94] : status === 'yellow' ? [251, 191, 36] : [239, 68, 68];
-                    doc.setTextColor(...statusColor);
-                    doc.text(`Status: ${status.toUpperCase()}`, 20, yPos);
+
+                    let statusLabel = 'Korrekturbedarf';
+                    if (status === 'green') statusLabel = 'Planmässig';
+                    else if (status === 'yellow') statusLabel = 'Beobachtung erforderlich';
+
+                    const statusColor = status === 'green'
+                        ? [34, 197, 94]
+                        : (status === 'yellow' ? [251, 191, 36] : [239, 68, 68]);
+
+                    doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
+                    doc.text('Status: ' + statusLabel, 20, yPos);
                     doc.setTextColor(0, 0, 0);
                     yPos += 6;
 
