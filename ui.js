@@ -5377,9 +5377,18 @@
                 const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) ?? 0;
 
                 // ORIGINALE Werte (darf es NUR EINMAL geben)
-                const originalForecastIntern = budget.forecastIntern || budget.intern ?? 0;
-                const originalForecastExtern = budget.forecastExtern || budget.extern ?? 0;
-                const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen ?? 0;
+                const originalForecastIntern =
+                budget.forecastIntern != null
+                    ? budget.forecastIntern
+                    : (budget.intern != null ? budget.intern : 0);
+                const originalForecastExtern =
+                budget.forecastExtern != null
+                    ? budget.forecastExtern
+                    : (budget.extern != null ? budget.extern : 0);
+                const originalForecastInvestitionen =
+                budget.forecastInvestitionen != null
+                    ? budget.investitionen
+                    : (budget.investitionen != null ? budget.investitionen : 0);
 
                 const forecastChanged =
                     forecastIntern !== originalForecastIntern ||
