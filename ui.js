@@ -3795,13 +3795,6 @@
                     this.exportAllProjectsToPDF(commentsByProjectId);
                 },
 
-                // Close modal
-                this.closeModal();
-
-                // Generate PDF
-                this.exportAllProjectsToPDF();
-            },
-
             showNewProjectModal() {
                 const modal = this.createModal('Neues Projekt erstellen', `
                     <div class="grid gap-4">
