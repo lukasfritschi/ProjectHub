@@ -5319,26 +5319,59 @@
                 //const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
 
                 // Originalwerte inkl. intern
-                const originalForecastIntern = budget.forecastIntern ?? budget.intern ?? 0;
-                const originalForecastExtern = budget.forecastExtern ?? budget.extern ?? 0;
-                const originalForecastInvestitionen = budget.forecastInvestitionen ?? budget.investitionen ?? 0;
+                const originalForecastIntern =
+                    budget.forecastIntern != null ? budget.forecastIntern : (budget.intern != null ? budget.intern : 0);
+                const originalForecastExtern =
+                    budget.forecastExtern != null ? budget.forecastExtern : (budget.extern != null ? budget.extern : 0);
+                const originalForecastInvestitionen =
+                    budget.forecastInvestitionen != null ? budget.forecastInvestitionen : (budget.investitionen != null ? budget.investitionen : 0);
+
                 const isFirstForecastEntry = !(budget.forecastInitialized === true ||
                     (Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0));
 
                 const updateTotals = () => {
-                    const intern = parseFloat(document.getElementById('modal-budget-intern').value) ?? 0;
-                    const extern = parseFloat(document.getElementById('modal-budget-extern').value) ?? 0;
-                    const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) ?? 0;
+                    const biEl = document.getElementById('modal-budget-intern');
+                    const beEl = document.getElementById('modal-budget-extern');
+                    const bvEl = document.getElementById('modal-budget-investitionen');
+
+                    let intern = (biEl.value === '' ? 0 : parseFloat(biEl.value));
+                    let extern = (beEl.value === '' ? 0 : parseFloat(beEl.value));
+                    let investitionen = (bvEl.value === '' ? 0 : parseFloat(bvEl.value));
+
+                    if (isNaN(intern)) intern = 0;
+                    if (isNaN(extern)) extern = 0;
+                    if (isNaN(investitionen)) investitionen = 0;
+
+                    // leere Felder im UI sofort auf 0 setzen
+                    if (biEl.value === '') biEl.value = '0';
+                    if (beEl.value === '') beEl.value = '0';
+                    if (bvEl.value === '') bvEl.value = '0';
+
                     const total = intern + extern + investitionen;
                     document.getElementById('budget-total-display').textContent =
                         this.formatCurrency(total, project.currency);
 
-                    const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) ?? 0;
-                    const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) ?? 0;
-                    const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) ?? 0;
+                    const fiEl = document.getElementById('modal-forecast-intern');
+                    const feEl = document.getElementById('modal-forecast-extern');
+                    const fvEl = document.getElementById('modal-forecast-investitionen');
+
+                    let forecastIntern = (fiEl.value === '' ? 0 : parseFloat(fiEl.value));
+                    let forecastExtern = (feEl.value === '' ? 0 : parseFloat(feEl.value));
+                    let forecastInvestitionen = (fvEl.value === '' ? 0 : parseFloat(fvEl.value));
+
+                    // falls parseFloat trotzdem NaN liefert (z.B. "-"), hart auf 0
+                    if (isNaN(forecastIntern)) forecastIntern = 0;
+                    if (isNaN(forecastExtern)) forecastExtern = 0;
+                    if (isNaN(forecastInvestitionen)) forecastInvestitionen = 0;
+
+                    // leere Felder im UI sofort auf 0 setzen (damit es auch visuell stimmt)
+                    if (fiEl.value === '') fiEl.value = '0';
+                    if (feEl.value === '') feEl.value = '0';
+                    if (fvEl.value === '') fvEl.value = '0';
+
                     const forecastTotal = forecastIntern + forecastExtern + forecastInvestitionen;
                     document.getElementById('forecast-total-display').textContent =
-                        this.formatCurrency(forecastTotal, project.currency);
+                      this.formatCurrency(forecastTotal, project.currency);
 
                     // Forecast-Änderung: jetzt inkl. intern
                     const forecastChanged =
@@ -5372,28 +5405,35 @@
                 const budgetExternInput = document.getElementById('modal-budget-extern');
                 const budgetInvestitionenInput = document.getElementById('modal-budget-investitionen');
 
-                const intern = budgetInternInput.value === '' ? 0 : parseFloat(budgetInternInput.value);
-                const extern = budgetExternInput.value === '' ? 0 : parseFloat(budgetExternInput.value);
-                const investitionen = budgetInvestitionenInput.value === '' ? 0 : parseFloat(budgetInvestitionenInput.value);
-
-                // Leere Felder automatisch auf 0 setzen
-                budgetInternInput.value = intern;
-                budgetExternInput.value = extern;
-                budgetInvestitionenInput.value = investitionen;
-
                 const forecastInternInput = document.getElementById('modal-forecast-intern');
                 const forecastExternInput = document.getElementById('modal-forecast-extern');
                 const forecastInvestitionenInput = document.getElementById('modal-forecast-investitionen');
 
-                const forecastIntern = forecastInternInput.value === '' ? 0 : parseFloat(forecastInternInput.value);
-                const forecastExtern = forecastExternInput.value === '' ? 0 : parseFloat(forecastExternInput.value);
-                const forecastInvestitionen = forecastInvestitionenInput.value === '' ? 0 : parseFloat(forecastInvestitionenInput.value);
+                // ---------- Budget ----------
+                let intern = budgetInternInput.value === '' ? 0 : parseFloat(budgetInternInput.value);
+                let extern = budgetExternInput.value === '' ? 0 : parseFloat(budgetExternInput.value);
+                let investitionen = budgetInvestitionenInput.value === '' ? 0 : parseFloat(budgetInvestitionenInput.value);
 
-                // Leere Felder im UI automatisch auf 0 setzen
-                forecastInternInput.value = forecastIntern;
-                forecastExternInput.value = forecastExtern;
-                forecastInvestitionenInput.value = forecastInvestitionen;
+                if (isNaN(intern)) intern = 0;
+                if (isNaN(extern)) extern = 0;
+                if (isNaN(investitionen)) investitionen = 0;
 
+                budgetInternInput.value = String(intern);
+                budgetExternInput.value = String(extern);
+                budgetInvestitionenInput.value = String(investitionen);
+
+                // ---------- Forecast ----------
+                let forecastIntern = forecastInternInput.value === '' ? 0 : parseFloat(forecastInternInput.value);
+                let forecastExtern = forecastExternInput.value === '' ? 0 : parseFloat(forecastExternInput.value);
+                let forecastInvestitionen = forecastInvestitionenInput.value === '' ? 0 : parseFloat(forecastInvestitionenInput.value);
+
+                if (isNaN(forecastIntern)) forecastIntern = 0;
+                if (isNaN(forecastExtern)) forecastExtern = 0;
+                if (isNaN(forecastInvestitionen)) forecastInvestitionen = 0;
+
+                forecastInternInput.value = String(forecastIntern);
+                forecastExternInput.value = String(forecastExtern);
+                forecastInvestitionenInput.value = String(forecastInvestitionen);
 
                 // ORIGINALE Werte (darf es NUR EINMAL geben)
                 const originalForecastIntern =
@@ -5406,8 +5446,16 @@
                     : (budget.extern != null ? budget.extern : 0);
                 const originalForecastInvestitionen =
                 budget.forecastInvestitionen != null
-                    ? budget.investitionen
+                    ? budget.forecastInvestitionen
                     : (budget.investitionen != null ? budget.investitionen : 0);
+
+                let originalForecastInternSafe = originalForecastIntern;
+                let originalForecastExternSafe = originalForecastExtern;
+                let originalForecastInvestitionenSafe = originalForecastInvestitionen;
+
+                if (isNaN(originalForecastInternSafe)) originalForecastInternSafe = 0;
+                if (isNaN(originalForecastExternSafe)) originalForecastExternSafe = 0;
+                if (isNaN(originalForecastInvestitionenSafe)) originalForecastInvestitionenSafe = 0;
 
                 const forecastChanged =
                     forecastIntern !== originalForecastIntern ||
