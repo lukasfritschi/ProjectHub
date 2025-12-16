@@ -5342,11 +5342,6 @@
                     if (isNaN(extern)) extern = 0;
                     if (isNaN(investitionen)) investitionen = 0;
 
-                    // leere Felder im UI sofort auf 0 setzen
-                    if (biEl.value === '') biEl.value = '0';
-                    if (beEl.value === '') beEl.value = '0';
-                    if (bvEl.value === '') bvEl.value = '0';
-
                     const total = intern + extern + investitionen;
                     document.getElementById('budget-total-display').textContent =
                         this.formatCurrency(total, project.currency);
@@ -5363,11 +5358,6 @@
                     if (isNaN(forecastIntern)) forecastIntern = 0;
                     if (isNaN(forecastExtern)) forecastExtern = 0;
                     if (isNaN(forecastInvestitionen)) forecastInvestitionen = 0;
-
-                    // leere Felder im UI sofort auf 0 setzen (damit es auch visuell stimmt)
-                    if (fiEl.value === '') fiEl.value = '0';
-                    if (feEl.value === '') feEl.value = '0';
-                    if (fvEl.value === '') fvEl.value = '0';
 
                     const forecastTotal = forecastIntern + forecastExtern + forecastInvestitionen;
                     document.getElementById('forecast-total-display').textContent =
