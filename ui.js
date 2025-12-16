@@ -1197,69 +1197,92 @@
                 }
 
                 tbody.innerHTML = filteredCosts.map(cost => {
-                    let statusHtml = '';
-                    let hasPartialPayments = false;
+                  let statusHtml = '';
+                  let hasPartialPayments = false;
 
-                    if (cost.status) {
-                        let statusColor = '';
-                        let statusLabel = cost.status;
+                  if (cost.status) {
+                    let statusColor = '';
+                    let statusLabel = cost.status;
 
-                        if (cost.status === 'teilzahlung_visiert') {
-                            statusColor = 'var(--warning)';
-                            statusLabel = 'Teilzahlung visiert';
-                            hasPartialPayments = cost.partialPayments && cost.partialPayments.length > 0;
-                        } else if (cost.status === 'vollzahlung_visiert') {
-                            statusColor = 'var(--success)';
-                            statusLabel = 'Vollzahlung visiert';
-                        } else if (cost.status === 'bestellt') {
-                            statusLabel = 'Bestellt';
-                        }
-
-                        statusHtml = `<span style="color: ${statusColor}; font-weight: 500;">${this.escapeHtml(statusLabel)}</span>`;
-                    } else {
-                        statusHtml = '-';
+                    if (cost.status === 'teilzahlung_visiert') {
+                      statusColor = 'var(--warning)';
+                      statusLabel = 'Teilzahlung visiert';
+                      hasPartialPayments = cost.partialPayments && cost.partialPayments.length > 0;
+                    } else if (cost.status === 'vollzahlung_visiert') {
+                      statusColor = 'var(--success)';
+                      statusLabel = 'Vollzahlung visiert';
+                    } else if (cost.status === 'bestellt') {
+                      statusLabel = 'Bestellt';
                     }
 
-                    let mainRow = `
-                        <tr>
-                            <td>${this.formatDate(cost.date)}</td>
-                            <td>${this.escapeHtml(cost.description)}</td>
-                            <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
-                            <td>${this.getCostTypeLabel(cost.type)}</td>
-                            <td>${statusHtml}</td>
-                            <td class="font-mono font-semibold">${this.formatCurrency(cost.amount ?? 0, project.currency)}</td>
-                            <td>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.showEditCostModal('${cost.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteCost('${cost.id}')">Löschen</button>
-                            </td>
-                        </tr>
+                    statusHtml = `<span style="color: ${statusColor}; font-weight: 500;">${this.escapeHtml(statusLabel)}</span>`;
+                  } else {
+                    statusHtml = '-';
+                  }
+
+                  let mainRow = `
+                    <tr data-cost-id="${cost.id}" class="clickable-row">
+                      <td>${this.formatDate(cost.date)}</td>
+                      <td>${this.escapeHtml(cost.description)}</td>
+                      <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
+                      <td>${this.getCostTypeLabel(cost.type)}</td>
+                      <td>${statusHtml}</td>
+                      <td class="font-mono font-semibold">${this.formatCurrency(cost.amount ?? 0, project.currency)}</td>
+                      <td class="text-sm" style="color: var(--text-secondary);">—</td>
+                    </tr>
+                  `;
+
+                  // Add collapsible partial payments section if applicable
+                  if (
+                    hasPartialPayments &&
+                    cost.status === 'teilzahlung_visiert' &&
+                    (cost.type === 'external_service' || cost.type === 'investment')
+                  ) {
+                    const collapsibleId = `partial-payments-${cost.id}`;
+                    mainRow += `
+                      <tr>
+                        <td colspan="7" style="padding: 0; border-top: none;">
+                          <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
+                            <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+                                 onpointerdown="UI.togglePartialPaymentsSection('${collapsibleId}')">
+                              <span style="font-weight: 500; font-size: 0.875rem;">
+                                <span id="${collapsibleId}-arrow" style="display: inline-block; transition: transform 0.2s;">▸</span>
+                                Teilzahlungen
+                              </span>
+                            </div>
+                            <div id="${collapsibleId}" style="display: none; padding: 0 1rem 1rem 1rem;">
+                              ${this.renderPartialPaymentsList(cost, project)}
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
                     `;
+                  }
 
-                    // Add collapsible partial payments section if applicable
-                    if (hasPartialPayments && cost.status === 'teilzahlung_visiert' && (cost.type === 'external_service' || cost.type === 'investment')) {
-                        const collapsibleId = `partial-payments-${cost.id}`;
-                        mainRow += `
-                            <tr>
-                                <td colspan="7" style="padding: 0; border-top: none;">
-                                    <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
-                                        <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;" onclick="UI.togglePartialPaymentsSection('${collapsibleId}')">
-                                            <span style="font-weight: 500; font-size: 0.875rem;">
-                                                <span id="${collapsibleId}-arrow" style="display: inline-block; transition: transform 0.2s;">▸</span>
-                                                Teilzahlungen
-                                            </span>
-                                        </div>
-                                        <div id="${collapsibleId}" style="display: none; padding: 0 1rem 1rem 1rem;">
-                                            ${this.renderPartialPaymentsList(cost, project)}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
-                    }
-
-                    return mainRow;
+                  return mainRow;
                 }).join('');
-            },
+
+                // ------------------------------------------------------------------
+                // Click-to-Edit (Event Delegation) – einmalig binden
+                // ------------------------------------------------------------------
+                if (!this._costsRowClickBound) {
+                  this._costsRowClickBound = true;
+
+                  tbody.addEventListener('pointerdown', (e) => {
+                    if (e.button !== 0) return; // nur Linksklick
+                    const tr = e.target.closest('tr');
+                    if (!tr) return;
+
+                    // Clicks on interactive controls ignore (future-proof)
+                    if (e.target.closest('button,a,input,select,textarea,label')) return;
+
+                    const costId = tr.getAttribute('data-cost-id');
+                    if (!costId) return; // e.g. partial-payment rows
+
+                    UI.showEditCostModal(costId);
+                  });
+                }
+
 
             renderMilestonesTab() {
                 const milestones = AppState.getProjectMilestones(AppState.currentProjectId);
