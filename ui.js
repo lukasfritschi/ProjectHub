@@ -393,7 +393,7 @@
                                 <td><strong>${this.escapeHtml(member.name)}</strong></td>
                                 <td>${this.escapeHtml(member.role)}</td>
                                 <td><span style="color: var(--text-secondary);">${this.escapeHtml(member.competencyGroup || 'Nicht zugewiesen')}</span></td>
-                                <td class="font-mono">${member.hourlyRateInternal || 0} CHF/h</td>
+                                <td class="font-mono">${member.hourlyRateInternal ?? 0} CHF/h</td>
                                 <td class="font-mono">${member.employmentLevel || 100}%</td>
                                 <td class="font-mono" style="color: var(--primary);">
                                     <strong>${member.availableCapacity || 80}%</strong>
@@ -913,7 +913,7 @@
                 const costs = AppState.getProjectCosts(AppState.currentProjectId);
                 const costsByCategory = AppState.getProjectCostsByCategory(AppState.currentProjectId);
                 const totalBudget = project.budget ? project.budget.total : 0;
-                const totalActual = costs.reduce((sum, c) => sum + (c.amount || 0), 0);
+                const totalActual = costs.reduce((sum, c) => sum + (c.amount ?? 0), 0);
                 const totalForecast = costsByCategory.intern.forecast + costsByCategory.extern.forecast + costsByCategory.investitionen.forecast;
 
                 const milestones = AppState.getProjectMilestones(AppState.currentProjectId);
@@ -1227,7 +1227,7 @@
                             <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
                             <td>${this.getCostTypeLabel(cost.type)}</td>
                             <td>${statusHtml}</td>
-                            <td class="font-mono font-semibold">${this.formatCurrency(cost.amount || 0, project.currency)}</td>
+                            <td class="font-mono font-semibold">${this.formatCurrency(cost.amount ?? 0, project.currency)}</td>
                             <td>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.showEditCostModal('${cost.id}')">Bearbeiten</button>
                                 <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteCost('${cost.id}')">Löschen</button>
@@ -1575,7 +1575,7 @@
                         name: task.name || task.description || 'Unnamed Task',
                         start: parseDate(task.startDate),
                         end: parseDate(task.endDate),
-                        progress: Math.min(100, Math.max(0, task.progress || 0)),
+                        progress: Math.min(100, Math.max(0, task.progress ?? 0)),
                         dependencies: dependencies,
                         custom_class: isCritical ? 'gantt-critical-path' : ''
                     };
@@ -2534,7 +2534,7 @@
                 tbody.innerHTML = tasks.map(task => {
                     const taskData = (cpData && cpData.taskData && cpData.taskData[task.id]) || {};
                     const isCritical = cpData && cpData.criticalPath && cpData.criticalPath.includes(task.id);
-                    const slack = taskData.slack || 0;
+                    const slack = taskData.slack ?? 0;
 
                     // NEW: Get member name instead of ID
                     let responsibleDisplay = '-';
@@ -2899,7 +2899,7 @@
                         dependencies: t.dependencies,
                         progress: t.progress,
                         isCritical: cpData.criticalPath.includes(t.id),
-                        slack: cpData.taskData[t.id]?.slack || 0
+                        slack: cpData.taskData[t.id]?.slack ?? 0
                     })),
                     criticalPath: cpData.criticalPath,
                     projectCompletionTime: cpData.projectCompletionTime
@@ -2945,7 +2945,7 @@
                         const projectBookings = AppState.resourceBookings.filter(rb =>
                             rb.projectId === projectId && rb.memberId === member.id
                         );
-                        const totalBooked = projectBookings.reduce((sum, b) => sum + (b.capacityPercent || 0), 0);
+                        const totalBooked = projectBookings.reduce((sum, b) => sum + (b.capacityPercent ?? 0), 0);
 
                         return `
                             <tr>
@@ -2954,7 +2954,7 @@
                                 <td>
                                     <input
                                         type="text"
-                                        value="${this.escapeHtml(ptm.roleInProject || '')}"
+                                        value="${this.escapeHtml(ptm.roleInProject ?? '')}"
                                         placeholder="z.B. Teilprojektleiter"
                                         style="padding: 0.25rem 0.5rem; border: 1px solid var(--border-color); border-radius: 0.25rem; width: 100%;"
                                         onchange="UI.updateProjectTeamRole('${ptm.id}', this.value)"
@@ -3239,7 +3239,7 @@
                             <tr style="${!isActive ? 'opacity: 0.6;' : ''}">
                                 <td><strong>${this.escapeHtml(member.name)}</strong></td>
                                 <td>${this.escapeHtml(member.role)}</td>
-                                <td class="font-mono">${member.hourlyRateInternal || 0} CHF/h</td>
+                                <td class="font-mono">${member.hourlyRateInternal ?? 0} CHF/h</td>
                                 <td class="font-mono">${member.employmentLevel || 100}%</td>
                                 <td class="font-mono" style="color: var(--primary);">
                                     <strong>${member.availableCapacity || 80}%</strong>
@@ -3283,7 +3283,7 @@
 
                     const memberUtilization = activeMembers.map(member => {
                         const memberBookings = currentBookings.filter(b => b.memberId === member.id);
-                        const bookedCapacity = memberBookings.reduce((sum, b) => sum + (b.capacityPercent || 0), 0);
+                        const bookedCapacity = memberBookings.reduce((sum, b) => sum + (b.capacityPercent ?? 0), 0);
                         const utilizationPercent = member.availableCapacity > 0
                             ? Math.round((bookedCapacity / member.availableCapacity) * 100)
                             : 0;
@@ -3419,7 +3419,7 @@
                 const name = document.getElementById('modal-member-name').value.trim();
                 const role = document.getElementById('modal-member-role').value.trim();
                 const competencyGroup = document.getElementById('modal-member-competency').value.trim();
-                const rateInternal = parseFloat(document.getElementById('modal-member-rate-internal').value) || 0;
+                const rateInternal = parseFloat(document.getElementById('modal-member-rate-internal').value) ?? 0;
                 const employment = parseInt(document.getElementById('modal-member-employment').value) || 100;
 
                 if (!name || !role || !competencyGroup) {
@@ -3479,11 +3479,11 @@
                         </div>
                         <div>
                             <label class="text-sm font-medium">Stundensatz (CHF)</label>
-                            <input type="number" id="modal-member-rate-internal" step="0.01" min="0" value="${member.hourlyRateInternal || 0}">
+                            <input type="number" id="modal-member-rate-internal" step="0.01" min="0" value="${member.hourlyRateInternal ?? 0}">
                         </div>
                         <div>
                             <label class="text-sm font-medium">Anstellungsgrad (%)*</label>
-                            <input type="number" id="modal-member-employment" min="1" max="100" value="${member.employmentLevel || 100}" required>
+                            <input type="number" id="modal-member-employment" min="1" max="100" value="${member.employmentLevel ?? 100}" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">
                                 Verfügbare Kapazität wird automatisch berechnet (Anstellungsgrad × 0.8)
                             </p>
@@ -3524,7 +3524,7 @@
                 const name = document.getElementById('modal-member-name').value.trim();
                 const role = document.getElementById('modal-member-role').value.trim();
                 const competencyGroup = document.getElementById('modal-member-competency').value.trim();
-                const rateInternal = parseFloat(document.getElementById('modal-member-rate-internal').value) || 0;
+                const rateInternal = parseFloat(document.getElementById('modal-member-rate-internal').value) ?? 0;
                 const employment = parseInt(document.getElementById('modal-member-employment').value) || 100;
 
                 if (!name || !role || !competencyGroup) {
@@ -5283,23 +5283,23 @@
                             <input
                                 type="number"
                                 id="modal-forecast-intern"
-                                value="${(typeof budget.forecastIntern === 'number' ? budget.forecastIntern : budget.intern) || 0}"
+                                value="${(typeof budget.forecastIntern === 'number' ? budget.forecastIntern : budget.intern) ?? 0}"
                                 step="1000"
                                 required
                             >
                         </div>
                         <div>
                             <label class="text-sm font-medium">Forecast Extern (${project.currency}) *</label>
-                            <input type="number" id="modal-forecast-extern" value="${budget.forecastExtern || budget.extern || 0}" step="1000" required>
+                            <input type="number" id="modal-forecast-extern" value="${budget.forecastExtern ?? budget.extern ?? 0}" step="1000" required>
                         </div>
                         <div>
                             <label class="text-sm font-medium">Forecast Investitionen (${project.currency}) *</label>
-                            <input type="number" id="modal-forecast-investitionen" value="${budget.forecastInvestitionen || budget.investitionen || 0}" step="1000" required>
+                            <input type="number" id="modal-forecast-investitionen" value="${budget.forecastInvestitionen ?? budget.investitionen ?? 0}" step="1000" required>
                         </div>
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
                             <span class="text-sm" style="color: var(--text-secondary);">Total Forecast</span>
                             <div class="text-xl font-bold font-mono" id="forecast-total-display">
-                                ${this.formatCurrency(budget.forecastTotal || budget.total || 0, project.currency)}
+                                ${this.formatCurrency(budget.forecastTotal ?? budget.total ?? 0, project.currency)}
                             </div>
                         </div>
                         <div id="forecast-comment-container" class="hidden">
@@ -5319,23 +5319,23 @@
                 //const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
 
                 // Originalwerte inkl. intern
-                const originalForecastIntern = budget.forecastIntern || budget.intern || 0;
-                const originalForecastExtern = budget.forecastExtern || budget.extern || 0;
-                const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen || 0;
+                const originalForecastIntern = budget.forecastIntern ?? budget.intern ?? 0;
+                const originalForecastExtern = budget.forecastExtern ?? budget.extern ?? 0;
+                const originalForecastInvestitionen = budget.forecastInvestitionen ?? budget.investitionen ?? 0;
                 const isFirstForecastEntry = !(budget.forecastInitialized === true ||
                     (Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0));
 
                 const updateTotals = () => {
-                    const intern = parseFloat(document.getElementById('modal-budget-intern').value) || 0;
-                    const extern = parseFloat(document.getElementById('modal-budget-extern').value) || 0;
-                    const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) || 0;
+                    const intern = parseFloat(document.getElementById('modal-budget-intern').value) ?? 0;
+                    const extern = parseFloat(document.getElementById('modal-budget-extern').value) ?? 0;
+                    const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) ?? 0;
                     const total = intern + extern + investitionen;
                     document.getElementById('budget-total-display').textContent =
                         this.formatCurrency(total, project.currency);
 
-                    const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) || 0;
-                    const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) || 0;
-                    const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) || 0;
+                    const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) ?? 0;
+                    const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) ?? 0;
+                    const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) ?? 0;
                     const forecastTotal = forecastIntern + forecastExtern + forecastInvestitionen;
                     document.getElementById('forecast-total-display').textContent =
                         this.formatCurrency(forecastTotal, project.currency);
@@ -5368,18 +5368,18 @@
 
                 const budget = project.budget || { forecastHistory: [] };
 
-                const intern = parseFloat(document.getElementById('modal-budget-intern').value) || 0;
-                const extern = parseFloat(document.getElementById('modal-budget-extern').value) || 0;
-                const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) || 0;
+                const intern = parseFloat(document.getElementById('modal-budget-intern').value) ?? 0;
+                const extern = parseFloat(document.getElementById('modal-budget-extern').value) ?? 0;
+                const investitionen = parseFloat(document.getElementById('modal-budget-investitionen').value) ?? 0;
 
-                const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) || 0;
-                const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) || 0;
-                const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) || 0;
+                const forecastIntern = parseFloat(document.getElementById('modal-forecast-intern').value) ?? 0;
+                const forecastExtern = parseFloat(document.getElementById('modal-forecast-extern').value) ?? 0;
+                const forecastInvestitionen = parseFloat(document.getElementById('modal-forecast-investitionen').value) ?? 0;
 
                 // ORIGINALE Werte (darf es NUR EINMAL geben)
-                const originalForecastIntern = budget.forecastIntern || budget.intern || 0;
-                const originalForecastExtern = budget.forecastExtern || budget.extern || 0;
-                const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen || 0;
+                const originalForecastIntern = budget.forecastIntern || budget.intern ?? 0;
+                const originalForecastExtern = budget.forecastExtern || budget.extern ?? 0;
+                const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen ?? 0;
 
                 const forecastChanged =
                     forecastIntern !== originalForecastIntern ||
@@ -5542,7 +5542,7 @@
                     const memberId = document.getElementById('modal-booking-member').value;
                     const startDate = document.getElementById('modal-booking-start').value;
                     const endDate = document.getElementById('modal-booking-end').value;
-                    const capacityPercent = parseFloat(document.getElementById('modal-booking-capacity').value) || 0;
+                    const capacityPercent = parseFloat(document.getElementById('modal-booking-capacity').value) ?? 0;
 
                     if (!memberId || !startDate || !endDate || !capacityPercent) return;
 
@@ -5575,7 +5575,7 @@
                 const memberId = document.getElementById('modal-booking-member').value;
                 const startDate = document.getElementById('modal-booking-start').value;
                 const endDate = document.getElementById('modal-booking-end').value;
-                const capacityPercent = parseFloat(document.getElementById('modal-booking-capacity').value) || 0;
+                const capacityPercent = parseFloat(document.getElementById('modal-booking-capacity').value) ?? 0;
                 const description = document.getElementById('modal-booking-description').value;
 
                 if (!memberId || !startDate || !endDate || !capacityPercent) {
@@ -5719,7 +5719,7 @@
                     const memberId = document.getElementById('modal-edit-booking-member').value;
                     const startDate = document.getElementById('modal-edit-booking-start').value;
                     const endDate = document.getElementById('modal-edit-booking-end').value;
-                    const capacityPercent = parseFloat(document.getElementById('modal-edit-booking-capacity').value) || 0;
+                    const capacityPercent = parseFloat(document.getElementById('modal-edit-booking-capacity').value) ?? 0;
 
                     if (!memberId || !startDate || !endDate || !capacityPercent) return;
 
@@ -5763,7 +5763,7 @@
                 const memberId = document.getElementById('modal-edit-booking-member').value;
                 const startDate = document.getElementById('modal-edit-booking-start').value;
                 const endDate = document.getElementById('modal-edit-booking-end').value;
-                const capacityPercent = parseFloat(document.getElementById('modal-edit-booking-capacity').value) || 0;
+                const capacityPercent = parseFloat(document.getElementById('modal-edit-booking-capacity').value) ?? 0;
                 const description = document.getElementById('modal-edit-booking-description').value;
 
                 if (!memberId || !startDate || !endDate || !capacityPercent) {
@@ -6089,7 +6089,7 @@
 
                     doc.text(`Phase: ${project.phase || '-'}`, 20, yPos);
                     yPos += 6;
-                    doc.text(`Fortschritt: ${project.progress || 0}%`, 20, yPos);
+                    doc.text(`Fortschritt: ${project.progress ?? 0}%`, 20, yPos);
                     yPos += 6;
                     doc.text(`Projektleiter: ${project.projectLead || '-'}`, 20, yPos);
                     yPos += 6;
@@ -6118,7 +6118,7 @@
                     // Kosten-Daten für Balkendiagramm vorbereiten
                     const costs = AppState.getProjectCosts(project.id);
                     const costsByCategory = AppState.getProjectCostsByCategory(project.id);
-                    const totalActual = costs.reduce((sum, c) => sum + (c.amount || 0), 0);
+                    const totalActual = costs.reduce((sum, c) => sum + (c.amount ?? 0), 0);
                     const totalForecast = costsByCategory.intern.forecast + costsByCategory.extern.forecast + costsByCategory.investitionen.forecast;
                     const budget = project.budget ? project.budget.total : 0;
 
@@ -6398,7 +6398,7 @@
                         const taskDates = `${this.formatDate(task.startDate)} - ${this.formatDate(task.endDate)}`;
                         doc.text(`${index + 1}. ${taskName}`, 15, yPos);
                         yPos += 6;
-                        doc.text(`   ${taskDates} (${task.progress || 0}%)`, 15, yPos);
+                        doc.text(`   ${taskDates} (${task.progress ?? 0}%)`, 15, yPos);
                         yPos += 8;
                     });
 
