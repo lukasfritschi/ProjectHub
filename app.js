@@ -4368,7 +4368,7 @@
                 AppState.save();
 
                 this.closeModal();
-                this.renderTeamTab();
+                this.renderGlobalTeam();
                 this.showAlert(`Mitglied "${name}" wurde erfolgreich hinzugefügt.`);
             },
 
