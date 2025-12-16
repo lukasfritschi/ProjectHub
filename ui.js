@@ -502,7 +502,7 @@
                                         <th>Gesamt-Kapazität (FTE)</th>
                                         <th>Gebuchte FTE</th>
                                         <th>Auslastung</th>
-                                        <th>Status</th>
+                                        <th>Phase</th>
                                     </tr>
                                 </thead>
                                 <tbody>
