@@ -5302,13 +5302,6 @@
                                 ${this.formatCurrency(budget.forecastTotal || budget.total || 0, project.currency)}
                             </div>
                         </div>
-
-                        <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <span class="text-sm" style="color: var(--text-secondary);">Total Forecast</span>
-                            <div class="text-xl font-bold font-mono" id="forecast-total-display">
-                                ${this.formatCurrency(budget.forecastTotal || budget.total, project.currency)}
-                            </div>
-                        </div>
                         <div id="forecast-comment-container" class="hidden">
                             <label class="text-sm font-medium" style="color: var(--warning);">Kommentar zur Forecast-Änderung *</label>
                             <textarea id="modal-forecast-comment" rows="3" placeholder="Bitte begründen Sie die Änderung des Forecasts..." required></textarea>
