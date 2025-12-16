@@ -4497,12 +4497,11 @@
             },
 
             deleteMember(memberId) {
-                // Member finden (für Anzeige/Confirm)
                 const members = AppState.members || [];
                 const member = members.find(m => m && m.id === memberId);
                 const memberName = member && member.name ? member.name : 'Dieses Mitglied';
 
-                // 1) Referenz-Check: ist Member in irgendeinem Projekt-Team?
+                // BLOCKIEREN, wenn in projectTeamMembers referenziert
                 const links = AppState.projectTeamMembers || [];
                 let projectId = null;
 
@@ -4515,7 +4514,6 @@
                 }
 
                 if (projectId) {
-                    // Projektname auflösen (optional, aber hilfreich)
                     let projectName = null;
                     const projects = AppState.getAllProjects();
                     for (let i = 0; i < projects.length; i++) {
@@ -4527,13 +4525,23 @@
 
                     this.showAlert(
                         memberName + ' kann nicht gelöscht werden, weil es im Projekt-Team von "' +
-                        (projectName || projectId || 'unbekannt') + '" verwendet wird.'
+                        (projectName || projectId) + '" verwendet wird.'
                     );
                     return;
                 }
 
+                // optional: Confirm
+                const ok = window.confirm(memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.');
+                if (!ok) return;
 
+                // löschen
+                AppState.members = members.filter(m => m && m.id !== memberId);
+                AppState.save();
 
+                this.closeModal();
+                this.renderGlobalTeam();
+                this.showAlert('Mitglied wurde gelöscht.');
+            }
                 // 2) Bestätigung
                 const ok = window.confirm(memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.');
                 if (!ok) return;
