@@ -6198,6 +6198,8 @@
                 // Store original forecast values (Intern is auto-calculated, so only track Extern & Investitionen)
                 const originalForecastExtern = budget.forecastExtern || budget.extern;
                 const originalForecastInvestitionen = budget.forecastInvestitionen || budget.investitionen;
+                const isFirstForecastEntry = !(Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0);
+
 
                 // Auto-calculate totals
                 const updateTotals = () => {
@@ -6220,7 +6222,7 @@
                         forecastInvestitionen !== originalForecastInvestitionen;
 
                     const commentContainer = document.getElementById('forecast-comment-container');
-                    if (forecastChanged) {
+                    if (forecastChanged && !isFirstForecastEntry) {
                         commentContainer.classList.remove('hidden');
                     } else {
                         commentContainer.classList.add('hidden');
@@ -6257,12 +6259,40 @@
                     forecastExtern !== originalForecastExtern ||
                     forecastInvestitionen !== originalForecastInvestitionen;
 
+                const isFirstForecastEntry = !(Array.isArray(budget.forecastHistory) && budget.forecastHistory.length > 0);
+
                 if (forecastChanged) {
-                    const comment = document.getElementById('modal-forecast-comment').value.trim();
-                    if (!comment) {
+                    const comment = (document.getElementById('modal-forecast-comment')?.value || '').trim();
+
+                    // Kommentar nur ab der 2. Forecast-Änderung erzwingen
+                    if (!isFirstForecastEntry && !comment) {
                         this.showAlert('Bitte geben Sie einen Kommentar zur Forecast-Änderung ein.');
                         return;
                     }
+
+                    // History nur schreiben, wenn Kommentar verlangt wurde (also nicht beim ersten Erfassen)
+                    if (!isFirstForecastEntry) {
+                        const forecastHistory = budget.forecastHistory || [];
+                        const previousForecastIntern = originalForecastIntern;
+                        forecastHistory.push({
+                            timestamp: new Date().toISOString(),
+                            oldForecast: {
+                                intern: previousForecastIntern,
+                                extern: originalForecastExtern,
+                                investitionen: originalForecastInvestitionen,
+                                total: previousForecastIntern + originalForecastExtern + originalForecastInvestitionen
+                            },
+                            newForecast: {
+                                intern: forecastIntern,
+                                extern: forecastExtern,
+                                investitionen: forecastInvestitionen,
+                                total: forecastIntern + forecastExtern + forecastInvestitionen
+                            },
+                            comment
+                        });
+                        budget.forecastHistory = forecastHistory;
+                    }
+                }
 
                     // Add to history (only Extern & Investitionen changes tracked, Intern is auto)
                     const forecastHistory = budget.forecastHistory || [];
