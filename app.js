@@ -4541,7 +4541,7 @@
                 this.closeModal();
                 this.renderGlobalTeam();
                 this.showAlert('Mitglied wurde gelöscht.');
-            }
+            },
                 // 2) Bestätigung
                 const ok = window.confirm(memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.');
                 if (!ok) return;

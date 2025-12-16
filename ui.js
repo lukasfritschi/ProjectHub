@@ -3619,7 +3619,7 @@
                 this.closeModal();
                 this.renderGlobalTeam();
                 this.showAlert('Mitglied wurde gelöscht.');
-            }
+            },
 
             renderResourcesTab() {
                 const bookings = AppState.getProjectResourceBookings(AppState.currentProjectId);
