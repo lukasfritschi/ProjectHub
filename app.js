@@ -4683,7 +4683,7 @@
                             rows="3"
                             placeholder="Management-Kommentar für dieses Projekt (optional)..."
                             style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);"
-                        >${project.managementComment || ''}</textarea>
+                        >${''}</textarea>
                     </div>
                 `).join('');
 
@@ -4701,26 +4701,18 @@
                 `);
             },
 
-            generateManagementReportWithComments() {
-                const projects = AppState.getAllProjects();
+                generateManagementReportWithComments() {
+                    const projects = AppState.getAllProjects();
+                    const commentsByProjectId = {};
 
-                // Save comments to each project
-                projects.forEach(project => {
-                    const commentField = document.getElementById(`mgmt-comment-${project.id}`);
-                    if (commentField) {
-                        project.managementComment = commentField.value.trim();
-                    }
-                });
+                    projects.forEach(project => {
+                        const commentField = document.getElementById(`mgmt-comment-${project.id}`);
+                        commentsByProjectId[project.id] = commentField ? commentField.value.trim() : '';
+                    });
 
-                // Save to localStorage
-                AppState.save();
-
-                // Close modal
-                this.closeModal();
-
-                // Generate PDF
-                this.exportAllProjectsToPDF();
-            },
+                    this.closeModal();
+                    this.exportAllProjectsToPDF(commentsByProjectId);
+                },
 
             showNewProjectModal() {
                 const modal = this.createModal('Neues Projekt erstellen', `

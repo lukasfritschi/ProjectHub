@@ -3761,7 +3761,7 @@
                             rows="3"
                             placeholder="Management-Kommentar für dieses Projekt (optional)..."
                             style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);"
-                        >${project.managementComment || ''}</textarea>
+                        >${''}</textarea>
                     </div>
                 `).join('');
 
@@ -3779,19 +3779,21 @@
                 `);
             },
 
-            generateManagementReportWithComments() {
-                const projects = AppState.getAllProjects();
+                generateManagementReportWithComments() {
+                    const projects = AppState.getAllProjects();
 
-                // Save comments to each project
-                projects.forEach(project => {
-                    const commentField = document.getElementById(`mgmt-comment-${project.id}`);
-                    if (commentField) {
-                        project.managementComment = commentField.value.trim();
-                    }
-                });
+                    // Collect comments (do NOT persist)
+                    const commentsByProjectId = {};
+                    projects.forEach(project => {
+                        const commentField = document.getElementById(`mgmt-comment-${project.id}`);
+                        commentsByProjectId[project.id] = commentField ? commentField.value.trim() : '';
+                    });
 
-                // Save to localStorage
-                AppState.save();
+                    this.closeModal();
+
+                    // Generate PDF with comments
+                    this.exportAllProjectsToPDF(commentsByProjectId);
+                },
 
                 // Close modal
                 this.closeModal();
@@ -6103,7 +6105,7 @@
                 return `<strong style="color: ${color};">${symbol}${formattedDate}</strong>`;
             },
 
-            async exportAllProjectsToPDF() {
+            async exportAllProjectsToPDF(commentsByProjectId = {}){
                 const projects = AppState.getAllProjects();
 
                 if (projects.length === 0) {
@@ -6283,9 +6285,10 @@
                         doc.text('Keine Risiken erfasst.', 25, yPos);
                         yPos += 6;
                     }
+                    const managementComment = commentsByProjectId[project.id];
 
                     // Management Comment
-                    if (project.managementComment && project.managementComment.trim()) {
+                    if (managementComment && managementComment.trim()) {
                         yPos += 5;
 
                         // Check if we need a new page
@@ -6302,7 +6305,7 @@
                         doc.setFontSize(9);
 
                         // Split comment into lines that fit the page width
-                        const commentLines = doc.splitTextToSize(project.managementComment, 170);
+                        const commentLines = doc.splitTextToSize(managementComment, 170);
                         commentLines.forEach(line => {
                             if (yPos > 280) {
                                 doc.addPage();
