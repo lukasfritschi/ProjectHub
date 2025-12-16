@@ -1282,6 +1282,7 @@
                     UI.showEditCostModal(costId);
                   });
                 }
+            }
 
             renderMilestonesTab() {
                 const milestones = AppState.getProjectMilestones(AppState.currentProjectId);
