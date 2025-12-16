@@ -339,6 +339,21 @@
             background: var(--bg-tertiary);
         }
 
+        /* Click-to-Edit: klickbare Tabellenzeilen */
+        .clickable-row {
+            cursor: pointer;
+        }
+
+        /* Dezentes Hover-Feedback */
+        .clickable-row:hover {
+            filter: brightness(0.98);
+        }
+
+        body.dark .clickable-row:hover {
+            filter: brightness(1.08);
+        }
+
+
         /* Loading State */
         .loading {
             display: inline-block;
