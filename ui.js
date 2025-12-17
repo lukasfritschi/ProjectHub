@@ -4377,6 +4377,10 @@
                         <div>
                             <label class="text-sm font-medium">Beschreibung *</label>
                             <input type="text" id="modal-cost-description" placeholder="z.B. Entwicklung Backend-API" required>
+                            <p id="cost-desc-locked-hint" class="text-sm mt-1 hidden" style="color: var(--text-secondary);">
+                              Bei internen Kosten wird die Beschreibung automatisch gesetzt (Monat aus Datum) und ist deshalb gesperrt.
+                            </p>
+
                         </div>
                         <div id="cost-reference-field" style="display:none;">
                             <label class="text-sm font-medium">Bestell-/Rechnungsnummer</label>
