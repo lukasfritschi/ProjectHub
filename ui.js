@@ -1161,14 +1161,28 @@
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.intern.forecast, project.budget ? project.budget.intern : 0, project.currency)}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Extern</strong></td>
+                                        <td>
+                                          <details>
+                                            <summary style="cursor: pointer; font-weight: 600;">Extern</summary>
+                                            <div class="text-sm font-mono" style="color: var(--text-secondary); margin-top: 0.35rem;">
+                                              Bezahlt / Offen: ${this.formatCurrency(paidExtern, project.currency)} / ${this.formatCurrency(openExtern, project.currency)}
+                                            </div>
+                                          </details>
+                                        </td>
                                         <td>${this.formatCurrency(project.budget ? project.budget.extern : 0, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.extern.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.extern.forecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.extern.forecast, project.budget ? project.budget.extern : 0, project.currency)}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Investitionen</strong></td>
+                                        <td>
+                                          <details>
+                                            <summary style="cursor: pointer; font-weight: 600;">Investitionen</summary>
+                                            <div class="text-sm font-mono" style="color: var(--text-secondary); margin-top: 0.35rem;">
+                                              Bezahlt / Offen: ${this.formatCurrency(paidInvestment, project.currency)} / ${this.formatCurrency(openInvestment, project.currency)}
+                                            </div>
+                                          </details>
+                                        </td>
                                         <td>${this.formatCurrency(project.budget ? project.budget.investitionen : 0, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.investitionen.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.investitionen.forecast, project.currency)}</td>
@@ -1180,33 +1194,9 @@
                                         <td>${this.formatCurrency(totalActual, project.currency)}</td>
                                         <td>${this.formatCurrency(totalForecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(totalForecast, totalBudget, project.currency)}</td>
-                                        <td class="font-mono font-semibold">
-                                          ${this.formatCurrency(paidExtern + paidInvestment, project.currency)}
-                                          /
-                                          ${this.formatCurrency(openExtern + openInvestment, project.currency)}
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="mt-4">
-
-                              <details style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 0.75rem 1rem;">
-                                <summary style="cursor: pointer; font-weight: 600;">Extern – Bezahlt / Offen</summary>
-                                <div class="mt-4 text-sm font-mono">
-                                  ${this.formatCurrency(paidExtern, project.currency)} / ${this.formatCurrency(openExtern, project.currency)}
-                                </div>
-                              </details>
-
-                              <div style="height: 0.75rem;"></div>
-
-                              <details style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 0.75rem 1rem;">
-                                <summary style="cursor: pointer; font-weight: 600;">Investitionen / Werkzeuge – Bezahlt / Offen</summary>
-                                <div class="mt-4 text-sm font-mono">
-                                  ${this.formatCurrency(paidInvestment, project.currency)} / ${this.formatCurrency(openInvestment, project.currency)}
-                                </div>
-                              </details>
-
-                            </div>
                             <div class="grid grid-cols-2 gap-4 mt-4 p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
                                 <div>
                                     <span class="text-sm" style="color: var(--text-secondary);">Burnrate (intern)</span>
