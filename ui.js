@@ -1275,7 +1275,15 @@
 
                   let mainRow = `
                     <tr data-cost-id="${cost.id}" class="clickable-row cost-row ${typeClass} ${groupClass}">
-                      <td>${this.formatDate(cost.date)}</td>
+                      <td style="white-space: nowrap;">
+                        ${
+                          (hasPartialPayments && cost.status === 'teilzahlung_visiert' && (cost.type === 'external_service' || cost.type === 'investment'))
+                            ? `<span class="row-expander" data-expander-for="${cost.id}" title="Teilzahlungen anzeigen" style="display:inline-block; width:1.25rem; cursor:pointer; user-select:none; color: var(--text-secondary);">▸</span>`
+                            : `<span style="display:inline-block; width:1.25rem;"></span>`
+                        }
+                        ${this.formatDate(cost.date)}
+                      </td>
+
                       <td>${this.escapeHtml(cost.description)}</td>
                       <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
                       <td>${this.getCostTypeLabel(cost.type)}</td>
@@ -1310,6 +1318,21 @@
 
                     </tr>
                   `;
+                  if (
+                      hasPartialPayments &&
+                      cost.status === 'teilzahlung_visiert' &&
+                      (cost.type === 'external_service' || cost.type === 'investment')
+                    ) {
+                      mainRow += `
+                        <tr class="partial-payments-row hidden" data-parent-cost-id="${cost.id}">
+                          <td colspan="6" style="padding: 0; border-top: none;">
+                            <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0; padding: 0.75rem 1rem;">
+                              ${this.renderPartialPaymentsList(cost, project)}
+                            </div>
+                          </td>
+                        </tr>
+                      `;
+                    }
 
                   return mainRow;
                 }).join('');
@@ -1323,6 +1346,22 @@
                   tbody.addEventListener('pointerup', (e) => {
                     if (e.button !== 0) return; // nur Linksklick
                     const tr = e.target.closest('tr');
+                    const expander = e.target.closest('.row-expander');
+                    if (expander) {
+                      const id = expander.getAttribute('data-expander-for');
+                      if (!id) return;
+
+                      const detailsRow = tbody.querySelector(`tr.partial-payments-row[data-parent-cost-id="${id}"]`);
+                      if (!detailsRow) return;
+
+                      detailsRow.classList.toggle('hidden');
+
+                      // Pfeil drehen
+                      expander.textContent = detailsRow.classList.contains('hidden') ? '▸' : '▾';
+
+                      return; // wichtig: kein Click-to-Edit auslösen
+                    }
+
                     if (!tr) return;
 
                     // Clicks on interactive controls ignore (future-proof)
