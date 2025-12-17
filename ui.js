@@ -1268,8 +1268,6 @@
                       <td>${this.getCostTypeLabel(cost.type)}</td>
                       <td>${statusHtml}</td>
 
-                      const openAmount = this.calculateOpenAmount(cost);
-
                       <td class="font-mono font-semibold">
                         ${this.formatCurrency(cost.amount ?? 0, project.currency)}
                         ${
