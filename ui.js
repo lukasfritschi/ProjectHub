@@ -1326,7 +1326,7 @@
                     if (!tr) return;
 
                     // Clicks on interactive controls ignore (future-proof)
-                    if (e.target.closest('button,a,input,select,textarea,label')) return;
+                    if (e.target.closest('button,a,input,select,textarea,label,summary,details')) return;
 
                     const costId = tr.getAttribute('data-cost-id');
                     if (!costId) return; // e.g. partial-payment rows
