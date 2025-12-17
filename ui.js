@@ -1154,7 +1154,14 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><strong>Intern</strong></td>
+                                        <td>
+                                          <details>
+                                            <summary style="cursor: pointer; font-weight: 600;">Selbstgeschaffene Entwicklungskosten</summary>
+                                            <div class="text-sm font-mono" style="color: var(--text-secondary); margin-top: 0.35rem;">
+                                              <div>Burnrate: ${this.formatCurrency(burnrate, project.currency)}/Monat</div>
+                                            </div>
+                                          </details>
+                                        </td>
                                         <td>${this.formatCurrency(project.budget ? project.budget.intern : 0, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.intern.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.intern.forecast, project.currency)}</td>
@@ -1163,9 +1170,10 @@
                                     <tr>
                                         <td>
                                           <details>
-                                            <summary style="cursor: pointer; font-weight: 600;">Extern</summary>
+                                            <summary style="cursor: pointer; font-weight: 600;">Erworbene Entwicklungskosten</summary>
                                             <div class="text-sm font-mono" style="color: var(--text-secondary); margin-top: 0.35rem;">
-                                              Bezahlt / Offen: ${this.formatCurrency(paidExtern, project.currency)} / ${this.formatCurrency(openExtern, project.currency)}
+                                              <div>Bezahlt: ${this.formatCurrency(paidExtern, project.currency)}</div>
+                                              <div>Offen: ${this.formatCurrency(openExtern, project.currency)}</div>
                                             </div>
                                           </details>
                                         </td>
@@ -1177,9 +1185,10 @@
                                     <tr>
                                         <td>
                                           <details>
-                                            <summary style="cursor: pointer; font-weight: 600;">Investitionen</summary>
+                                            <summary style="cursor: pointer; font-weight: 600;">Spezialwerkzeuge/Modelle</summary>
                                             <div class="text-sm font-mono" style="color: var(--text-secondary); margin-top: 0.35rem;">
-                                              Bezahlt / Offen: ${this.formatCurrency(paidInvestment, project.currency)} / ${this.formatCurrency(openInvestment, project.currency)}
+                                              <div>Bezahlt: ${this.formatCurrency(paidInvestment, project.currency)}</div>
+                                              <div>Offen: ${this.formatCurrency(openInvestment, project.currency)}</div>
                                             </div>
                                           </details>
                                         </td>
@@ -1197,19 +1206,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="grid grid-cols-2 gap-4 mt-4 p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div>
-                                    <span class="text-sm" style="color: var(--text-secondary);">Burnrate (intern)</span>
-                                    <div class="text-xl font-bold font-mono">⚡ ${this.formatCurrency(burnrate, project.currency)}/Monat</div>
-                                </div>
-                                <div>
-                                    <span class="text-sm" style="color: var(--text-secondary);">Abweichung (Forecast zu Budget)</span>
-                                    <div class="text-xl font-bold font-mono">
-                                    ${this.getBudgetVarianceHTML(totalForecast, totalBudget, project.currency)}
-                                    </div>
-                                </div>
-
-                            </div>
                         </div>
                     `;
                 }
