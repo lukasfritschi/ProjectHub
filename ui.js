@@ -4350,7 +4350,7 @@
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Kostenart *</label>
-                            <select id="modal-cost-type" required onchange="UI.toggleCostStatusField()">
+                            <select id="modal-cost-type" required onchange="UI.toggleCostStatusField(); UI.applyInternalCostDescriptionDefault()">
                                 <option value="internal_hours">Intern</option>
                                 <option value="external_service">Extern</option>
                                 <option value="investment">Investitionen / Werkzeuge</option>
@@ -4372,7 +4372,7 @@
                         </div>
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
-                            <input type="date" id="modal-cost-date" required>
+                            <input type="date" id="modal-cost-date" required onchange="UI.applyInternalCostDescriptionDefault()">
                         </div>
                         <div>
                             <label class="text-sm font-medium">Beschreibung *</label>
@@ -4395,7 +4395,10 @@
                 `);
 
                 // Trigger initial check
-                setTimeout(() => this.toggleCostStatusField(), 0);
+                setTimeout(() => {
+                  this.toggleCostStatusField();
+                  this.applyInternalCostDescriptionDefault();
+                }, 0);
             },
 
             toggleCostStatusField() {
@@ -4415,6 +4418,35 @@
               }
 
               this.togglePartialAmountField();
+            },
+
+            applyInternalCostDescriptionDefault() {
+              const typeEl = document.getElementById('modal-cost-type');
+              const dateEl = document.getElementById('modal-cost-date');
+              const descEl = document.getElementById('modal-cost-description');
+
+              if (!typeEl || !dateEl || !descEl) return;
+              if (typeEl.value !== 'internal_hours') return;
+
+              const dateStr = (dateEl.value || '').trim(); // YYYY-MM-DD
+              if (!dateStr) return;
+
+              const parts = dateStr.split('-');
+              if (parts.length !== 3) return;
+
+              const m = parseInt(parts[1], 10);
+              if (isNaN(m) || m < 1 || m > 12) return;
+
+              const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+              const monthName = months[m - 1];
+
+              const target = `Entwicklung intern ${monthName}`;
+              const cur = (descEl.value || '').trim();
+
+              // Minimal & robust: nur setzen, wenn Feld leer ist oder bereits "Entwicklung intern ..." ist
+              if (cur === '' || cur.toLowerCase().indexOf('entwicklung intern') === 0) {
+                descEl.value = target;
+              }
             },
 
             togglePartialAmountField() {
