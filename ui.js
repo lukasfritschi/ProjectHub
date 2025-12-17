@@ -1267,7 +1267,7 @@
                 if (!this._costsRowClickBound) {
                   this._costsRowClickBound = true;
 
-                  tbody.addEventListener('pointerdown', (e) => {
+                  tbody.addEventListener('pointerup', (e) => {
                     if (e.button !== 0) return; // nur Linksklick
                     const tr = e.target.closest('tr');
                     if (!tr) return;
