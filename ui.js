@@ -1286,17 +1286,19 @@
 
                       ${
                         cost.status === 'teilzahlung_visiert'
-                          ? `<div class="text-sm font-normal" style="color: var(--text-secondary);">
+                          ? `<div class="text-sm font-normal" style="color: var(--text-secondary); margin-top: 0.25rem;">
                                davon offen: ${this.formatCurrency(openAmount, project.currency)}
                              </div>`
                           : ''
                       }
 
                       ${
-                        (hasPartialPayments && cost.status === 'teilzahlung_visiert' && (cost.type === 'external_service' || cost.type === 'investment'))
+                        (hasPartialPayments &&
+                         cost.status === 'teilzahlung_visiert' &&
+                         (cost.type === 'external_service' || cost.type === 'investment'))
                           ? `<details style="margin-top: 0.35rem;">
                                <summary style="cursor: pointer; font-weight: 500; font-size: 0.875rem; color: var(--text-secondary);">
-                                 Teilzahlungen
+                                 Teilzahlungen anzeigen
                                </summary>
                                <div style="padding-top: 0.5rem; font-weight: 400;">
                                  ${this.renderPartialPaymentsList(cost, project)}
@@ -4605,21 +4607,6 @@
                 });
 
                 return payments;
-            },
-
-            togglePartialPaymentsSection(sectionId) {
-                const section = document.getElementById(sectionId);
-                const arrow = document.getElementById(sectionId + '-arrow');
-
-                if (section && arrow) {
-                    if (section.style.display === 'none') {
-                        section.style.display = 'block';
-                        arrow.style.transform = 'rotate(90deg)';
-                    } else {
-                        section.style.display = 'none';
-                        arrow.style.transform = 'rotate(0deg)';
-                    }
-                }
             },
 
             renderPartialPaymentsList(cost, project) {
