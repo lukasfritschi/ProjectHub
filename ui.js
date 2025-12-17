@@ -4699,10 +4699,20 @@
                             <input type="number" id="modal-edit-cost-amount" step="0.01" min="0" value="${cost.amount}" placeholder="0.00" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
                         </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveEditCost('${costId}')">Speichern</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
+                        <div class="flex" style="justify-content: space-between; align-items: center; margin-top: 1rem;">
+
+                          <button class="btn btn-danger"
+                                  onpointerdown="UI.closeModal(); UI.deleteCost('${costId}')">
+                            Löschen
+                          </button>
+
+                          <div class="flex gap-4">
+                            <button class="btn btn-primary" onpointerdown="UI.saveEditCost('${costId}')">Speichern</button>
+                            <button class="btn" onpointerdown="UI.closeModal()">Abbrechen</button>
+                          </div>
+
                         </div>
+
                     </div>
                 `);
 
@@ -6102,8 +6112,8 @@
                 this.showConfirmDialog('Möchten Sie diese Kostenposition wirklich löschen?', () => {
                     AppState.costs = AppState.costs.filter(c => c.id !== id);
                     AppState.save();
-                    this.renderCostsTab();
-                    this.renderOverviewTab();
+                    this.renderCostsTab?.();
+                    this.renderOverviewTab?.();
                 });
             },
 
