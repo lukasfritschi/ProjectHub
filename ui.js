@@ -1281,40 +1281,33 @@
                       <td>${this.getCostTypeLabel(cost.type)}</td>
                       <td>${statusHtml}</td>
 
-                      <td class="font-mono font-semibold">
-                        ${this.formatCurrency(cost.amount ?? 0, project.currency)}
-                        ${
-                          (cost.status === 'teilzahlung_visiert')
-                            ? `<div class="text-sm font-normal" style="color: var(--text-secondary);">
-                                 davon offen: ${this.formatCurrency(openAmount, project.currency)}
-                               </div>`
-                            : ''
-                        }
+                    <td class="font-mono font-semibold">
+                      ${this.formatCurrency(cost.amount ?? 0, project.currency)}
+
+                      ${
+                        cost.status === 'teilzahlung_visiert'
+                          ? `<div class="text-sm font-normal" style="color: var(--text-secondary);">
+                               davon offen: ${this.formatCurrency(openAmount, project.currency)}
+                             </div>`
+                          : ''
+                      }
+
+                      ${
+                        (hasPartialPayments && cost.status === 'teilzahlung_visiert' && (cost.type === 'external_service' || cost.type === 'investment'))
+                          ? `<details style="margin-top: 0.35rem;">
+                               <summary style="cursor: pointer; font-weight: 500; font-size: 0.875rem; color: var(--text-secondary);">
+                                 Teilzahlungen
+                               </summary>
+                               <div style="padding-top: 0.5rem; font-weight: 400;">
+                                 ${this.renderPartialPaymentsList(cost, project)}
+                               </div>
+                             </details>`
+                          : ''
+                      }
                     </td>
+
                     </tr>
                   `;
-
-                    // Add collapsible partial payments section if applicable
-                    if (
-                      hasPartialPayments &&
-                      cost.status === 'teilzahlung_visiert' &&
-                      (cost.type === 'external_service' || cost.type === 'investment')
-                    ) {
-                      mainRow += `
-                        <tr>
-                          <td colspan="6" style="padding: 0; border-top: none;">
-                            <details style="margin: 0.5rem 0;">
-                              <summary style="cursor: pointer; font-weight: 500; font-size: 0.875rem; padding: 0.5rem 1rem; background: var(--bg-secondary); border-left: 3px solid var(--warning);">
-                                Teilzahlungen
-                              </summary>
-                              <div style="padding: 0.75rem 1rem 1rem 1rem; background: var(--bg-secondary); border-left: 3px solid var(--warning);">
-                                ${this.renderPartialPaymentsList(cost, project)}
-                              </div>
-                            </details>
-                          </td>
-                        </tr>
-                      `;
-                    }
 
                   return mainRow;
                 }).join('');
