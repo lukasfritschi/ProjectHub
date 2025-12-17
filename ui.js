@@ -1196,6 +1196,25 @@
                   return;
                 }
 
+                // ------------------------------------------------------------
+                // Sortierung: Kostenarten zusammen, innerhalb nach Datum
+                // ------------------------------------------------------------
+                const typeOrder = {
+                  internal_hours: 1,
+                  external_service: 2,
+                  investment: 3
+                };
+
+                filteredCosts.sort((a, b) => {
+                  const ta = typeOrder[a.type] || 99;
+                  const tb = typeOrder[b.type] || 99;
+                  if (ta !== tb) return ta - tb;
+
+                  const da = a.date ? new Date(a.date).getTime() : 0;
+                  const db = b.date ? new Date(b.date).getTime() : 0;
+                  return db - da; // neu → alt
+                });
+
                 tbody.innerHTML = filteredCosts.map(cost => {
                   let statusHtml = '';
                   let hasPartialPayments = false;
