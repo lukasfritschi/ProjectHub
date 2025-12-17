@@ -1339,13 +1339,17 @@
                       const detailsRow = tbody.querySelector(`tr.partial-payments-row[data-parent-cost-id="${id}"]`);
                       if (!detailsRow) return;
 
+                      // 1) Toggle row
                       detailsRow.classList.toggle('hidden');
 
-                      // Pfeil drehen
-                      expander.textContent = detailsRow.classList.contains('hidden') ? '▸' : '▾';
+                      // 2) Sync chevron state AFTER toggle
+                      const isOpen = !detailsRow.classList.contains('hidden');
+                      expander.classList.toggle('is-expanded', isOpen);
+                      expander.classList.toggle('is-collapsed', !isOpen);
 
-                      return; // wichtig: kein Click-to-Edit auslösen
+                      return; // wichtig: kein Edit öffnen
                     }
+
 
                     if (!tr) return;
 

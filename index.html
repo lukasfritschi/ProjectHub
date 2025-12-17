@@ -430,9 +430,10 @@
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 1.5rem;
-          font-size: 1.15rem;   /* größer */
-          font-weight: 800;     /* fetter */
+          width: 1.8rem;
+          font-size: 1.5rem;   /* größer */
+          font-weight: 900;    /* fetter */
+          line-height: 1;
           cursor: pointer;
           user-select: none;
           color: var(--text-secondary);
@@ -443,13 +444,16 @@
           color: var(--text-primary);
         }
 
+        /* ZU = horizontal (rechts) */
         .row-expander.is-collapsed {
           transform: rotate(-90deg);
         }
 
+        /* AUF = nach unten */
         .row-expander.is-expanded {
           transform: rotate(0deg);
         }
+
 
 
         /* Gantt Critical Path Styling */
