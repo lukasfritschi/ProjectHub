@@ -1762,7 +1762,7 @@
                 if (!tbody) return;
 
                 if (costs.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Keine Kosten erfasst</td></tr>';
                     return;
                 }
 
@@ -1810,7 +1810,7 @@
                         const collapsibleId = `partial-payments-${cost.id}`;
                         mainRow += `
                             <tr>
-                                <td colspan="7" style="padding: 0; border-top: none;">
+                                <td colspan="6" style="padding: 0; border-top: none;">
                                     <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
                                         <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;" onclick="UI.togglePartialPaymentsSection('${collapsibleId}')">
                                             <span style="font-weight: 500; font-size: 0.875rem;">
@@ -4588,7 +4588,6 @@
                                         <th>Kapazität</th>
                                         <th>Auslastung</th>
                                         <th>Status</th>
-                                        <th>Aktionen</th>
                                     </tr>
                                 </thead>
                                 <tbody>
