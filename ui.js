@@ -1118,6 +1118,14 @@
                   .filter(c => c.type === 'investment')
                   .reduce((sum, c) => sum + (this.calculateOpenAmount(c) || 0), 0);
 
+                const paidExtern = costs
+                  .filter(c => c.type === 'external_service')
+                  .reduce((sum, c) => sum + (this.calculatePaidAmount(c) || 0), 0);
+
+                const paidInvestment = costs
+                  .filter(c => c.type === 'investment')
+                  .reduce((sum, c) => sum + (this.calculatePaidAmount(c) || 0), 0);
+
                 // Calculate totals
                 const totalBudget = project.budget ? project.budget.total : 0;
                 const totalActual = costsByCategory.intern.actual + costsByCategory.extern.actual + costsByCategory.investitionen.actual;
@@ -1142,7 +1150,7 @@
                                         <th>Ist</th>
                                         <th>Forecast</th>
                                         <th>Abweichung (Forecast zu Budget)</th>
-                                        <th>Offen</th>
+                                        <th>Bezahlt / Offen</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1160,7 +1168,11 @@
                                         <td>${this.formatCurrency(costsByCategory.extern.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.extern.forecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.extern.forecast, project.budget ? project.budget.extern : 0, project.currency)}</td>
-                                        <td>${this.formatCurrency(openExtern, project.currency)}</td>
+                                        <td class="font-mono">
+                                          ${this.formatCurrency(paidExtern, project.currency)}
+                                          /
+                                          ${this.formatCurrency(openExtern, project.currency)}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Investitionen</strong></td>
@@ -1168,7 +1180,12 @@
                                         <td>${this.formatCurrency(costsByCategory.investitionen.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.investitionen.forecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.investitionen.forecast, project.budget ? project.budget.investitionen : 0, project.currency)}</td>
-                                        <td>${this.formatCurrency(openInvestment, project.currency)}</td>
+                                        <td class="font-mono">
+                                          ${this.formatCurrency(paidInvestment, project.currency)}
+                                          /
+                                          ${this.formatCurrency(openInvestment, project.currency)}
+                                        </td>
+
                                     </tr>
                                     <tr style="border-top: 2px solid var(--border-color); font-weight: bold;">
                                         <td><strong>TOTAL</strong></td>
@@ -1176,7 +1193,11 @@
                                         <td>${this.formatCurrency(totalActual, project.currency)}</td>
                                         <td>${this.formatCurrency(totalForecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(totalForecast, totalBudget, project.currency)}</td>
-                                        <td>${this.formatCurrency(openExtern + openInvestment, project.currency)}</td>
+                                        <td class="font-mono font-semibold">
+                                          ${this.formatCurrency(paidExtern + paidInvestment, project.currency)}
+                                          /
+                                          ${this.formatCurrency(openExtern + openInvestment, project.currency)}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -6867,6 +6888,28 @@
 
               // Bestellt oder kein Status -> 100% offen
               return total;
+            },
+
+            calculatePaidAmount(cost) {
+              if (!cost || (cost.type !== 'external_service' && cost.type !== 'investment')) {
+                return null;
+              }
+
+              const total = parseFloat(cost.amount) || 0;
+
+              // Vollzahlung visiert -> alles bezahlt
+              if (cost.status === 'vollzahlung_visiert') return total;
+
+              // Teilzahlung visiert -> Summe Teilzahlungen
+              if (cost.status === 'teilzahlung_visiert') {
+                return (cost.partialPayments || []).reduce((sum, p) => {
+                  const v = parseFloat(p.amount);
+                  return sum + (isNaN(v) ? 0 : v);
+                }, 0);
+              }
+
+              // Bestellt oder kein Status -> nichts bezahlt
+              return 0;
             },
 
             escapeHtml(text) {
