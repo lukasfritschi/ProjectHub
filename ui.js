@@ -1215,7 +1215,7 @@
                   return da - db; // neu → alt
                 });
 
-                tbody.innerHTML = filteredCosts.map(cost => {
+                tbody.innerHTML = filteredCosts.map((cost, idx) => {
                   let statusHtml = '';
                   let hasPartialPayments = false;
 
@@ -1244,8 +1244,11 @@
                       cost.type === 'external_service' ? 'cost-type-external' :
                       'cost-type-investment';
 
+                  const isGroupStart = idx === 0 || cost.type !== filteredCosts[idx - 1].type;
+                  const groupClass = isGroupStart ? 'cost-group-start' : '';
+
                   let mainRow = `
-                    <tr data-cost-id="${cost.id}" class="clickable-row cost-row ${typeClass}">
+                    <tr data-cost-id="${cost.id}" class="clickable-row cost-row ${typeClass} ${groupClass}">
                       <td>${this.formatDate(cost.date)}</td>
                       <td>${this.escapeHtml(cost.description)}</td>
                       <td>${this.escapeHtml(cost.referenceNo || '-')}</td>

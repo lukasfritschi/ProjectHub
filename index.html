@@ -361,6 +361,15 @@
         /* Wichtig: globale tr:hover-Farbe nicht über die Typ-Farbe legen */
         .cost-row:hover { background: inherit; }
 
+        /* Subtiler Gruppentrenner bei Wechsel der Kostenart */
+        .cost-row.cost-group-start td {
+          border-top: 2px solid rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark .cost-row.cost-group-start td {
+          border-top: 2px solid rgba(255, 255, 255, 0.10);
+        }
+
         /* Click-to-Edit: klickbare Tabellenzeilen */
         .clickable-row {
             cursor: pointer;
