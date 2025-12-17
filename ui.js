@@ -1110,6 +1110,13 @@
                 const project = AppState.getProject(AppState.currentProjectId);
                 const costsByCategory = AppState.getProjectCostsByCategory(AppState.currentProjectId);
                 const burnrate = AppState.calculateBurnrate(AppState.currentProjectId);
+                const openExtern = costs
+                  .filter(c => c.type === 'external_service')
+                  .reduce((sum, c) => sum + (this.calculateOpenAmount(c) || 0), 0);
+
+                const openInvestment = costs
+                  .filter(c => c.type === 'investment')
+                  .reduce((sum, c) => sum + (this.calculateOpenAmount(c) || 0), 0);
 
                 // Calculate totals
                 const totalBudget = project.budget ? project.budget.total : 0;
@@ -1135,6 +1142,7 @@
                                         <th>Ist</th>
                                         <th>Forecast</th>
                                         <th>Abweichung (Forecast zu Budget)</th>
+                                        <th>Offen</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1144,6 +1152,7 @@
                                         <td>${this.formatCurrency(costsByCategory.intern.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.intern.forecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.intern.forecast, project.budget ? project.budget.intern : 0, project.currency)}</td>
+                                        <td>—</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Extern</strong></td>
@@ -1151,6 +1160,7 @@
                                         <td>${this.formatCurrency(costsByCategory.extern.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.extern.forecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.extern.forecast, project.budget ? project.budget.extern : 0, project.currency)}</td>
+                                        <td>${this.formatCurrency(openExtern, project.currency)}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Investitionen</strong></td>
@@ -1158,6 +1168,7 @@
                                         <td>${this.formatCurrency(costsByCategory.investitionen.actual, project.currency)}</td>
                                         <td>${this.formatCurrency(costsByCategory.investitionen.forecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(costsByCategory.investitionen.forecast, project.budget ? project.budget.investitionen : 0, project.currency)}</td>
+                                        <td>${this.formatCurrency(openInvestment, project.currency)}</td>
                                     </tr>
                                     <tr style="border-top: 2px solid var(--border-color); font-weight: bold;">
                                         <td><strong>TOTAL</strong></td>
@@ -1165,6 +1176,7 @@
                                         <td>${this.formatCurrency(totalActual, project.currency)}</td>
                                         <td>${this.formatCurrency(totalForecast, project.currency)}</td>
                                         <td>${this.getBudgetVarianceHTML(totalForecast, totalBudget, project.currency)}</td>
+                                        <td>${this.formatCurrency(openExtern + openInvestment, project.currency)}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1254,7 +1266,19 @@
                       <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
                       <td>${this.getCostTypeLabel(cost.type)}</td>
                       <td>${statusHtml}</td>
-                      <td class="font-mono font-semibold">${this.formatCurrency(cost.amount ?? 0, project.currency)}</td>
+
+                      const openAmount = this.calculateOpenAmount(cost);
+
+                      <td class="font-mono font-semibold">
+                        ${this.formatCurrency(cost.amount ?? 0, project.currency)}
+                        ${
+                          openAmount !== null
+                            ? `<div class="text-sm font-normal" style="color: var(--text-secondary);">
+                                 davon offen: ${this.formatCurrency(openAmount, project.currency)}
+                               </div>`
+                            : ''
+                        }
+                    </td>
                     </tr>
                   `;
 
@@ -6821,6 +6845,29 @@
                     'investment': 'Investitionen'
                 };
                 return labels[type] || type;
+            },
+
+            calculateOpenAmount(cost) {
+              if (!cost || (cost.type !== 'external_service' && cost.type !== 'investment')) {
+                return null; // für Intern keine Offen-Logik
+              }
+
+              const total = parseFloat(cost.amount) || 0;
+
+              // Vollzahlung visiert -> nichts offen
+              if (cost.status === 'vollzahlung_visiert') return 0;
+
+              // Teilzahlung visiert -> total - Summe Teilzahlungen
+              if (cost.status === 'teilzahlung_visiert') {
+                const sumPartial = (cost.partialPayments || []).reduce((sum, p) => {
+                  const v = parseFloat(p.amount);
+                  return sum + (isNaN(v) ? 0 : v);
+                }, 0);
+                return Math.max(0, total - sumPartial);
+              }
+
+              // Bestellt oder kein Status -> 100% offen
+              return total;
             },
 
             escapeHtml(text) {
