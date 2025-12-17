@@ -1790,8 +1790,13 @@
                         statusHtml = '-';
                     }
 
+                    const typeClass =
+                        cost.type === 'internal_hours' ? 'cost-type-internal' :
+                        cost.type === 'external_service' ? 'cost-type-external' :
+                        'cost-type-investment';
+
                     let mainRow = `
-                        <tr>
+                        <tr> data-cost-id="${cost.id}" class="clickable-row cost-row ${typeClass}">
                             <td>${this.formatDate(cost.date)}</td>
                             <td>${this.escapeHtml(cost.description)}</td>
                             <td>${this.escapeHtml(cost.referenceNo || '-')}</td>
