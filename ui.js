@@ -4470,6 +4470,56 @@
               descEl.value = `Entwicklung intern ${months[m - 1]}`;
             },
 
+            applyInternalCostDescriptionDefault() {
+              const typeEl = document.getElementById('modal-cost-type');
+              const dateEl = document.getElementById('modal-cost-date');
+              const descEl = document.getElementById('modal-cost-description');
+              const hintEl = document.getElementById('cost-desc-locked-hint'); // optional, falls du es auch im Add-Modal hast
+
+              if (!typeEl || !dateEl || !descEl) return;
+
+              const cur = (descEl.value || '').trim();
+              const isAutoText = /^Entwicklung intern(\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))?$/i.test(cur);
+
+              const isInternal = typeEl.value === 'internal_hours';
+
+              // Hint ein/aus (nur falls Element existiert)
+              if (hintEl) hintEl.classList.toggle('hidden', !isInternal);
+
+              // Feld sperren/entsperren
+              descEl.readOnly = isInternal;
+              descEl.classList.toggle('input-readonly', isInternal);
+
+              // Wenn nicht intern: Auto-Text zurücksetzen (aber nur wenn auto/leer)
+              if (!isInternal) {
+                if (cur === '' || isAutoText) descEl.value = '';
+                return;
+              }
+
+              // Intern: Auto-Text setzen (Datum -> Monat)
+              const dateStr = (dateEl.value || '').trim();
+              if (!dateStr) return;
+
+              let m = null;
+
+              // YYYY-MM-DD
+              if (dateStr.indexOf('-') > -1) {
+                const parts = dateStr.split('-');
+                if (parts.length === 3) m = parseInt(parts[1], 10);
+              }
+
+              // Fallback dd.mm.yyyy
+              if ((m === null || isNaN(m)) && dateStr.indexOf('.') > -1) {
+                const parts = dateStr.split('.');
+                if (parts.length === 3) m = parseInt(parts[1], 10);
+              }
+
+              if (m === null || isNaN(m) || m < 1 || m > 12) return;
+
+              const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+              descEl.value = `Entwicklung intern ${months[m - 1]}`;
+            },
+
             togglePartialAmountField() {
                 const statusSelect = document.getElementById('modal-cost-status');
                 const partialPaymentsField = document.getElementById('partial-payments-field');
