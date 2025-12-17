@@ -1271,7 +1271,7 @@
                       <td class="font-mono font-semibold">
                         ${this.formatCurrency(cost.amount ?? 0, project.currency)}
                         ${
-                          openAmount !== null
+                          (cost.status === 'teilzahlung_visiert')
                             ? `<div class="text-sm font-normal" style="color: var(--text-secondary);">
                                  davon offen: ${this.formatCurrency(openAmount, project.currency)}
                                </div>`
