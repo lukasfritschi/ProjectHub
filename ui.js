@@ -1258,6 +1258,7 @@
 
                   const isGroupStart = idx === 0 || cost.type !== filteredCosts[idx - 1].type;
                   const groupClass = isGroupStart ? 'cost-group-start' : '';
+                  const openAmount = this.calculateOpenAmount(cost);
 
                   let mainRow = `
                     <tr data-cost-id="${cost.id}" class="clickable-row cost-row ${typeClass} ${groupClass}">
