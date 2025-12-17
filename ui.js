@@ -1294,32 +1294,27 @@
                     </tr>
                   `;
 
-                  // Add collapsible partial payments section if applicable
-                  if (
-                    hasPartialPayments &&
-                    cost.status === 'teilzahlung_visiert' &&
-                    (cost.type === 'external_service' || cost.type === 'investment')
-                  ) {
-                    const collapsibleId = `partial-payments-${cost.id}`;
-                    mainRow += `
-                      <tr>
-                        <td colspan="6" style="padding: 0; border-top: none;">
-                          <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
-                            <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
-                                 onpointerup="UI.togglePartialPaymentsSection('${collapsibleId}')">
-                              <span style="font-weight: 500; font-size: 0.875rem;">
-                                <span id="${collapsibleId}-arrow" style="display: inline-block; transition: transform 0.2s;">▸</span>
+                    // Add collapsible partial payments section if applicable
+                    if (
+                      hasPartialPayments &&
+                      cost.status === 'teilzahlung_visiert' &&
+                      (cost.type === 'external_service' || cost.type === 'investment')
+                    ) {
+                      mainRow += `
+                        <tr>
+                          <td colspan="6" style="padding: 0; border-top: none;">
+                            <details style="margin: 0.5rem 0;">
+                              <summary style="cursor: pointer; font-weight: 500; font-size: 0.875rem; padding: 0.5rem 1rem; background: var(--bg-secondary); border-left: 3px solid var(--warning);">
                                 Teilzahlungen
-                              </span>
-                            </div>
-                            <div id="${collapsibleId}" style="display: none; padding: 0 1rem 1rem 1rem;">
-                              ${this.renderPartialPaymentsList(cost, project)}
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    `;
-                  }
+                              </summary>
+                              <div style="padding: 0.75rem 1rem 1rem 1rem; background: var(--bg-secondary); border-left: 3px solid var(--warning);">
+                                ${this.renderPartialPaymentsList(cost, project)}
+                              </div>
+                            </details>
+                          </td>
+                        </tr>
+                      `;
+                    }
 
                   return mainRow;
                 }).join('');
