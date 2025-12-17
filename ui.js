@@ -1228,7 +1228,6 @@
                       <td>${this.getCostTypeLabel(cost.type)}</td>
                       <td>${statusHtml}</td>
                       <td class="font-mono font-semibold">${this.formatCurrency(cost.amount ?? 0, project.currency)}</td>
-                      <td class="text-sm" style="color: var(--text-secondary);">—</td>
                     </tr>
                   `;
 
