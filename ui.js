@@ -1243,7 +1243,7 @@
                         <td colspan="6" style="padding: 0; border-top: none;">
                           <div style="background: var(--bg-secondary); border-left: 3px solid var(--warning); margin: 0.5rem 0;">
                             <div style="padding: 0.5rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
-                                 onpointerdown="UI.togglePartialPaymentsSection('${collapsibleId}')">
+                                 onpointerup="UI.togglePartialPaymentsSection('${collapsibleId}')">
                               <span style="font-weight: 500; font-size: 0.875rem;">
                                 <span id="${collapsibleId}-arrow" style="display: inline-block; transition: transform 0.2s;">▸</span>
                                 Teilzahlungen
@@ -4702,13 +4702,13 @@
                         <div class="flex" style="justify-content: space-between; align-items: center; margin-top: 1rem;">
 
                           <button class="btn btn-danger"
-                                  onpointerdown="UI.closeModal(); UI.deleteCost('${costId}')">
+                                  onpointerup="UI.closeModal(); UI.deleteCost('${costId}')">
                             Löschen
                           </button>
 
                           <div class="flex gap-4">
-                            <button class="btn btn-primary" onpointerdown="UI.saveEditCost('${costId}')">Speichern</button>
-                            <button class="btn" onpointerdown="UI.closeModal()">Abbrechen</button>
+                            <button class="btn btn-primary" onpointerup="UI.saveEditCost('${costId}')">Speichern</button>
+                            <button class="btn" onpointerup="UI.closeModal()">Abbrechen</button>
                           </div>
 
                         </div>
@@ -6076,7 +6076,9 @@
                             <p style="margin-bottom: 1.5rem; color: var(--text-primary);">${this.escapeHtml(message)}</p>
                             <div class="flex gap-4" style="justify-content: flex-end;">
                                 <button class="btn" id="confirm-cancel">Abbrechen</button>
-                                <button class="btn" id="confirm-ok" style="background: var(--danger); color: white; border-color: var(--danger);">Löschen</button>
+                                <button class="btn btn-danger" id="confirm-ok">
+                                    Löschen
+                                </button>
                             </div>
                         </div>
                     </div>
