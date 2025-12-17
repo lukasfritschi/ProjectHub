@@ -1278,7 +1278,7 @@
                       <td style="white-space: nowrap;">
                         ${
                           (hasPartialPayments && cost.status === 'teilzahlung_visiert' && (cost.type === 'external_service' || cost.type === 'investment'))
-                            ? `<span class="row-expander" data-expander-for="${cost.id}" title="Teilzahlungen anzeigen" style="display:inline-block; width:1.25rem; cursor:pointer; user-select:none; color: var(--text-secondary);">▸</span>`
+                            ? `<span class="row-expander is-collapsed" data-expander-for="${cost.id}" title="Teilzahlungen anzeigen">▾</span>`
                             : `<span style="display:inline-block; width:1.25rem;"></span>`
                         }
                         ${this.formatDate(cost.date)}
@@ -1297,21 +1297,6 @@
                           ? `<div class="text-sm font-normal" style="color: var(--text-secondary); margin-top: 0.25rem;">
                                davon offen: ${this.formatCurrency(openAmount, project.currency)}
                              </div>`
-                          : ''
-                      }
-
-                      ${
-                        (hasPartialPayments &&
-                         cost.status === 'teilzahlung_visiert' &&
-                         (cost.type === 'external_service' || cost.type === 'investment'))
-                          ? `<details style="margin-top: 0.35rem;">
-                               <summary style="cursor: pointer; font-weight: 500; font-size: 0.875rem; color: var(--text-secondary);">
-                                 Teilzahlungen anzeigen
-                               </summary>
-                               <div style="padding-top: 0.5rem; font-weight: 400;">
-                                 ${this.renderPartialPaymentsList(cost, project)}
-                               </div>
-                             </details>`
                           : ''
                       }
                     </td>

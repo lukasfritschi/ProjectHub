@@ -426,6 +426,31 @@
         .grid { display: grid; }
         .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
         .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .row-expander {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.5rem;
+          font-size: 1.15rem;   /* größer */
+          font-weight: 800;     /* fetter */
+          cursor: pointer;
+          user-select: none;
+          color: var(--text-secondary);
+          transition: transform 0.15s ease, color 0.15s ease;
+        }
+
+        .row-expander:hover {
+          color: var(--text-primary);
+        }
+
+        .row-expander.is-collapsed {
+          transform: rotate(-90deg);
+        }
+
+        .row-expander.is-expanded {
+          transform: rotate(0deg);
+        }
+
 
         /* Gantt Critical Path Styling */
         .gantt-critical-path .bar {
