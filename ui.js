@@ -4450,11 +4450,21 @@
               const dateStr = (dateEl.value || '').trim();
               if (!dateStr) return;
 
-              const parts = dateStr.split('-');
-              if (parts.length !== 3) return;
+              let m = null;
 
-              const m = parseInt(parts[1], 10);
-              if (isNaN(m) || m < 1 || m > 12) return;
+              // Erwartet (type=date): YYYY-MM-DD
+              if (dateStr.indexOf('-') > -1) {
+                const parts = dateStr.split('-');
+                if (parts.length === 3) m = parseInt(parts[1], 10);
+              }
+
+              // Fallback, falls irgendwo dd.mm.yyyy reingerutscht ist
+              if ((m === null || isNaN(m)) && dateStr.indexOf('.') > -1) {
+                const parts = dateStr.split('.');
+                if (parts.length === 3) m = parseInt(parts[1], 10);
+              }
+
+              if (m === null || isNaN(m) || m < 1 || m > 12) return;
 
               const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
               descEl.value = `Entwicklung intern ${months[m - 1]}`;
@@ -4793,6 +4803,7 @@
                 setTimeout(() => {
                     this.toggleCostStatusField();
                     this.togglePartialAmountField();
+                    this.applyInternalEditCostDescriptionDefault();
 
                     // Load existing partial payments
                     if (cost.partialPayments && cost.partialPayments.length > 0) {
