@@ -4426,7 +4426,15 @@
               const descEl = document.getElementById('modal-cost-description');
 
               if (!typeEl || !dateEl || !descEl) return;
-              if (typeEl.value !== 'internal_hours') return;
+
+              const isInternal = typeEl.value === 'internal_hours';
+
+              // Feld sperren/entsperren (readOnly ist besser als disabled, weil Wert weiterhin normal auslesbar bleibt)
+              descEl.readOnly = isInternal;
+              descEl.classList.toggle('input-readonly', isInternal);
+
+              // Wenn nicht intern: nichts weiter anfassen
+              if (!isInternal) return;
 
               const dateStr = (dateEl.value || '').trim(); // YYYY-MM-DD
               if (!dateStr) return;
@@ -4440,13 +4448,7 @@
               const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
               const monthName = months[m - 1];
 
-              const target = `Entwicklung intern ${monthName}`;
-              const cur = (descEl.value || '').trim();
-
-              // Minimal & robust: nur setzen, wenn Feld leer ist oder bereits "Entwicklung intern ..." ist
-              if (cur === '' || cur.toLowerCase().indexOf('entwicklung intern') === 0) {
-                descEl.value = target;
-              }
+              descEl.value = `Entwicklung intern ${monthName}`;
             },
 
             togglePartialAmountField() {
@@ -4719,7 +4721,7 @@
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Kostenart *</label>
-                            <select id="modal-edit-cost-type" required onchange="UI.toggleCostStatusField()">
+                            <select id="modal-edit-cost-type" required onchange="UI.toggleCostStatusField(); UI.applyInternalEditCostDescriptionDefault()">
                                 <option value="internal_hours" ${cost.type === 'internal_hours' ? 'selected' : ''}>Intern</option>
                                 <option value="external_service" ${cost.type === 'external_service' ? 'selected' : ''}>Extern</option>
                                 <option value="investment" ${cost.type === 'investment' ? 'selected' : ''}>Investitionen / Werkzeuge</option>
@@ -4741,7 +4743,7 @@
                         </div>
                         <div>
                             <label class="text-sm font-medium">Datum *</label>
-                            <input type="date" id="modal-edit-cost-date" value="${cost.date}" required>
+                            <input type="date" id="modal-edit-cost-date" value="${cost.date}" required onchange="UI.applyInternalEditCostDescriptionDefault()">
                         </div>
                         <div>
                             <label class="text-sm font-medium">Beschreibung *</label>
