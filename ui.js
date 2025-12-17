@@ -4420,23 +4420,34 @@
               this.togglePartialAmountField();
             },
 
-            applyInternalCostDescriptionDefault() {
-              const typeEl = document.getElementById('modal-cost-type');
-              const dateEl = document.getElementById('modal-cost-date');
-              const descEl = document.getElementById('modal-cost-description');
+            applyInternalEditCostDescriptionDefault() {
+              const typeEl = document.getElementById('modal-edit-cost-type');
+              const dateEl = document.getElementById('modal-edit-cost-date');
+              const descEl = document.getElementById('modal-edit-cost-description');
+              const hintEl = document.getElementById('cost-desc-locked-hint');
 
               if (!typeEl || !dateEl || !descEl) return;
 
+              const cur = (descEl.value || '').trim();
+              const isAutoText = /^Entwicklung intern(\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))?$/i.test(cur);
+
               const isInternal = typeEl.value === 'internal_hours';
 
-              // Feld sperren/entsperren (readOnly ist besser als disabled, weil Wert weiterhin normal auslesbar bleibt)
+              // UI Hint ein/aus
+              if (hintEl) hintEl.classList.toggle('hidden', !isInternal);
+
+              // Feld sperren/entsperren
               descEl.readOnly = isInternal;
               descEl.classList.toggle('input-readonly', isInternal);
 
-              // Wenn nicht intern: nichts weiter anfassen
-              if (!isInternal) return;
+              // Wenn NICHT intern: Auto-Text zurücksetzen (aber nur wenn es wirklich Auto/leer ist)
+              if (!isInternal) {
+                if (cur === '' || isAutoText) descEl.value = '';
+                return;
+              }
 
-              const dateStr = (dateEl.value || '').trim(); // YYYY-MM-DD
+              // Intern: Auto-Text setzen (Datum -> Monat)
+              const dateStr = (dateEl.value || '').trim();
               if (!dateStr) return;
 
               const parts = dateStr.split('-');
@@ -4446,9 +4457,7 @@
               if (isNaN(m) || m < 1 || m > 12) return;
 
               const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-              const monthName = months[m - 1];
-
-              descEl.value = `Entwicklung intern ${monthName}`;
+              descEl.value = `Entwicklung intern ${months[m - 1]}`;
             },
 
             togglePartialAmountField() {
@@ -4746,8 +4755,11 @@
                             <input type="date" id="modal-edit-cost-date" value="${cost.date}" required onchange="UI.applyInternalEditCostDescriptionDefault()">
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Beschreibung *</label>
-                            <input type="text" id="modal-edit-cost-description" value="${this.escapeHtml(cost.description)}" placeholder="z.B. Entwicklung Backend-API" required>
+                          <label class="text-sm font-medium">Beschreibung *</label>
+                          <input type="text" id="modal-edit-cost-description" value="${this.escapeHtml(cost.description)}" placeholder="z.B. Entwicklung Backend-API" required>
+                          <p id="cost-desc-locked-hint" class="text-sm mt-1 hidden" style="color: var(--text-secondary);">
+                            Bei internen Kosten wird die Beschreibung automatisch gesetzt (Monat aus Datum) und ist deshalb gesperrt.
+                          </p>
                         </div>
                         <div id="cost-reference-field" style="display:none;">
                             <label class="text-sm font-medium">Bestell-/Rechnungsnummer</label>
