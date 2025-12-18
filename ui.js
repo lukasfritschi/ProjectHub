@@ -6957,9 +6957,9 @@
 
             getCostTypeLabel(type) {
                 const labels = {
-                    'internal_hours': 'Interne Stunden',
-                    'external_service': 'Externe Dienstleistung',
-                    'investment': 'Investitionen'
+                    'internal_hours': 'Selbstgeschaffene Entwicklungskosten',
+                    'external_service': 'Erworbene Entwicklungskosten',
+                    'investment': 'Spezialwerkzeuge / Modelle'
                 };
                 return labels[type] || type;
             },
