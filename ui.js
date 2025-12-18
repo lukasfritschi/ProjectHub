@@ -1052,6 +1052,7 @@
                     typeLabelEl.textContent = 'Alle';
                     return;
                   }
+                console.log('Cost type in filter:', types);
 
                   // kurze, “saubere” Anzeige (max 2 Begriffe, sonst “+n”)
                   const nameMap = { internal_hours: 'Selbstgeschaffene Entwicklungskosten', external_service: 'Erworbene Entwicklungskosten', investment: 'Spezialwerkzeuge / Modelle' };
