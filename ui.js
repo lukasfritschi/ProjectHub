@@ -1031,15 +1031,13 @@
                 const resetEl = document.getElementById('costs-filter-reset');
                 const countEl = document.getElementById('costs-filter-count');
 
-                const typeCbs = document.querySelectorAll('.cost-type-cb');
                 const typeLabelEl = document.getElementById('costs-type-filter-label');
-                const typeAllBtn = document.getElementById('costs-type-all');
-                const typeNoneBtn = document.getElementById('costs-type-none');
+                const typeCbs = document.querySelectorAll('.cost-type-cb');
 
                 // Controls mit gespeichertem State befüllen
                 if (searchEl) searchEl.value = this.costsFilters.q || '';
 
-                // Checkboxen setzen: leer = alle
+                // Checkboxen setzen (leer = alle)
                 const selectedTypes = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
                 typeCbs.forEach(cb => {
                   cb.checked = selectedTypes.length > 0 && selectedTypes.includes(cb.value);
@@ -1048,12 +1046,20 @@
                 // Label aktualisieren
                 const updateTypeLabel = () => {
                   const types = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
-                  if (types.includes('__none__')) {
-                    if (typeLabelEl) typeLabelEl.textContent = 'Keine';
-                  } else if (types.length === 0) {
-                    if (typeLabelEl) typeLabelEl.textContent = 'Alle';
+                  if (!typeLabelEl) return;
+
+                  if (types.length === 0) {
+                    typeLabelEl.textContent = 'Alle';
+                    return;
+                  }
+
+                  // kurze, “saubere” Anzeige (max 2 Begriffe, sonst “+n”)
+                  const nameMap = { internal_hours: 'Intern', external_service: 'Extern', investment: 'Werkzeug' };
+                  const labels = types.map(t => nameMap[t] || t);
+                  if (labels.length <= 2) {
+                    typeLabelEl.textContent = labels.join(', ');
                   } else {
-                    if (typeLabelEl) typeLabelEl.textContent = `${types.length} gewählt`;
+                    typeLabelEl.textContent = `${labels.slice(0,2).join(', ')} +${labels.length - 2}`;
                   }
                 };
                 updateTypeLabel();
@@ -1061,7 +1067,7 @@
                 // Debounce Timer (lokal über UI-Objekt)
                 if (this._costsSearchTimer === undefined) this._costsSearchTimer = null;
 
-                // Handler jedes Mal setzen (robust gegen DOM-Rebuild)
+                // Suche: case-insensitive (toLowerCase folgt im Filterteil), hier nur State setzen
                 if (searchEl) {
                   searchEl.oninput = () => {
                     clearTimeout(this._costsSearchTimer);
@@ -1072,38 +1078,16 @@
                   };
                 }
 
-                // Multi-Select onchange
+                // Multi-Select: bei Änderung types setzen (wenn nichts gewählt => alle)
                 typeCbs.forEach(cb => {
                   cb.onchange = () => {
                     const picked = [];
                     typeCbs.forEach(x => { if (x.checked) picked.push(x.value); });
-                    // wenn nichts gewählt: alle
                     this.costsFilters.types = picked;
                     updateTypeLabel();
                     this.renderCostsTab();
                   };
                 });
-
-                // Alle / Keine Buttons
-                if (typeAllBtn) {
-                  typeAllBtn.onclick = (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                    typeCbs.forEach(x => x.checked = false);
-                    this.costsFilters.types = []; // = alle
-                    updateTypeLabel();
-                    this.renderCostsTab();
-                  };
-                }
-
-                if (typeNoneBtn) {
-                  typeNoneBtn.onclick = (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                    typeCbs.forEach(x => x.checked = false);
-                    this.costsFilters.types = ['__none__']; // = keine anzeigen
-                    updateTypeLabel();
-                    this.renderCostsTab();
-                  };
-                }
 
                 if (resetEl) {
                   resetEl.onclick = () => {
@@ -1111,10 +1095,6 @@
                     if (searchEl) searchEl.value = '';
                     typeCbs.forEach(x => x.checked = false);
                     updateTypeLabel();
-
-                    this.costsSort = { key: 'date', dir: 'asc' };
-                    this.updateCostsSortIcons();
-
                     this.renderCostsTab();
                   };
                 }
@@ -1156,44 +1136,28 @@
 
                 let filteredCosts = [...costs];
 
-                // Kostenart Multi-Select
+                // Kostenart Multi-Select (leer = alle)
                 const types = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
-                if (types.includes('__none__')) {
-                  filteredCosts = [];
-                } else if (types.length > 0) {
+                if (types.length > 0) {
                   filteredCosts = filteredCosts.filter(c => types.includes(c.type));
                 }
 
-
-                // Suche (Beschreibung, Datum, Betrag, Statuslabel, Typ)
+                // Suche (case-insensitive): nur Beschreibung, Bestell-/Rechnungsnr., Betrag
                 const q = (this.costsFilters.q || '').toLowerCase();
                 if (q) {
                   filteredCosts = filteredCosts.filter(c => {
-                    const amountStr = String(c.amount ?? '').toLowerCase();
-                    const dateStr = String(c.date ?? '').toLowerCase();
                     const descStr = String(c.description ?? '').toLowerCase();
-                    const typeStr = String(this.getCostTypeLabel(c.type) ?? '').toLowerCase();
-                    const statusStr = String(c.status ?? '').toLowerCase();
                     const refStr = String(c.referenceNo ?? '').toLowerCase();
+                    const amountStr = String(c.amount ?? '').toLowerCase();
 
-                    // Suche (Beschreibung, Bestell-/Rechnungsnr., Betrag)
-                    const q = (this.costsFilters.q || '').toLowerCase();
-                    if (q) {
-                      filteredCosts = filteredCosts.filter(c => {
-                        const descStr = String(c.description ?? '').toLowerCase();
-                        const refStr = String(c.referenceNo ?? '').toLowerCase();
-                        const amountStr = String(c.amount ?? '').toLowerCase();
-
-                        return (
-                          descStr.includes(q) ||
-                          refStr.includes(q) ||
-                          amountStr.includes(q)
-                        );
-                      });
-                    }
-
+                    return (
+                      descStr.includes(q) ||
+                      refStr.includes(q) ||
+                      amountStr.includes(q)
+                    );
                   });
                 }
+
 
                 // Trefferanzeige
                 if (countEl) {
