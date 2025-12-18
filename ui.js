@@ -1056,7 +1056,10 @@
 
                   // kurze, “saubere” Anzeige (max 2 Begriffe, sonst “+n”)
                   const nameMap = { internal_hours: 'Selbstgeschaffene Entwicklungskosten', external_service: 'Erworbene Entwicklungskosten', investment: 'Spezialwerkzeuge / Modelle' };
-                  const labels = types.map(t => nameMap[t] || t);
+                  const labels = types.map(t => {
+                    const key = String(t).toLowerCase().trim();
+                    return nameMap[key] || key;
+                  });
                   if (labels.length <= 2) {
                     typeLabelEl.textContent = labels.join(', ');
                   } else {
