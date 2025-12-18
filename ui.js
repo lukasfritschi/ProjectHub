@@ -1089,6 +1089,21 @@
                   };
                 });
 
+                // Multi-Select: beim Klick ausserhalb automatisch schliessen
+                const typeDetails = document.getElementById('costs-type-filter');
+                if (typeDetails && !this._costsTypeOutsideCloseBound) {
+                  document.addEventListener('pointerdown', (e) => {
+                    const d = document.getElementById('costs-type-filter');
+                    if (!d || !d.open) return;
+
+                    // klick ausserhalb => schliessen
+                    if (!d.contains(e.target)) d.open = false;
+                  }, true); // capture: zuverlässig vor anderen handlern
+
+                  this._costsTypeOutsideCloseBound = true;
+                }
+
+
                 if (resetEl) {
                   resetEl.onclick = () => {
                     this.costsFilters = { q: '', types: [] };

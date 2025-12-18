@@ -168,7 +168,8 @@
 
         .ms-summary {
             width: 100%;
-            padding: 0.625rem;
+            padding: 0.5rem 0.625rem;   /* vorher 0.625rem -> neu kompakter */
+            line-height: 1.1;           /* optional: kompakter */
             font-size: 16px;
             border: 1px solid var(--border-color);
             background: var(--bg-primary);
@@ -183,6 +184,7 @@
             gap: 0.5rem;
         }
 
+
         .ms-details[open] .ms-summary {
             border-color: var(--accent-color);
             box-shadow: 0 0 0 2px var(--shadow);
@@ -195,6 +197,10 @@
             z-index: 20;
             margin-top: 0.5rem;
             width: 100%;
+
+            left: 0;     /* neu: links ausrichten */
+            right: auto; /* neu: rechts nicht erzwingen */
+
             padding: 0.75rem;
             border: 1px solid var(--border-color);
             background: var(--bg-primary);
@@ -205,6 +211,7 @@
             flex-direction: column;
             gap: 0.5rem;
         }
+
 
         .ms-item {
             display: flex;
