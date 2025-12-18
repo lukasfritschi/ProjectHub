@@ -840,48 +840,78 @@
                     <h3 class="text-lg font-semibold">Kostendetails (IST-Erfassung)</h3>
                     <button id="btn-add-cost" class="btn btn-primary">+ Kosten erfassen</button>
                 </div>
-                    <!-- Filter & Suche (Kosten) -->
+                <!-- Filter & Suche (Kosten) -->
                 <div class="card mb-4" style="padding: 1rem;">
-                    <div class="grid gap-3" style="grid-template-columns: 1.5fr 1fr 1fr auto;">
-                        <div>
-                            <label class="text-sm font-medium">Suche</label>
-                            <input id="costs-search" type="text" placeholder="Beschreibung, Betrag, Datum, Status …" />
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Kostenart</label>
-                            <select id="costs-filter-type">
-                                <option value="">Alle</option>
-                                <option value="internal_hours">Intern</option>
-                                <option value="external_service">Extern</option>
-                                <option value="investment">Werkzeug / Investition</option>
-                            </select>
-                        </div>
-                        <div>
-                          <label class="text-sm font-medium">Status</label>
-                          <select id="costs-filter-status">
-                            <option value="">Alle</option>
-                            <option value="bestellt">Bestellt</option>
-                            <option value="teilzahlung_visiert">Teilzahlung visiert</option>
-                            <option value="vollzahlung_visiert">Vollzahlung visiert</option>
-                            <option value="__none__">Kein Status</option>
-                          </select>
-                        </div>
-
-                        <div style="display:flex; flex-direction:column; justify-content:flex-end; gap:0.5rem;">
-                          <button id="costs-filter-reset" class="btn">Zurücksetzen</button>
-                          <div id="costs-filter-count" class="text-sm" style="color: var(--text-secondary); text-align:right;"></div>
-                        </div>
+                  <div class="grid gap-3" style="grid-template-columns: 1.5fr 1fr auto;">
+                    <!-- Search -->
+                    <div>
+                      <label class="text-sm font-medium">Suche</label>
+                      <input id="costs-search" type="text" placeholder="Beschreibung / Bestell-/Rechnungsnr. / Betrag" />
                     </div>
+
+                    <!-- Kostenart Multi-Select -->
+                    <div>
+                      <label class="text-sm font-medium">Kostenart</label>
+                      <details id="costs-type-filter" style="position:relative;">
+                        <summary class="btn" style="list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:.5rem;">
+                          <span id="costs-type-filter-label">Alle</span>
+                          <span style="opacity:.7;">▾</span>
+                        </summary>
+
+                        <div class="card" style="padding:.75rem; margin-top:.5rem; position:absolute; z-index:10; min-width: 16rem;">
+                          <label style="display:flex; gap:.5rem; align-items:center; margin:.25rem 0;">
+                            <input type="checkbox" class="cost-type-cb" value="internal_hours"> <span>Intern</span>
+                          </label>
+                          <label style="display:flex; gap:.5rem; align-items:center; margin:.25rem 0;">
+                            <input type="checkbox" class="cost-type-cb" value="external_service"> <span>Extern</span>
+                          </label>
+                          <label style="display:flex; gap:.5rem; align-items:center; margin:.25rem 0;">
+                            <input type="checkbox" class="cost-type-cb" value="investment"> <span>Werkzeug / Investition</span>
+                          </label>
+
+                          <div style="display:flex; gap:.5rem; margin-top:.75rem;">
+                            <button type="button" id="costs-type-all" class="btn">Alle</button>
+                            <button type="button" id="costs-type-none" class="btn">Keine</button>
+                          </div>
+                        </div>
+                      </details>
+                    </div>
+
+                    <!-- Reset + Count -->
+                    <div style="display:flex; flex-direction:column; justify-content:flex-end; gap:0.5rem;">
+                      <button id="costs-filter-reset" class="btn">Zurücksetzen</button>
+                      <div id="costs-filter-count" class="text-sm" style="color: var(--text-secondary); text-align:right;"></div>
+                    </div>
+                  </div>
                 </div>
+
                 <div class="card">
                     <table id="costs-table">
                         <thead>
                             <tr>
-                                <th>Datum</th>
+                                <th>
+                                  <span style="display:inline-flex; gap:.35rem; align-items:center;">
+                                    Datum
+                                    <button type="button" class="costs-sort-btn" data-sort-key="date"
+                                            title="Sortieren nach Datum"
+                                            style="all:unset; cursor:pointer; opacity:.85;">
+                                      <span class="sort-icon" data-sort-icon-for="date">⇅</span>
+                                    </button>
+                                  </span>
+                                </th>
                                 <th>Beschreibung</th>
                                 <th>Bestell-/Rechnungsnr.</th>
                                 <th>Kostenart</th>
-                                <th>Status</th>
+                                <th>
+                                  <span style="display:inline-flex; gap:.35rem; align-items:center;">
+                                    Status
+                                    <button type="button" class="costs-sort-btn" data-sort-key="status"
+                                            title="Sortieren nach Status"
+                                            style="all:unset; cursor:pointer; opacity:.85;">
+                                      <span class="sort-icon" data-sort-icon-for="status">⇅</span>
+                                    </button>
+                                  </span>
+                                </th>
                                 <th>Betrag </th>
                             </tr>
                         </thead>

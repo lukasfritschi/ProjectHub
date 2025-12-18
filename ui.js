@@ -6,7 +6,8 @@
             // -----------------------------
             // UI-State: Kosten Filter & Suche
             // -----------------------------
-            costsFilters : { q: '', type: '', status: '' },
+            costsFilters : { q: '', types: [] },
+            costsSort : { key: 'date', dir: 'asc' },
             _costsSearchTimer : null,
 
             currentTab: 'overview',
@@ -1001,6 +1002,24 @@
                 });
             },
 
+            updateCostsSortIcons() {
+              const key = (this.costsSort && this.costsSort.key) ? this.costsSort.key : 'date';
+              const dir = (this.costsSort && this.costsSort.dir) ? this.costsSort.dir : 'asc';
+
+              document.querySelectorAll('#costs-table .sort-icon').forEach(el => {
+                const k = el.getAttribute('data-sort-icon-for');
+                if (!k) return;
+
+                if (k === key) {
+                  el.textContent = (dir === 'asc') ? '▲' : '▼';
+                  el.style.opacity = '1';
+                } else {
+                  el.textContent = '⇅';
+                  el.style.opacity = '.6';
+                }
+              });
+            },
+
             renderCostsTab() {
                 const costs = AppState.getProjectCosts(AppState.currentProjectId);
                 const tbody = document.querySelector('#costs-table tbody');
@@ -1008,17 +1027,36 @@
                 // ------------------------------------------------------------
                 // Filter & Suche initialisieren (einmalig binden)
                 // ------------------------------------------------------------
-                // Filter Controls holen (müssen im statischen HTML stehen!)
                 const searchEl = document.getElementById('costs-search');
-                const typeEl = document.getElementById('costs-filter-type');
-                const statusEl = document.getElementById('costs-filter-status');
                 const resetEl = document.getElementById('costs-filter-reset');
                 const countEl = document.getElementById('costs-filter-count');
 
+                const typeCbs = document.querySelectorAll('.cost-type-cb');
+                const typeLabelEl = document.getElementById('costs-type-filter-label');
+                const typeAllBtn = document.getElementById('costs-type-all');
+                const typeNoneBtn = document.getElementById('costs-type-none');
+
                 // Controls mit gespeichertem State befüllen
                 if (searchEl) searchEl.value = this.costsFilters.q || '';
-                if (typeEl) typeEl.value = this.costsFilters.type || '';
-                if (statusEl) statusEl.value = this.costsFilters.status || '';
+
+                // Checkboxen setzen: leer = alle
+                const selectedTypes = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
+                typeCbs.forEach(cb => {
+                  cb.checked = selectedTypes.length > 0 && selectedTypes.includes(cb.value);
+                });
+
+                // Label aktualisieren
+                const updateTypeLabel = () => {
+                  const types = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
+                  if (types.includes('__none__')) {
+                    if (typeLabelEl) typeLabelEl.textContent = 'Keine';
+                  } else if (types.length === 0) {
+                    if (typeLabelEl) typeLabelEl.textContent = 'Alle';
+                  } else {
+                    if (typeLabelEl) typeLabelEl.textContent = `${types.length} gewählt`;
+                  }
+                };
+                updateTypeLabel();
 
                 // Debounce Timer (lokal über UI-Objekt)
                 if (this._costsSearchTimer === undefined) this._costsSearchTimer = null;
@@ -1034,29 +1072,81 @@
                   };
                 }
 
-                if (typeEl) {
-                  typeEl.onchange = () => {
-                    this.costsFilters.type = typeEl.value || '';
+                // Multi-Select onchange
+                typeCbs.forEach(cb => {
+                  cb.onchange = () => {
+                    const picked = [];
+                    typeCbs.forEach(x => { if (x.checked) picked.push(x.value); });
+                    // wenn nichts gewählt: alle
+                    this.costsFilters.types = picked;
+                    updateTypeLabel();
+                    this.renderCostsTab();
+                  };
+                });
+
+                // Alle / Keine Buttons
+                if (typeAllBtn) {
+                  typeAllBtn.onclick = (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    typeCbs.forEach(x => x.checked = false);
+                    this.costsFilters.types = []; // = alle
+                    updateTypeLabel();
                     this.renderCostsTab();
                   };
                 }
 
-                if (statusEl) {
-                  statusEl.onchange = () => {
-                    this.costsFilters.status = statusEl.value || '';
+                if (typeNoneBtn) {
+                  typeNoneBtn.onclick = (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    typeCbs.forEach(x => x.checked = false);
+                    this.costsFilters.types = ['__none__']; // = keine anzeigen
+                    updateTypeLabel();
                     this.renderCostsTab();
                   };
                 }
 
                 if (resetEl) {
                   resetEl.onclick = () => {
-                    this.costsFilters = { q: '', type: '', status: '' };
+                    this.costsFilters = { q: '', types: [] };
                     if (searchEl) searchEl.value = '';
-                    if (typeEl) typeEl.value = '';
-                    if (statusEl) statusEl.value = '';
+                    typeCbs.forEach(x => x.checked = false);
+                    updateTypeLabel();
+
+                    this.costsSort = { key: 'date', dir: 'asc' };
+                    this.updateCostsSortIcons();
+
                     this.renderCostsTab();
                   };
                 }
+
+                // Sort-Buttons einmalig binden
+                if (!this._costsSortBound) {
+                  const self = this;
+                  document.querySelectorAll('#costs-table thead .costs-sort-btn').forEach(btn => {
+                    btn.addEventListener('pointerup', (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      const key = btn.getAttribute('data-sort-key');
+                      if (!key) return;
+
+                      if (self.costsSort.key === key) {
+                        self.costsSort.dir = (self.costsSort.dir === 'asc') ? 'desc' : 'asc';
+                      } else {
+                        self.costsSort.key = key;
+                        self.costsSort.dir = 'asc';
+                      }
+
+                      self.updateCostsSortIcons();
+                      self.renderCostsTab();
+                    });
+                  });
+
+                  this._costsSortBound = true;
+                }
+
+                this.updateCostsSortIcons();
+
 
 
                 // ------------------------------------------------------------
@@ -1066,19 +1156,14 @@
 
                 let filteredCosts = [...costs];
 
-                // Kostenart
-                if (this.costsFilters.type) {
-                  filteredCosts = filteredCosts.filter(c => c.type === this.costsFilters.type);
+                // Kostenart Multi-Select
+                const types = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
+                if (types.includes('__none__')) {
+                  filteredCosts = [];
+                } else if (types.length > 0) {
+                  filteredCosts = filteredCosts.filter(c => types.includes(c.type));
                 }
 
-                // Status
-                if (this.costsFilters.status) {
-                  if (this.costsFilters.status === '__none__') {
-                    filteredCosts = filteredCosts.filter(c => !c.status);
-                  } else {
-                    filteredCosts = filteredCosts.filter(c => (c.status || '') === this.costsFilters.status);
-                  }
-                }
 
                 // Suche (Beschreibung, Datum, Betrag, Statuslabel, Typ)
                 const q = (this.costsFilters.q || '').toLowerCase();
@@ -1091,14 +1176,22 @@
                     const statusStr = String(c.status ?? '').toLowerCase();
                     const refStr = String(c.referenceNo ?? '').toLowerCase();
 
-                    return (
-                      descStr.includes(q) ||
-                      refStr.includes(q) ||
-                      dateStr.includes(q) ||
-                      amountStr.includes(q) ||
-                      typeStr.includes(q) ||
-                      statusStr.includes(q)
-                    );
+                    // Suche (Beschreibung, Bestell-/Rechnungsnr., Betrag)
+                    const q = (this.costsFilters.q || '').toLowerCase();
+                    if (q) {
+                      filteredCosts = filteredCosts.filter(c => {
+                        const descStr = String(c.description ?? '').toLowerCase();
+                        const refStr = String(c.referenceNo ?? '').toLowerCase();
+                        const amountStr = String(c.amount ?? '').toLowerCase();
+
+                        return (
+                          descStr.includes(q) ||
+                          refStr.includes(q) ||
+                          amountStr.includes(q)
+                        );
+                      });
+                    }
+
                   });
                 }
 
@@ -1230,15 +1323,45 @@
                   investment: 3
                 };
 
+                const sortKey = (this.costsSort && this.costsSort.key) ? this.costsSort.key : 'date';
+                const sortDir = (this.costsSort && this.costsSort.dir) ? this.costsSort.dir : 'asc';
+                const dirMul = (sortDir === 'desc') ? -1 : 1;
+
+                const dateMs = (d) => d ? new Date(d).getTime() : 0;
+
+                // Status-Ranking (minimal: eure Werte, unbekannt nach hinten)
+                const statusRank = (s) => {
+                  const x = String(s || '').toLowerCase();
+                  const map = {
+                    'bestellt': 10,
+                    'teilzahlung_visiert': 20,
+                    'vollzahlung_visiert': 30,
+                    'bezahlt': 40,
+                    'abgeschlossen': 50
+                  };
+                  return (map[x] !== undefined) ? map[x] : 999;
+                };
+
                 filteredCosts.sort((a, b) => {
+                  // 1) Immer stabil nach Kostenart gruppieren (bestehendes Verhalten)
                   const ta = typeOrder[a.type] || 99;
                   const tb = typeOrder[b.type] || 99;
                   if (ta !== tb) return ta - tb;
 
-                  const da = a.date ? new Date(a.date).getTime() : 0;
-                  const db = b.date ? new Date(b.date).getTime() : 0;
-                  return da - db; // neu → alt
+                  // 2) Innerhalb Gruppe nach gewähltem Key sortieren
+                  if (sortKey === 'status') {
+                    const ra = statusRank(a.status);
+                    const rb = statusRank(b.status);
+                    if (ra !== rb) return (ra - rb) * dirMul;
+
+                    // Tie-breaker: Datum
+                    return (dateMs(a.date) - dateMs(b.date)) * dirMul;
+                  }
+
+                  // Default: Datum
+                  return (dateMs(a.date) - dateMs(b.date)) * dirMul;
                 });
+
 
                 tbody.innerHTML = filteredCosts.map((cost, idx) => {
                   let statusHtml = '';
