@@ -680,30 +680,16 @@
           text-align: left;               /* Panel-Inhalt links */
         }
 
-        /* Robuste Zeile: Container ist DIV, nicht LABEL => globales label-CSS wirkt nicht zerstörerisch */
         #costs-type-filter .ms-row {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          gap: 0.5rem;
-          width: 100%;
-        }
+            display: grid !important;
+            grid-template-columns: auto 1fr !important; /* Checkbox | Text */
+            align-items: center !important;
+            justify-content: start !important;
+            column-gap: 0.5rem !important;
 
-        #costs-type-filter .ms-row input[type="checkbox"] {
-          margin: 0;
-          flex: 0 0 auto;
+            width: 100% !important;
+            text-align: left !important;
         }
-
-        /* Label hier bewusst “normalisieren”, falls globales label-CSS existiert */
-        #costs-type-filter .ms-row > label {
-          margin: 0;
-          padding: 0;
-          display: inline-block;
-          width: auto;
-          text-align: left;
-          float: none;
-        }
-
 
     </style>
 </head>

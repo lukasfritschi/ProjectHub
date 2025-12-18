@@ -5210,9 +5210,9 @@
                         <div>
                             <label class="text-sm font-medium">Kostenart *</label>
                             <select id="modal-cost-type" required onchange="UI.toggleCostStatusField()">
-                                <option value="internal_hours">Intern</option>
-                                <option value="external_service">Extern</option>
-                                <option value="investment">Investitionen / Werkzeuge</option>
+                                <option value="internal_hours">Selbstgeschaffene Entwicklungskosten</option>
+                                <option value="external_service">Erworbene Entwicklungskosten</option>
+                                <option value="investment">Spezialwerkzeuge / Modelle</option>
                             </select>
                         </div>
                         <div id="cost-status-field" style="display: none;">
@@ -5546,9 +5546,9 @@
                         <div>
                             <label class="text-sm font-medium">Kostenart *</label>
                             <select id="modal-edit-cost-type" required onchange="UI.toggleCostStatusField()">
-                                <option value="internal_hours" ${cost.type === 'internal_hours' ? 'selected' : ''}>Intern</option>
-                                <option value="external_service" ${cost.type === 'external_service' ? 'selected' : ''}>Extern</option>
-                                <option value="investment" ${cost.type === 'investment' ? 'selected' : ''}>Investitionen / Werkzeuge</option>
+                                <option value="internal_hours" ${cost.type === 'internal_hours' ? 'selected' : ''}>Selbstgeschaffene Entwicklungskosten</option>
+                                <option value="external_service" ${cost.type === 'external_service' ? 'selected' : ''}>Erworbene Entwicklungskosten</option>
+                                <option value="investment" ${cost.type === 'investment' ? 'selected' : ''}>Spezialwerkzeuge / Modelle</option>
                             </select>
                         </div>
                         <div id="cost-status-field" style="display: none;">
@@ -6221,15 +6221,15 @@
                     <div class="grid gap-4">
                         <h4 class="font-semibold" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Budget (Soll)</h4>
                         <div>
-                            <label class="text-sm font-medium">Budget Intern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Budget Selbstgeschaffene Entwicklungskosten (${project.currency}) *</label>
                             <input type="number" id="modal-budget-intern" value="${budget.intern}" step="1000" required>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Budget Extern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Budget Erworbene Entwicklungskosten (${project.currency}) *</label>
                             <input type="number" id="modal-budget-extern" value="${budget.extern}" step="1000" required>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Budget Investitionen (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Budget Spezialwerkzeuge / Modelle (${project.currency}) *</label>
                             <input type="number" id="modal-budget-investitionen" value="${budget.investitionen}" step="1000" required>
                         </div>
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
@@ -6241,18 +6241,18 @@
 
                         <h4 class="font-semibold mt-4" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Forecast</h4>
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                            <label class="text-sm font-medium">Forecast Intern (${project.currency})</label>
+                            <label class="text-sm font-medium">Forecast Selbstgeschaffene Entwicklungskosten (${project.currency})</label>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">Automatisch berechnet aus Ressourcenbuchungen</p>
                             <div class="text-xl font-bold font-mono mt-2" id="modal-forecast-intern-display">
                                 ${this.formatCurrency(AppState.calculateForecastFromBookings(AppState.currentProjectId), project.currency)}
                             </div>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Forecast Extern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Forecast Erworbene Entwicklungskosten (${project.currency}) *</label>
                             <input type="number" id="modal-forecast-extern" value="${budget.forecastExtern || budget.extern}" step="1000" required>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Forecast Investitionen (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Forecast Spezialwerkzeuge / Modelle (${project.currency}) *</label>
                             <input type="number" id="modal-forecast-investitionen" value="${budget.forecastInvestitionen || budget.investitionen}" step="1000" required>
                         </div>
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
