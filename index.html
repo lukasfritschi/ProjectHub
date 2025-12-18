@@ -190,67 +190,10 @@
             box-shadow: 0 0 0 2px var(--shadow);
         }
 
-        /* ===============================
-           FIX Multi-Select Dropdown Layout
-           =============================== */
-
-        /* sicherstellen, dass das Dropdown nur die Kostenart-Spalte nutzt */
-        #costs-type-filter {
-            position: relative !important;
-        }
-
-        /* Panel exakt unter dem Feld, nicht über die ganze Card */
-        #costs-type-filter .ms-panel {
-            position: absolute !important;
-            top: calc(100% + 0.5rem) !important;
-            left: 0 !important;
-            right: auto !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-        }
-
-        /* Checkbox + Text IMMER links, nie verteilt */
-        #costs-type-filter .ms-item {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-            gap: 0.5rem !important;
-            text-align: left !important;
-        }
-
-        /* häufigster Störfaktor: globale span/label Styles */
-        #costs-type-filter .ms-item span {
-            margin: 0 !important;
-            text-align: left !important;
-            float: none !important;
-        }
-
-        #costs-type-filter .ms-item input[type="checkbox"] {
-            margin: 0 !important;
-        }
-
-
         .ms-caret { opacity: 0.7; }
 
         /* Fix: Options-Layout (Checkbox + Label links) */
         .ms-panel {
-          text-align: left !important;
-        }
-
-        .ms-item {
-          width: 100%;
-          display: flex !important;
-          align-items: center;
-          justify-content: flex-start !important;  /* verhindert “Mitte/Rechts” */
-          gap: 0.5rem;
-        }
-
-        .ms-item input[type="checkbox"] {
-          margin: 0 !important;
-          flex: 0 0 auto;
-        }
-
-        .ms-item span {
           text-align: left !important;
         }
 
@@ -447,12 +390,12 @@
         }
 
         /* Kostenliste: dezente Hinterlegung je Kostenart */
-        .cost-row.cost-type-internal { background: rgba(22, 163, 74, 0.06); }
+        .cost-row.cost-type-Internal { background: rgba(22, 163, 74, 0.06); }
         .cost-row.cost-type-external { background: rgba(37, 99, 235, 0.06); }
         .cost-row.cost-type-investment { background: rgba(234, 179, 8, 0.08); }
 
         /* Dark Mode */
-        body.dark .cost-row.cost-type-internal { background: rgba(22, 163, 74, 0.18); }
+        body.dark .cost-row.cost-type-Internal { background: rgba(22, 163, 74, 0.18); }
         body.dark .cost-row.cost-type-external { background: rgba(37, 99, 235, 0.20); }
         body.dark .cost-row.cost-type-investment { background: rgba(234, 179, 8, 0.22); }
 
@@ -681,48 +624,86 @@
             to   { transform: rotate(360deg); }
         }
 
-        /* ===== Kostenart Multi-Select: harte Kapselung gegen globale label-Styles ===== */
+        /* ============================
+           Kostenart Multi-Select – final stabil gekapselt
+           ============================ */
 
-        /* Dropdown muss an Kostenart-Spalte hängen */
-        #costs-type-filter { position: relative !important; }
-
-        /* Panel exakt unter dem Feld */
-        #costs-type-filter .ms-panel{
-          position: absolute !important;
-          top: calc(100% + 0.5rem) !important;
-          left: 0 !important;
-          right: auto !important;
-          width: 100% !important;
-          box-sizing: border-box !important;
-          background: var(--bg-primary) !important;
+        #costs-type-filter {
+          position: relative;
+          display: block;
+          width: 100%;
         }
 
-        /* Entscheidend: globale label-Regeln neutralisieren */
-        #costs-type-filter .ms-panel label.ms-item{
-          display: flex !important;
-          align-items: center !important;
-          justify-content: flex-start !important;   /* KEIN space-between */
-          gap: 0.5rem !important;
-          width: 100% !important;
-          margin: 0 !important;
-          padding: 0.15rem 0 !important;
-          text-align: left !important;
+        #costs-type-filter > summary { list-style: none; }
+        #costs-type-filter > summary::-webkit-details-marker { display: none; }
+        
+        #costs-type-filter .ms-summary {
+          width: 100%;
+          padding: 0.5rem 0.625rem;       /* kompakter als Input-Default */
+          font-size: 16px;
+          border: 1px solid var(--border-color);
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          border-radius: 0.375rem;
+          cursor: pointer;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.5rem;
+          box-sizing: border-box;
         }
 
-        /* Text darf NICHT nach rechts “wegschieben” */
-        #costs-type-filter .ms-panel label.ms-item span{
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-          float: none !important;
-          text-align: left !important;
-          width: auto !important;
+        #costs-type-filter[open] .ms-summary {
+          border-color: var(--accent-color);
+          box-shadow: 0 0 0 2px var(--shadow);
         }
 
-        /* Checkbox sauber links */
-        #costs-type-filter .ms-panel label.ms-item input[type="checkbox"]{
-          margin: 0 !important;
-          flex: 0 0 auto !important;
+        #costs-type-filter .ms-panel {
+          position: absolute;
+          top: calc(100% + 0.5rem);
+          left: 0;
+          width: 100%;
+          z-index: 50;
+
+          padding: 0.75rem;
+          border: 1px solid var(--border-color);
+          background: var(--bg-primary);
+          border-radius: 0.5rem;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+          box-sizing: border-box;
+
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          text-align: left;               /* Panel-Inhalt links */
         }
+
+        /* Robuste Zeile: Container ist DIV, nicht LABEL => globales label-CSS wirkt nicht zerstörerisch */
+        #costs-type-filter .ms-row {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 0.5rem;
+          width: 100%;
+        }
+
+        #costs-type-filter .ms-row input[type="checkbox"] {
+          margin: 0;
+          flex: 0 0 auto;
+        }
+
+        /* Label hier bewusst “normalisieren”, falls globales label-CSS existiert */
+        #costs-type-filter .ms-row > label {
+          margin: 0;
+          padding: 0;
+          display: inline-block;
+          width: auto;
+          text-align: left;
+          float: none;
+        }
+
 
     </style>
 </head>
@@ -995,18 +976,20 @@
                             </summary>
 
                             <div class="ms-panel">
-                                <label class="ms-item">
-                                    <input type="checkbox" class="cost-type-cb" value="internal_hours">
-                                    <span>Intern</span>
-                                </label>
-                                <label class="ms-item">
-                                    <input type="checkbox" class="cost-type-cb" value="external_service">
-                                    <span>Extern</span>
-                                </label>
-                                <label class="ms-item">
-                                    <input type="checkbox" class="cost-type-cb" value="investment">
-                                    <span>Werkzeug / Investition</span>
-                                </label>
+                              <div class="ms-row">
+                                <input type="checkbox" class="cost-type-cb" value="Internal_hours" id="ct-Internal">
+                                <label for="ct-Internal">Selbstgeschaffene Entwicklungskosten</label>
+                              </div>
+
+                              <div class="ms-row">
+                                <input type="checkbox" class="cost-type-cb" value="external_service" id="ct-external">
+                                <label for="ct-external">Erworbene Entwicklungskosten</label>
+                              </div>
+
+                              <div class="ms-row">
+                                <input type="checkbox" class="cost-type-cb" value="investment" id="ct-investment">
+                                <label for="ct-investment">Spezialwerkzeuge / Modelle</label>
+                              </div>
                             </div>
                         </details>
                     </div>

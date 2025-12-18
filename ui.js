@@ -314,7 +314,7 @@
                                 </div>
                             </div>
                             <div class="p-2" style="background: var(--bg-tertiary); border-radius: 0.375rem;">
-                                <span class="text-sm" style="color: var(--text-secondary);">Burnrate (intern):</span>
+                                <span class="text-sm" style="color: var(--text-secondary);">Burnrate (Selbstgeschaffene Entwicklungskosten):</span>
                                 <strong class="font-mono ml-2">🔥 ${this.formatCurrency(burnrate, project.currency)}/Monat</strong>
                             </div>
                         </div>
@@ -1054,7 +1054,7 @@
                   }
 
                   // kurze, “saubere” Anzeige (max 2 Begriffe, sonst “+n”)
-                  const nameMap = { internal_hours: 'Intern', external_service: 'Extern', investment: 'Werkzeug' };
+                  const nameMap = { internal_hours: 'Selbstgeschaffene Entwicklungskosten', external_service: 'Erworbene Entwicklungskosten', investment: 'Spezialwerkzeuge / Modelle' };
                   const labels = types.map(t => nameMap[t] || t);
                   if (labels.length <= 2) {
                     typeLabelEl.textContent = labels.join(', ');
@@ -4507,9 +4507,9 @@
                         <div>
                             <label class="text-sm font-medium">Kostenart *</label>
                             <select id="modal-cost-type" required onchange="UI.toggleCostStatusField(); UI.applyInternalCostDescriptionDefault()">
-                                <option value="internal_hours">Intern</option>
-                                <option value="external_service">Extern</option>
-                                <option value="investment">Investitionen / Werkzeuge</option>
+                                <option value="internal_hours">Selbstgeschaffene Entwicklungskosten</option>
+                                <option value="external_service">Erworbene Entwicklungskosten</option>
+                                <option value="investment">Spezialwerkzeuge / Modelle</option>
                             </select>
                         </div>
                         <div id="cost-status-field" style="display: none;">
@@ -4589,7 +4589,7 @@
               if (!typeEl || !dateEl || !descEl) return;
 
               const cur = (descEl.value || '').trim();
-              const isAutoText = /^Entwicklung intern(\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))?$/i.test(cur);
+              const isAutoText = /^Selbstgeschaffene Entwicklungskosten(\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))?$/i.test(cur);
 
               const isInternal = typeEl.value === 'internal_hours';
 
@@ -4627,7 +4627,7 @@
               if (m === null || isNaN(m) || m < 1 || m > 12) return;
 
               const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-              descEl.value = `Entwicklung intern ${months[m - 1]}`;
+              descEl.value = `Selbstgeschaffene Entwicklungskosten ${months[m - 1]}`;
             },
 
             applyInternalCostDescriptionDefault() {
@@ -4639,7 +4639,7 @@
               if (!typeEl || !dateEl || !descEl) return;
 
               const cur = (descEl.value || '').trim();
-              const isAutoText = /^Entwicklung intern(\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))?$/i.test(cur);
+              const isAutoText = /^Selbstgeschaffene Entwicklungskosten(\s+(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))?$/i.test(cur);
 
               const isInternal = typeEl.value === 'internal_hours';
 
@@ -4677,7 +4677,7 @@
               if (m === null || isNaN(m) || m < 1 || m > 12) return;
 
               const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-              descEl.value = `Entwicklung intern ${months[m - 1]}`;
+              descEl.value = `Selbstgeschaffene Entwicklungskosten ${months[m - 1]}`;
             },
 
             togglePartialAmountField() {
@@ -4936,9 +4936,9 @@
                         <div>
                             <label class="text-sm font-medium">Kostenart *</label>
                             <select id="modal-edit-cost-type" required onchange="UI.toggleCostStatusField(); UI.applyInternalEditCostDescriptionDefault()">
-                                <option value="internal_hours" ${cost.type === 'internal_hours' ? 'selected' : ''}>Intern</option>
-                                <option value="external_service" ${cost.type === 'external_service' ? 'selected' : ''}>Extern</option>
-                                <option value="investment" ${cost.type === 'investment' ? 'selected' : ''}>Investitionen / Werkzeuge</option>
+                                <option value="internal_hours" ${cost.type === 'internal_hours' ? 'selected' : ''}>Selbstgeschaffene Entwicklungskosten</option>
+                                <option value="external_service" ${cost.type === 'external_service' ? 'selected' : ''}>Erworbene Entwicklungskosten</option>
+                                <option value="investment" ${cost.type === 'investment' ? 'selected' : ''}>Spezialwerkzeuge / Modelle</option>
                             </select>
                         </div>
                         <div id="cost-status-field" style="display: none;">
@@ -5616,15 +5616,15 @@
                     <div class="grid gap-4">
                         <h4 class="font-semibold" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Budget (Soll)</h4>
                         <div>
-                            <label class="text-sm font-medium">Budget Intern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Budget Selbstgeschaffene Entwicklungskosten (${project.currency}) *</label>
                             <input type="number" id="modal-budget-intern" value="${budget.intern}" step="1000" required>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Budget Extern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Budget Erworbene Entwicklungskosten (${project.currency}) *</label>
                             <input type="number" id="modal-budget-extern" value="${budget.extern}" step="1000" required>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Budget Investitionen (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Budget Spezialwerkzeuge / Modelle (${project.currency}) *</label>
                             <input type="number" id="modal-budget-investitionen" value="${budget.investitionen}" step="1000" required>
                         </div>
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
@@ -5637,7 +5637,7 @@
                         <h4 class="font-semibold mt-4" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Forecast</h4>
 
                         <div>
-                            <label class="text-sm font-medium">Forecast Intern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Forecast Selbstgeschaffene Entwicklungskosten (${project.currency}) *</label>
                             <input
                                 type="number"
                                 id="modal-forecast-intern"
@@ -5647,11 +5647,11 @@
                             >
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Forecast Extern (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Forecast Erworbene Entwicklungskosten (${project.currency}) *</label>
                             <input type="number" id="modal-forecast-extern" value="${budget.forecastExtern ?? budget.extern ?? 0}" step="1000" required>
                         </div>
                         <div>
-                            <label class="text-sm font-medium">Forecast Investitionen (${project.currency}) *</label>
+                            <label class="text-sm font-medium">Forecast Spezialwerkzeuge / Modelle  (${project.currency}) *</label>
                             <input type="number" id="modal-forecast-investitionen" value="${budget.forecastInvestitionen ?? budget.investitionen ?? 0}" step="1000" required>
                         </div>
                         <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
