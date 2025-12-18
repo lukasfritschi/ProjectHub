@@ -190,6 +190,46 @@
             box-shadow: 0 0 0 2px var(--shadow);
         }
 
+        /* ===============================
+           FIX Multi-Select Dropdown Layout
+           =============================== */
+
+        /* sicherstellen, dass das Dropdown nur die Kostenart-Spalte nutzt */
+        #costs-type-filter {
+            position: relative !important;
+        }
+
+        /* Panel exakt unter dem Feld, nicht über die ganze Card */
+        #costs-type-filter .ms-panel {
+            position: absolute !important;
+            top: calc(100% + 0.5rem) !important;
+            left: 0 !important;
+            right: auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Checkbox + Text IMMER links, nie verteilt */
+        #costs-type-filter .ms-item {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 0.5rem !important;
+            text-align: left !important;
+        }
+
+        /* häufigster Störfaktor: globale span/label Styles */
+        #costs-type-filter .ms-item span {
+            margin: 0 !important;
+            text-align: left !important;
+            float: none !important;
+        }
+
+        #costs-type-filter .ms-item input[type="checkbox"] {
+            margin: 0 !important;
+        }
+
+
         .ms-caret { opacity: 0.7; }
 
         /* Fix: Options-Layout (Checkbox + Label links) */
