@@ -1035,17 +1035,24 @@
                 const statusLabelEl = document.getElementById('costs-status-filter-label');
                 const statusCbs = document.querySelectorAll('.cost-status-cb');
 
-                // Default-Sortierung sicherstellen
+                // Default-Sortierung: Datum -> Kostenart -> Status -> Betrag
+                const DEFAULT_COSTS_SORTS = [
+                  { key: 'date',   dir: 'asc' },
+                  { key: 'type',   dir: 'asc' },
+                  { key: 'status', dir: 'asc' },
+                  { key: 'amount', dir: 'asc' }
+                ];
+
                 if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
-                  this.costsSorts = [
-                    { key: 'date',   dir: 'asc' },
-                    { key: 'type',   dir: 'asc' },
-                    { key: 'status', dir: 'asc' },
-                    { key: 'amount', dir: 'asc' }
-                  ];
+                  this.costsSorts = DEFAULT_COSTS_SORTS.slice();
+                } else {
+                  // Falls irgendwo früher nur "date" gesetzt wurde: fehlende Sorts ergänzen
+                  for (const d of DEFAULT_COSTS_SORTS) {
+                    if (!this.costsSorts.some(s => s && s.key === d.key)) {
+                      this.costsSorts.push({ key: d.key, dir: d.dir });
+                    }
+                  }
                 }
-
-
 
                 // Controls mit gespeichertem State befüllen
                 if (searchEl) searchEl.value = this.costsFilters.q || '';
