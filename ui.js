@@ -1327,8 +1327,6 @@
                 const sortKey = (this.costsSort && this.costsSort.key) ? this.costsSort.key : 'date';
                 const sortDir = (this.costsSort && this.costsSort.dir) ? this.costsSort.dir : 'asc';
 
-                const dateMs = (d) => d ? new Date(d).getTime() : 0;
-
                 // Status-Ranking (minimal: eure Werte, unbekannt nach hinten)
                 const statusRank = (s) => {
                   const x = String(s || '').toLowerCase();
