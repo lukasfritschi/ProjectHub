@@ -1035,12 +1035,16 @@
                 const statusLabelEl = document.getElementById('costs-status-filter-label');
                 const statusCbs = document.querySelectorAll('.cost-status-cb');
 
+                // Default-Sortierung sicherstellen
                 if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
-                    this.costsSorts = [
-                        { key: 'date', dir: 'asc' },
-                        { key: 'type', dir: 'asc' }
-                      ];
+                  this.costsSorts = [
+                    { key: 'date',   dir: 'asc' },
+                    { key: 'type',   dir: 'asc' },
+                    { key: 'status', dir: 'asc' },
+                    { key: 'amount', dir: 'asc' }
+                  ];
                 }
+
 
 
                 // Controls mit gespeichertem State befüllen
@@ -1182,7 +1186,13 @@
                     updateStatusLabel();
 
                     // Sort reset (Default: chronologisch Datum asc)
-                    this.costsSorts = [ { key: 'date', dir: 'asc' } ];
+                    this.costsSorts = [
+                      { key: 'date',   dir: 'asc' },
+                      { key: 'type',   dir: 'asc' },
+                      { key: 'status', dir: 'asc' },
+                      { key: 'amount', dir: 'asc' }
+                    ];
+
 
                     // UI neu rendern (setzt auch Icons korrekt, da updateCostsSortIcons nach Render läuft)
                     this.renderCostsTab();
