@@ -1326,7 +1326,6 @@
 
                 const sortKey = (this.costsSort && this.costsSort.key) ? this.costsSort.key : 'date';
                 const sortDir = (this.costsSort && this.costsSort.dir) ? this.costsSort.dir : 'asc';
-                const dirMul = (sortDir === 'desc') ? -1 : 1;
 
                 const dateMs = (d) => d ? new Date(d).getTime() : 0;
 
