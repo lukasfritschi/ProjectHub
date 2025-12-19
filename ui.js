@@ -1453,7 +1453,7 @@
                     const tb = b.type ?? b.costType ?? b.category;
                     const ra = typeRank(ta), rb = typeRank(tb);
                     if (ra !== rb) return (ra - rb) * m;
-                    return String(a.type || '').localeCompare(String(b.type || '')) * m;
+                    return String(ta || '').localeCompare(String(tb || '')) * m;
                   }
 
                   if (key === 'status') {
@@ -1461,7 +1461,7 @@
                     const sb = b.status ?? b.paymentStatus ?? b.state;
                     const ra = statusRank(sa), rb = statusRank(sb);
                     if (ra !== rb) return (ra - rb) * m;
-                    return String(a.status || '').localeCompare(String(b.status || '')) * m;
+                    return String(sa || '').localeCompare(String(sb || '')) * m;
                   }
 
                   if (key === 'amount') {
