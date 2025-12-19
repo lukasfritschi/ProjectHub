@@ -1124,46 +1124,41 @@
                   };
                 }
 
-                // Sort-Buttons nach JEDEM Render binden (thead wird neu aufgebaut)
+                // Sort-Buttons nach JEDEM Render binden (thead wird neu gerendert)
                 document.querySelectorAll('#costs-table thead .costs-sort-btn').forEach(btn => {
-                btn.onpointerup = (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                  btn.onpointerup = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                  const key = btn.getAttribute('data-sort-key');
-                  if (!key) return;
+                    const key = btn.getAttribute('data-sort-key');
+                    if (!key) return;
 
-                  if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
-                    this.costsSorts = [ { key: 'date', dir: 'asc' } ];
-                  }
-
-                  const isShift = !!e.shiftKey;
-
-                  const idx = this.costsSorts.findIndex(s => s.key === key);
-
-                  const toggleDir = (d) => (d === 'asc') ? 'desc' : 'asc';
-
-                  if (!isShift) {
-                    // Normal click: nur 1 Sort aktiv (Primary)
-                    if (idx === 0) {
-                      this.costsSorts[0].dir = toggleDir(this.costsSorts[0].dir);
-                    } else {
-                      // Neue Primary, Richtung standard asc
-                      this.costsSorts = [ { key, dir: 'asc' } ];
+                    if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
+                      this.costsSorts = [ { key: 'date', dir: 'asc' } ];
                     }
-                  } else {
-                    // Shift-click: add/modify ohne andere zu löschen
-                    if (idx === -1) {
-                      this.costsSorts.push({ key, dir: 'asc' });
-                    } else {
-                      this.costsSorts[idx].dir = toggleDir(this.costsSorts[idx].dir);
-                    }
-                  }
 
-                  this.renderCostsTab();
-                };
+                    const isShift = !!e.shiftKey;
+                    const idx = this.costsSorts.findIndex(s => s.key === key);
+                    const toggle = d => (d === 'asc' ? 'desc' : 'asc');
+
+                    if (!isShift) {
+                      // normal click: primary only
+                      if (idx === 0) {
+                        this.costsSorts[0].dir = toggle(this.costsSorts[0].dir);
+                      } else {
+                        this.costsSorts = [ { key, dir: 'asc' } ];
+                      }
+                    } else {
+                      // shift click: add/toggle without clearing others
+                      if (idx === -1) this.costsSorts.push({ key, dir: 'asc' });
+                      else this.costsSorts[idx].dir = toggle(this.costsSorts[idx].dir);
+                    }
+
+                    this.renderCostsTab();
+                  };
                 });
 
+                // Icons nach Render aktualisieren
                 this.updateCostsSortIcons();
 
                 // ------------------------------------------------------------
@@ -1359,13 +1354,17 @@
                   }
 
                   if (key === 'type') {
-                    const ra = typeRank(a.type), rb = typeRank(b.type);
+                    const ta = a.type ?? a.costType ?? a.category;
+                    const tb = b.type ?? b.costType ?? b.category;
+                    const ra = typeRank(ta), rb = typeRank(tb);
                     if (ra !== rb) return (ra - rb) * m;
                     return String(a.type || '').localeCompare(String(b.type || '')) * m;
                   }
 
                   if (key === 'status') {
-                    const ra = statusRank(a.status), rb = statusRank(b.status);
+                    const sa = a.status ?? a.paymentStatus ?? a.state;
+                    const sb = b.status ?? b.paymentStatus ?? b.state;
+                    const ra = statusRank(sa), rb = statusRank(sb);
                     if (ra !== rb) return (ra - rb) * m;
                     return String(a.status || '').localeCompare(String(b.status || '')) * m;
                   }

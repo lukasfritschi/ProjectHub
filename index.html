@@ -390,14 +390,14 @@
         }
 
         /* Kostenliste: dezente Hinterlegung je Kostenart */
-        .cost-row.cost-type-internal { background: rgba(120, 101, 70, 0.10); }
-        .cost-row.cost-type-external { background: rgba(120, 120, 120, 0.10); }
-        .cost-row.cost-type-investment { background: rgba(155, 136, 110, 0.12); }
+        .cost-row.cost-type-internal { background: rgba(140, 120, 90, 0.25); }
+        .cost-row.cost-type-external { background: rgba(120, 120, 120, 0.25); }
+        .cost-row.cost-type-investment { background: rgba(170, 145, 110, 0.28); }
 
         /* Dark Mode */
-        body.dark .cost-row.cost-type-internal { background: rgba(120, 101, 70, 0.22); }
-        body.dark .cost-row.cost-type-external { background: rgba(120, 120, 120, 0.22); }
-        body.dark .cost-row.cost-type-investment { background: rgba(155, 136, 110, 0.24); }
+        body.dark .cost-row.cost-type-internal { background: rgba(140, 120, 90, 0.45); }
+        body.dark .cost-row.cost-type-external { background: rgba(120, 120, 120, 0.45); }
+        body.dark .cost-row.cost-type-investment { background: rgba(170, 145, 110, 0.50); }
 
         /* Wichtig: globale tr:hover-Farbe nicht über die Typ-Farbe legen */
         .cost-row:hover { background: inherit; }
@@ -405,6 +405,8 @@
         /* Gruppentrenner deaktiviert (keine optische Unterteilung nach Kostenart) */
         .cost-row.cost-group-start td { border-top: none; }
         body.dark .cost-row.cost-group-start td { border-top: none; }
+
+        .cost-row { border-left: 4px solid rgba(0,0,0,0.15); }
 
         /* Click-to-Edit: klickbare Tabellenzeilen */
         .clickable-row {
@@ -992,7 +994,7 @@
                                     <button type="button" class="costs-sort-btn" data-sort-key="date"
                                             title="Sortieren nach Datum"
                                             style="all:unset; cursor:pointer; opacity:.85;">
-                                      <span class="sort-icon" data-sort-icon-for="date">⇅</span>
+                                      <span class="sort-icon" data-sort-icon-for="date"></span>
                                     </button>
                                   </span>
                                 </th>
