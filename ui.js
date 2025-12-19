@@ -1106,13 +1106,18 @@
                   this._costsTypeOutsideCloseBound = true;
                 }
 
-
                 if (resetEl) {
                   resetEl.onclick = () => {
+                    // Filter reset
                     this.costsFilters = { q: '', types: [] };
                     if (searchEl) searchEl.value = '';
                     typeCbs.forEach(x => x.checked = false);
                     updateTypeLabel();
+
+                    // Sort reset (Default: chronologisch Datum asc)
+                    this.costsSorts = [ { key: 'date', dir: 'asc' } ];
+
+                    // UI neu rendern (setzt auch Icons korrekt, da updateCostsSortIcons nach Render läuft)
                     this.renderCostsTab();
                   };
                 }
