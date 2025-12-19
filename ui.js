@@ -6,7 +6,7 @@
             // -----------------------------
             // UI-State: Kosten Filter & Suche
             // -----------------------------
-            costsFilters : { q: '', types: [] },
+            costsFilters : { q: '', types: [], statuses: [] },
             costsSorts : [ { key: 'date', dir: 'asc' } ], // Reihenfolge = Priorität
             _costsSearchTimer : null,
 
@@ -1032,6 +1032,9 @@
 
                 const typeLabelEl = document.getElementById('costs-type-filter-label');
                 const typeCbs = document.querySelectorAll('.cost-type-cb');
+                const statusLabelEl = document.getElementById('costs-status-filter-label');
+                const statusCbs = document.querySelectorAll('.cost-status-cb');
+
 
                 // Controls mit gespeichertem State befüllen
                 if (searchEl) searchEl.value = this.costsFilters.q || '';
@@ -1040,6 +1043,11 @@
                 const selectedTypes = Array.isArray(this.costsFilters.types) ? this.costsFilters.types : [];
                 typeCbs.forEach(cb => {
                   cb.checked = selectedTypes.length > 0 && selectedTypes.includes(cb.value);
+                });
+
+                const selectedStatuses = Array.isArray(this.costsFilters.statuses) ? this.costsFilters.statuses : [];
+                statusCbs.forEach(cb => {
+                  cb.checked = selectedStatuses.length > 0 && selectedStatuses.includes(cb.value);
                 });
 
                 // Label aktualisieren
@@ -1051,7 +1059,6 @@
                     typeLabelEl.textContent = 'Alle';
                     return;
                   }
-                console.log('Cost type in filter:', types);
 
                   // kurze, “saubere” Anzeige (max 2 Begriffe, sonst “+n”)
                   const nameMap = { internal_hours: 'Selbstgeschaffene Entwicklungskosten', external_service: 'Erworbene Entwicklungskosten', investment: 'Spezialwerkzeuge / Modelle' };
@@ -1066,6 +1073,28 @@
                   }
                 };
                 updateTypeLabel();
+
+                const updateStatusLabel = () => {
+                  const sts = Array.isArray(this.costsFilters.statuses) ? this.costsFilters.statuses : [];
+                  if (!statusLabelEl) return;
+
+                  if (sts.length === 0) {
+                    statusLabelEl.textContent = 'Alle';
+                    return;
+                  }
+
+                  const labels = sts.map(v => {
+                    const inp = document.querySelector(`.cost-status-cb[value="${v}"]`);
+                    const row = inp ? inp.closest('.ms-row') : null;
+                    const lbl = row ? row.querySelector('label') : null;
+                    return (lbl && lbl.textContent) ? lbl.textContent.trim() : v;
+                  });
+
+                  if (labels.length <= 2) statusLabelEl.textContent = labels.join(', ');
+                  else statusLabelEl.textContent = `${labels.slice(0,2).join(', ')} +${labels.length - 2}`;
+                };
+                updateStatusLabel();
+
 
                 // Debounce Timer (lokal über UI-Objekt)
                 if (this._costsSearchTimer === undefined) this._costsSearchTimer = null;
@@ -1092,6 +1121,17 @@
                   };
                 });
 
+                statusCbs.forEach(cb => {
+                  cb.onchange = () => {
+                    const picked = [];
+                    statusCbs.forEach(x => { if (x.checked) picked.push(x.value); });
+                    this.costsFilters.statuses = picked;
+                    updateStatusLabel();
+                    this.renderCostsTab();
+                  };
+                });
+
+
                 // Multi-Select: beim Klick ausserhalb automatisch schliessen
                 const typeDetails = document.getElementById('costs-type-filter');
                 if (typeDetails && !this._costsTypeOutsideCloseBound) {
@@ -1106,13 +1146,33 @@
                   this._costsTypeOutsideCloseBound = true;
                 }
 
+                const statusDetails = document.getElementById('costs-status-filter');
+                if (statusDetails && !this._costsStatusOutsideCloseBound) {
+                  document.addEventListener('pointerdown', (e) => {
+                    const d = document.getElementById('costs-status-filter');
+                    if (!d || !d.open) return;
+                    if (!d.contains(e.target)) d.open = false;
+                  }, true);
+
+                  document.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Escape') return;
+                    const d = document.getElementById('costs-status-filter');
+                    if (d && d.open) d.open = false;
+                  });
+
+                  this._costsStatusOutsideCloseBound = true;
+                }
+
+
                 if (resetEl) {
                   resetEl.onclick = () => {
                     // Filter reset
-                    this.costsFilters = { q: '', types: [] };
+                    this.costsFilters = { q: '', types: [], statuses: [] };
                     if (searchEl) searchEl.value = '';
                     typeCbs.forEach(x => x.checked = false);
+                    statusCbs.forEach(x => x.checked = false);
                     updateTypeLabel();
+                    updateStatusLabel();
 
                     // Sort reset (Default: chronologisch Datum asc)
                     this.costsSorts = [ { key: 'date', dir: 'asc' } ];
@@ -1132,7 +1192,11 @@
                       if (!key) return;
 
                       if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
-                        this.costsSorts = [ { key: 'date', dir: 'asc' } ];
+                        this.costsSorts = [
+                          { key: 'date', dir: 'asc' },
+                          { key: 'type', dir: 'asc' },
+                          { key: 'status', dir: 'asc' }
+                        ];
                       }
 
                       const isShift = !!e.shiftKey;
@@ -1180,6 +1244,12 @@
                 if (types.length > 0) {
                   filteredCosts = filteredCosts.filter(c => types.includes(c.type));
                 }
+                // Status Multi-Select (leer = alle)
+                const statuses = Array.isArray(this.costsFilters.statuses) ? this.costsFilters.statuses : [];
+                if (statuses.length > 0) {
+                  filteredCosts = filteredCosts.filter(c => statuses.includes(String(c.status || '').toLowerCase().trim()));
+                }
+
 
                 // Suche (case-insensitive): nur Beschreibung, Bestell-/Rechnungsnr., Betrag
                 const q = (this.costsFilters.q || '').toLowerCase();
