@@ -7,7 +7,7 @@
             // UI-State: Kosten Filter & Suche
             // -----------------------------
             costsFilters : { q: '', types: [] },
-            costsSort : { key: 'date', dir: 'asc' },
+            costsSorts : [ { key: 'date', dir: 'asc' } ], // Reihenfolge = Priorität
             _costsSearchTimer : null,
 
             currentTab: 'overview',
@@ -1003,22 +1003,28 @@
             },
 
             updateCostsSortIcons() {
-              const key = (this.costsSort && this.costsSort.key) ? this.costsSort.key : 'date';
-              const dir = (this.costsSort && this.costsSort.dir) ? this.costsSort.dir : 'asc';
+              const sorts = Array.isArray(this.costsSorts) ? this.costsSorts : [];
+              const idxByKey = new Map(sorts.map((s, i) => [s.key, i]));
 
               document.querySelectorAll('#costs-table .sort-icon').forEach(el => {
                 const k = el.getAttribute('data-sort-icon-for');
                 if (!k) return;
 
-                if (k === key) {
-                  el.textContent = (dir === 'asc') ? '▲' : '▼';
+                const idx = idxByKey.has(k) ? idxByKey.get(k) : -1;
+
+                if (idx >= 0) {
+                  const dir = sorts[idx].dir;
+                  const arrow = (dir === 'asc') ? '▲' : '▼';
+                  // Priorität anzeigen: 1/2/3
+                  el.textContent = `${arrow}${idx + 1}`;
                   el.style.opacity = '1';
                 } else {
-                  el.textContent = '';      // inaktiv: nichts anzeigen (sauber, nicht irritierend)
+                  el.textContent = '';
                   el.style.opacity = '.35';
                 }
               });
             },
+
 
             renderCostsTab() {
                 const costs = AppState.getProjectCosts(AppState.currentProjectId);
@@ -1120,24 +1126,42 @@
 
                 // Sort-Buttons nach JEDEM Render binden (thead wird neu aufgebaut)
                 document.querySelectorAll('#costs-table thead .costs-sort-btn').forEach(btn => {
-                  btn.onpointerup = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                btn.onpointerup = (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
 
-                    const key = btn.getAttribute('data-sort-key');
-                    if (!key) return;
+                  const key = btn.getAttribute('data-sort-key');
+                  if (!key) return;
 
-                    if (!this.costsSort) this.costsSort = { key: 'date', dir: 'asc' };
+                  if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
+                    this.costsSorts = [ { key: 'date', dir: 'asc' } ];
+                  }
 
-                    if (this.costsSort.key === key) {
-                      this.costsSort.dir = (this.costsSort.dir === 'asc') ? 'desc' : 'asc';
+                  const isShift = !!e.shiftKey;
+
+                  const idx = this.costsSorts.findIndex(s => s.key === key);
+
+                  const toggleDir = (d) => (d === 'asc') ? 'desc' : 'asc';
+
+                  if (!isShift) {
+                    // Normal click: nur 1 Sort aktiv (Primary)
+                    if (idx === 0) {
+                      this.costsSorts[0].dir = toggleDir(this.costsSorts[0].dir);
                     } else {
-                      this.costsSort.key = key;
-                      this.costsSort.dir = 'asc';
+                      // Neue Primary, Richtung standard asc
+                      this.costsSorts = [ { key, dir: 'asc' } ];
                     }
+                  } else {
+                    // Shift-click: add/modify ohne andere zu löschen
+                    if (idx === -1) {
+                      this.costsSorts.push({ key, dir: 'asc' });
+                    } else {
+                      this.costsSorts[idx].dir = toggleDir(this.costsSorts[idx].dir);
+                    }
+                  }
 
-                    this.renderCostsTab();
-                  };
+                  this.renderCostsTab();
+                };
                 });
 
                 this.updateCostsSortIcons();
@@ -1319,25 +1343,72 @@
                   return (map[x] !== undefined) ? map[x] : 999;
                 };
 
-                filteredCosts.sort((a, b) => {
-                  // 1) Immer stabil nach Kostenart gruppieren (bestehendes Verhalten)
-                  const ta = typeOrder[a.type] || 99;
-                  const tb = typeOrder[b.type] || 99;
-                  if (ta !== tb) return ta - tb;
+                const sorts = Array.isArray(this.costsSorts) && this.costsSorts.length
+                  ? this.costsSorts
+                  : [ { key: 'date', dir: 'asc' } ];
 
-                  // 2) Innerhalb Gruppe nach gewähltem Key sortieren
-                  if (sortKey === 'status') {
-                    const ra = statusRank(a.status);
-                    const rb = statusRank(b.status);
-                    if (ra !== rb) return (ra - rb) * dirMul;
+                const dirMul = (dir) => (dir === 'desc') ? -1 : 1;
 
-                    // Tie-breaker: Datum
-                    return (dateMs(a.date) - dateMs(b.date)) * dirMul;
+                const dateMs = (d) => d ? new Date(d).getTime() : 0;
+
+                // Kostenart Reihenfolge (nur für Sort, nicht für Gruppierung)
+                const typeRank = (t) => {
+                  const x = String(t || '').toLowerCase().trim();
+                  const map = {
+                    internal_hours: 10,
+                    external_service: 20,
+                    investment: 30
+                  };
+                  return (map[x] !== undefined) ? map[x] : 999;
+                };
+
+                // Status Reihenfolge
+                const statusRank = (s) => {
+                  const x = String(s || '').toLowerCase().trim();
+                  const map = {
+                    bestellt: 10,
+                    teilzahlung_visiert: 20,
+                    vollzahlung_visiert: 30,
+                    bezahlt: 40,
+                    abgeschlossen: 50
+                  };
+                  return (map[x] !== undefined) ? map[x] : 999;
+                };
+
+                const cmp = (a, b, key, dir) => {
+                  const m = dirMul(dir);
+
+                  if (key === 'date') {
+                    return (dateMs(a.date) - dateMs(b.date)) * m;
                   }
 
-                  // Default: Datum
-                  return (dateMs(a.date) - dateMs(b.date)) * dirMul;
+                  if (key === 'type') {
+                    // nach Kostenart (Rank) dann alphabetisch als Tie-breaker
+                    const ra = typeRank(a.type), rb = typeRank(b.type);
+                    if (ra !== rb) return (ra - rb) * m;
+                    const sa = String(a.type || ''), sb = String(b.type || '');
+                    return sa.localeCompare(sb) * m;
+                  }
+
+                  if (key === 'status') {
+                    const ra = statusRank(a.status), rb = statusRank(b.status);
+                    if (ra !== rb) return (ra - rb) * m;
+                    const sa = String(a.status || ''), sb = String(b.status || '');
+                    return sa.localeCompare(sb) * m;
+                  }
+
+                  return 0;
+                };
+
+                filteredCosts.sort((a, b) => {
+                  for (const s of sorts) {
+                    const r = cmp(a, b, s.key, s.dir);
+                    if (r !== 0) return r;
+                  }
+                  // stabiler letzter Tie-breaker: Datum
+                  return dateMs(a.date) - dateMs(b.date);
                 });
+
 
 
                 tbody.innerHTML = filteredCosts.map((cost, idx) => {

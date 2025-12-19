@@ -390,26 +390,21 @@
         }
 
         /* Kostenliste: dezente Hinterlegung je Kostenart */
-        .cost-row.cost-type-Internal { background: rgba(22, 163, 74, 0.06); }
-        .cost-row.cost-type-external { background: rgba(37, 99, 235, 0.06); }
-        .cost-row.cost-type-investment { background: rgba(234, 179, 8, 0.08); }
+        .cost-row.cost-type-internal { background: rgba(120, 101, 70, 0.10); }
+        .cost-row.cost-type-external { background: rgba(120, 120, 120, 0.10); }
+        .cost-row.cost-type-investment { background: rgba(155, 136, 110, 0.12); }
 
         /* Dark Mode */
-        body.dark .cost-row.cost-type-Internal { background: rgba(22, 163, 74, 0.18); }
-        body.dark .cost-row.cost-type-external { background: rgba(37, 99, 235, 0.20); }
-        body.dark .cost-row.cost-type-investment { background: rgba(234, 179, 8, 0.22); }
+        body.dark .cost-row.cost-type-internal { background: rgba(120, 101, 70, 0.22); }
+        body.dark .cost-row.cost-type-external { background: rgba(120, 120, 120, 0.22); }
+        body.dark .cost-row.cost-type-investment { background: rgba(155, 136, 110, 0.24); }
 
         /* Wichtig: globale tr:hover-Farbe nicht über die Typ-Farbe legen */
         .cost-row:hover { background: inherit; }
 
-        /* Subtiler Gruppentrenner bei Wechsel der Kostenart */
-        .cost-row.cost-group-start td {
-          border-top: 2px solid rgba(0, 0, 0, 0.08);
-        }
-
-        body.dark .cost-row.cost-group-start td {
-          border-top: 2px solid rgba(255, 255, 255, 0.10);
-        }
+        /* Gruppentrenner deaktiviert (keine optische Unterteilung nach Kostenart) */
+        .cost-row.cost-group-start td { border-top: none; }
+        body.dark .cost-row.cost-group-start td { border-top: none; }
 
         /* Click-to-Edit: klickbare Tabellenzeilen */
         .clickable-row {
@@ -963,8 +958,8 @@
 
                             <div class="ms-panel">
                               <div class="ms-row">
-                                <input type="checkbox" class="cost-type-cb" value="internal_hours" id="ct-Internal">
-                                <label for="ct-Internal">Selbstgeschaffene Entwicklungskosten</label>
+                                <input type="checkbox" class="cost-type-cb" value="internal_hours" id="ct-internal">
+                                <label for="ct-internal">Selbstgeschaffene Entwicklungskosten</label>
                               </div>
 
                               <div class="ms-row">
@@ -1003,7 +998,17 @@
                                 </th>
                                 <th>Beschreibung</th>
                                 <th>Bestell-/Rechnungsnr.</th>
-                                <th>Kostenart</th>
+                                <th>
+                                  <span style="display:inline-flex; gap:.35rem; align-items:center;">
+                                    Kostenart
+                                    <button type="button" class="costs-sort-btn" data-sort-key="type"
+                                            title="Sortieren nach Kostenart (Shift für Mehrfachsort)"
+                                            style="all:unset; cursor:pointer; opacity:.85;">
+                                      <span class="sort-icon" data-sort-icon-for="type"></span>
+                                    </button>
+                                  </span>
+                                </th>
+
                                 <th>
                                   <span style="display:inline-flex; gap:.35rem; align-items:center;">
                                     Status
