@@ -1120,32 +1120,44 @@
                 // Sort-Buttons nach JEDEM Render binden (thead wird neu gerendert)
                 document.querySelectorAll('#costs-table thead .costs-sort-btn').forEach(btn => {
                   btn.onpointerup = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                      e.preventDefault();
+                      e.stopPropagation();
 
-                    const key = btn.getAttribute('data-sort-key');
-                    if (!key) return;
+                      const key = btn.getAttribute('data-sort-key');
+                      if (!key) return;
 
-                    if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
-                      this.costsSorts = [ { key: 'date', dir: 'asc' } ];
-                    }
-
-                    const isShift = !!e.shiftKey;
-                    const idx = this.costsSorts.findIndex(s => s.key === key);
-                    const toggle = d => (d === 'asc' ? 'desc' : 'asc');
-
-                    if (!isShift) {
-                      if (idx === -1) {
-                        // neue Sortierung wird hinten angehängt (Datum bleibt Primary)
-                        this.costsSorts.push({ key, dir: 'asc' });
-                      } else {
-                        // vorhandene Sortierung nur Richtung wechseln
-                        this.costsSorts[idx].dir = toggle(this.costsSorts[idx].dir);
+                      if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
+                        this.costsSorts = [ { key: 'date', dir: 'asc' } ];
                       }
-                    }
 
-                    this.renderCostsTab();
-                  };
+                      const isShift = !!e.shiftKey;
+                      const toggle = d => (d === 'asc' ? 'desc' : 'asc');
+
+                      const idx = this.costsSorts.findIndex(s => s.key === key);
+
+                      if (!isShift) {
+                        // Normal click: clicked column becomes PRIMARY, others stay as secondary (incl. date)
+                        if (idx === 0) {
+                          // toggle direction of current primary
+                          this.costsSorts[0].dir = toggle(this.costsSorts[0].dir);
+                        } else {
+                          const existing = this.costsSorts.filter(s => s.key !== key);
+                          this.costsSorts = [ { key, dir: 'asc' }, ...existing ];
+                        }
+
+                        // optional safety: ensure date exists as last tie-breaker
+                        if (!this.costsSorts.some(s => s.key === 'date')) {
+                          this.costsSorts.push({ key: 'date', dir: 'asc' });
+                        }
+
+                      } else {
+                        // Shift click: add/toggle without changing priority order
+                        if (idx === -1) this.costsSorts.push({ key, dir: 'asc' });
+                        else this.costsSorts[idx].dir = toggle(this.costsSorts[idx].dir);
+                      }
+
+                      this.renderCostsTab();
+                    };
                 });
 
                 // Icons nach Render aktualisieren
