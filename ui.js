@@ -1035,6 +1035,13 @@
                 const statusLabelEl = document.getElementById('costs-status-filter-label');
                 const statusCbs = document.querySelectorAll('.cost-status-cb');
 
+                if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
+                    this.costsSorts = [
+                        { key: 'date', dir: 'asc' },
+                        { key: 'type', dir: 'asc' }
+                      ];
+                }
+
 
                 // Controls mit gespeichertem State befüllen
                 if (searchEl) searchEl.value = this.costsFilters.q || '';
@@ -1191,13 +1198,7 @@
                       const key = btn.getAttribute('data-sort-key');
                       if (!key) return;
 
-                      if (!Array.isArray(this.costsSorts) || this.costsSorts.length === 0) {
-                        this.costsSorts = [
-                          { key: 'date', dir: 'asc' },
-                          { key: 'type', dir: 'asc' },
-                          { key: 'status', dir: 'asc' }
-                        ];
-                      }
+
 
                       const isShift = !!e.shiftKey;
                       const toggle = d => (d === 'asc' ? 'desc' : 'asc');
@@ -1446,6 +1447,11 @@
                     return String(a.status || '').localeCompare(String(b.status || '')) * m;
                   }
 
+                  if (key === 'amount') {
+                      const av = Number(a.amount) || 0;
+                      const bv = Number(b.amount) || 0;
+                      return (av - bv) * m;
+                  }
                   return 0;
                 };
 
