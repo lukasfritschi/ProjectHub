@@ -1015,15 +1015,15 @@
                 if (idx >= 0) {
                   const dir = sorts[idx].dir;
                   const arrow = (dir === 'asc') ? '▲' : '▼';
-                  // Priorität anzeigen: 1/2/3
-                  el.textContent = `${arrow}${idx + 1}`;
+                  el.textContent = `${arrow}${idx + 1}`;   // Priorität anzeigen
                   el.style.opacity = '1';
                 } else {
-                  el.textContent = '';
+                  el.textContent = '↕';                    // neutral, ruhig
                   el.style.opacity = '.35';
                 }
               });
             },
+
 
 
             renderCostsTab() {
