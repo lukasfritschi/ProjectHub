@@ -1135,16 +1135,13 @@
                     const toggle = d => (d === 'asc' ? 'desc' : 'asc');
 
                     if (!isShift) {
-                      // normal click: primary only
-                      if (idx === 0) {
-                        this.costsSorts[0].dir = toggle(this.costsSorts[0].dir);
+                      if (idx === -1) {
+                        // neue Sortierung wird hinten angehängt (Datum bleibt Primary)
+                        this.costsSorts.push({ key, dir: 'asc' });
                       } else {
-                        this.costsSorts = [ { key, dir: 'asc' } ];
+                        // vorhandene Sortierung nur Richtung wechseln
+                        this.costsSorts[idx].dir = toggle(this.costsSorts[idx].dir);
                       }
-                    } else {
-                      // shift click: add/toggle without clearing others
-                      if (idx === -1) this.costsSorts.push({ key, dir: 'asc' });
-                      else this.costsSorts[idx].dir = toggle(this.costsSorts[idx].dir);
                     }
 
                     this.renderCostsTab();
