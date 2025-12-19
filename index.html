@@ -702,9 +702,38 @@
           box-shadow: 0 0 0 2px var(--shadow);
         }
 
-        #costs-status-filter .ms-panel { width: 100%; }
         #costs-status-filter { position: relative; display:block; width:100%; }
 
+        /* Status Multi-Select: Panel als Dropdown (nicht inline im Container) */
+        #costs-status-filter .ms-panel {
+          position: absolute;
+          top: calc(100% + 0.5rem);
+          left: 0;
+          width: 100%;
+          z-index: 50;
+
+          padding: 0.75rem;
+          border: 1px solid var(--border-color);
+          background: var(--bg-primary);
+          border-radius: 0.5rem;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+          box-sizing: border-box;
+
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          text-align: left;
+        }
+
+        #costs-status-filter .ms-row {
+          display: grid !important;
+          grid-template-columns: auto 1fr !important;
+          align-items: center !important;
+          justify-content: start !important;
+          column-gap: 0.5rem !important;
+          width: 100% !important;
+          text-align: left !important;
+        }
 
         #costs-search{
           padding-left: 0.9rem;
