@@ -1014,8 +1014,8 @@
                   el.textContent = (dir === 'asc') ? '▲' : '▼';
                   el.style.opacity = '1';
                 } else {
-                  el.textContent = '⇅';
-                  el.style.opacity = '.6';
+                  el.textContent = '';      // inaktiv: nichts anzeigen (sauber, nicht irritierend)
+                  el.style.opacity = '.35';
                 }
               });
             },
@@ -1118,35 +1118,29 @@
                   };
                 }
 
-                // Sort-Buttons einmalig binden
-                if (!this._costsSortBound) {
-                  const self = this;
-                  document.querySelectorAll('#costs-table thead .costs-sort-btn').forEach(btn => {
-                    btn.addEventListener('pointerup', (e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
+                // Sort-Buttons nach JEDEM Render binden (thead wird neu aufgebaut)
+                document.querySelectorAll('#costs-table thead .costs-sort-btn').forEach(btn => {
+                  btn.onpointerup = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                      const key = btn.getAttribute('data-sort-key');
-                      if (!key) return;
+                    const key = btn.getAttribute('data-sort-key');
+                    if (!key) return;
 
-                      if (self.costsSort.key === key) {
-                        self.costsSort.dir = (self.costsSort.dir === 'asc') ? 'desc' : 'asc';
-                      } else {
-                        self.costsSort.key = key;
-                        self.costsSort.dir = 'asc';
-                      }
+                    if (!this.costsSort) this.costsSort = { key: 'date', dir: 'asc' };
 
-                      self.updateCostsSortIcons();
-                      self.renderCostsTab();
-                    });
-                  });
+                    if (this.costsSort.key === key) {
+                      this.costsSort.dir = (this.costsSort.dir === 'asc') ? 'desc' : 'asc';
+                    } else {
+                      this.costsSort.key = key;
+                      this.costsSort.dir = 'asc';
+                    }
 
-                  this._costsSortBound = true;
-                }
+                    this.renderCostsTab();
+                  };
+                });
 
                 this.updateCostsSortIcons();
-
-
 
                 // ------------------------------------------------------------
                 // Filter anwenden
