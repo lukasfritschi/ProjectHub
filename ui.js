@@ -1316,51 +1316,30 @@
                 }
 
                 // ------------------------------------------------------------
-                // Sortierung: Kostenarten zusammen, innerhalb nach Datum
+                // Sortierung: Multi-Sort (Datum / Kostenart / Status)
                 // ------------------------------------------------------------
-                const typeOrder = {
-                  internal_hours: 1,
-                  external_service: 2,
-                  investment: 3
-                };
-
-                const sortKey = (this.costsSort && this.costsSort.key) ? this.costsSort.key : 'date';
-                const sortDir = (this.costsSort && this.costsSort.dir) ? this.costsSort.dir : 'asc';
-
-                // Status-Ranking (minimal: eure Werte, unbekannt nach hinten)
-                const statusRank = (s) => {
-                  const x = String(s || '').toLowerCase();
-                  const map = {
-                    'bestellt': 10,
-                    'teilzahlung_visiert': 20,
-                    'vollzahlung_visiert': 30,
-                    'bezahlt': 40,
-                    'abgeschlossen': 50
-                  };
-                  return (map[x] !== undefined) ? map[x] : 999;
-                };
 
                 const sorts = Array.isArray(this.costsSorts) && this.costsSorts.length
                   ? this.costsSorts
                   : [ { key: 'date', dir: 'asc' } ];
 
-                const dirMul = (dir) => (dir === 'desc') ? -1 : 1;
+                const dirMul = dir => (dir === 'desc' ? -1 : 1);
 
-                const dateMs = (d) => d ? new Date(d).getTime() : 0;
+                const dateMs = d => d ? new Date(d).getTime() : 0;
 
-                // Kostenart Reihenfolge (nur für Sort, nicht für Gruppierung)
-                const typeRank = (t) => {
+                // Kostenart-Reihenfolge (nur für Sort, KEINE Gruppierung)
+                const typeRank = t => {
                   const x = String(t || '').toLowerCase().trim();
                   const map = {
                     internal_hours: 10,
                     external_service: 20,
                     investment: 30
                   };
-                  return (map[x] !== undefined) ? map[x] : 999;
+                  return map[x] ?? 999;
                 };
 
-                // Status Reihenfolge
-                const statusRank = (s) => {
+                // Status-Reihenfolge
+                const statusRank = s => {
                   const x = String(s || '').toLowerCase().trim();
                   const map = {
                     bestellt: 10,
@@ -1369,7 +1348,7 @@
                     bezahlt: 40,
                     abgeschlossen: 50
                   };
-                  return (map[x] !== undefined) ? map[x] : 999;
+                  return map[x] ?? 999;
                 };
 
                 const cmp = (a, b, key, dir) => {
@@ -1380,18 +1359,15 @@
                   }
 
                   if (key === 'type') {
-                    // nach Kostenart (Rank) dann alphabetisch als Tie-breaker
                     const ra = typeRank(a.type), rb = typeRank(b.type);
                     if (ra !== rb) return (ra - rb) * m;
-                    const sa = String(a.type || ''), sb = String(b.type || '');
-                    return sa.localeCompare(sb) * m;
+                    return String(a.type || '').localeCompare(String(b.type || '')) * m;
                   }
 
                   if (key === 'status') {
                     const ra = statusRank(a.status), rb = statusRank(b.status);
                     if (ra !== rb) return (ra - rb) * m;
-                    const sa = String(a.status || ''), sb = String(b.status || '');
-                    return sa.localeCompare(sb) * m;
+                    return String(a.status || '').localeCompare(String(b.status || '')) * m;
                   }
 
                   return 0;
@@ -1402,11 +1378,9 @@
                     const r = cmp(a, b, s.key, s.dir);
                     if (r !== 0) return r;
                   }
-                  // stabiler letzter Tie-breaker: Datum
+                  // stabiler letzter Tie-breaker
                   return dateMs(a.date) - dateMs(b.date);
                 });
-
-
 
                 tbody.innerHTML = filteredCosts.map((cost, idx) => {
                   let statusHtml = '';
