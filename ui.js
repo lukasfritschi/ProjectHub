@@ -1004,27 +1004,20 @@
 
             updateCostsSortIcons() {
               const sorts = Array.isArray(this.costsSorts) ? this.costsSorts : [];
-              const idxByKey = new Map(sorts.map((s, i) => [s.key, i]));
 
               document.querySelectorAll('#costs-table .sort-icon').forEach(el => {
                 const k = el.getAttribute('data-sort-icon-for');
                 if (!k) return;
 
-                const idx = idxByKey.has(k) ? idxByKey.get(k) : -1;
+                el.classList.remove('is-asc', 'is-desc');
 
-                if (idx >= 0) {
-                  const dir = sorts[idx].dir;
-                  const arrow = (dir === 'asc') ? '▲' : '▼';
-                  el.textContent = `${arrow}${idx + 1}`;   // Priorität anzeigen
-                  el.style.opacity = '1';
-                } else {
-                  el.textContent = '↕';                    // neutral, ruhig
-                  el.style.opacity = '.35';
-                }
+                const s = sorts.find(x => x.key === k);
+                if (!s) return;
+
+                if (s.dir === 'asc') el.classList.add('is-asc');
+                else el.classList.add('is-desc');
               });
             },
-
-
 
             renderCostsTab() {
                 const costs = AppState.getProjectCosts(AppState.currentProjectId);

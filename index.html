@@ -390,14 +390,14 @@
         }
 
         /* Kostenliste: dezente Hinterlegung je Kostenart */
-        .cost-row.cost-type-internal { background: rgba(200, 190, 170, 0.45); }
-        .cost-row.cost-type-external { background: rgba(185, 190, 195, 0.45); }
-        .cost-row.cost-type-investment { background: rgba(210, 200, 180, 0.50); }
+        .cost-row.cost-type-internal { background: rgba(0, 0, 0, 0.05); }
+        .cost-row.cost-type-external { background: rgba(0, 0, 0, 0.09); }
+        .cost-row.cost-type-investment { background: rgba(0, 0, 0, 0.13); }
 
         /* Dark Mode */
-        body.dark .cost-row.cost-type-internal { background: rgba(120, 110, 90, 0.55); }
-        body.dark .cost-row.cost-type-external { background: rgba(110, 115, 120, 0.55); }
-        body.dark .cost-row.cost-type-investment { background: rgba(140, 125, 100, 0.60); }
+        body.dark .cost-row.cost-type-internal { background: rgba(255, 255, 255, 0.06); }
+        body.dark .cost-row.cost-type-external { background: rgba(255, 255, 255, 0.10); }
+        body.dark .cost-row.cost-type-investment { background: rgba(255, 255, 255, 0.14); }
 
         /* Wichtig: globale tr:hover-Farbe nicht über die Typ-Farbe legen */
         .cost-row:hover { background: inherit; }
@@ -687,6 +687,52 @@
             width: 100% !important;
             text-align: left !important;
         }
+
+        /* Sort-Icons: Default = zwei Dreiecke */
+        .sort-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 14px;
+          height: 14px;
+          position: relative;
+          margin-left: .15rem;
+        }
+
+        /* default (inaktiv): beide Dreiecke sichtbar */
+        .sort-icon::before,
+        .sort-icon::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 0;
+          opacity: .45; /* neutral */
+        }
+
+        .sort-icon::before {           /* up triangle */
+          top: 0px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-bottom: 7px solid currentColor;
+        }
+
+        .sort-icon::after {            /* down triangle */
+          bottom: 0px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 7px solid currentColor;
+        }
+
+        /* aktiv: nur ein Dreieck sichtbar (Richtung) */
+        .sort-icon.is-asc::after { opacity: 0; }
+        .sort-icon.is-desc::before { opacity: 0; }
+
+        /* aktiv etwas stärker */
+        .sort-icon.is-asc::before,
+        .sort-icon.is-desc::after { opacity: 0.95; }
+
 
     </style>
 </head>
@@ -1017,7 +1063,7 @@
                                     <button type="button" class="costs-sort-btn" data-sort-key="status"
                                             title="Sortieren nach Status"
                                             style="all:unset; cursor:pointer; opacity:.85;">
-                                      <span class="sort-icon" data-sort-icon-for="status">⇅</span>
+                                      <span class="sort-icon" data-sort-icon-for="status"></span>
                                     </button>
                                   </span>
                                 </th>
