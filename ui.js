@@ -1753,7 +1753,7 @@
                             <h4 class="font-semibold">${this.escapeHtml(r.title || r.description || 'Risiko')}</h4>
                                 <span class="text-sm font-mono"
                                       style="color: ${impactColor}; background: ${impactColor}22; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">
-                                  ${this.escapeHtml(this.getRiskImpactLabel(r.impact || 'medium'))}
+                                  ${this.escapeHtml(this.getRiskSeverityLabel(severity.level))}
                                 </span>
                           </div>
 
@@ -7393,6 +7393,12 @@
               if (score >= 6) return { level: 'high', score };
               if (score >= 3) return { level: 'medium', score };
               return { level: 'low', score };
+            },
+
+            getRiskSeverityLabel(level) {
+              const v = (level || '').toString().trim().toLowerCase();
+              const map = { low: 'Niedrig', medium: 'Mittel', high: 'Hoch', critical: 'Kritisch' };
+              return map[v] || 'Mittel';
             },
 
             getBudgetVarianceHTML(forecast, budget, currency) {
