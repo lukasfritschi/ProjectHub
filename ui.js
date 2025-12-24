@@ -1809,7 +1809,7 @@
                 const tbody = document.querySelector('#tasks-table tbody');
 
                 if (tasks.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Keine Aufgaben vorhanden</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">Keine Aufgaben vorhanden</td></tr>';
                     return;
                 }
 
@@ -1817,20 +1817,41 @@
                     const statusLabel = this.getTaskStatusLabel(t.status);
                     const priorityColor = t.priority === 'high' ? 'var(--danger)' : t.priority === 'medium' ? 'var(--warning)' : 'var(--success)';
                     const responsible = t.responsible ? (AppState.members.find(m => m.id === t.responsible)?.name || t.responsible) : 'Nicht zugewiesen';
+
+                    // WICHTIG: bei dir steht aktuell formatDate(t.dueDate) – deine Task-Objekte nutzen endDate
+                    const due = t.endDate || t.dueDate || '';
+
                     return `
-                        <tr>
+                        <tr class="clickable-row" data-task-id="${t.id}">
                             <td>${this.escapeHtml(t.name || t.description)}</td>
                             <td>${this.escapeHtml(responsible)}</td>
-                            <td>${this.formatDate(t.dueDate)}</td>
+                            <td>${due ? this.formatDate(due) : '-'}</td>
                             <td>${statusLabel}</td>
-                            <td><span style="color: ${priorityColor};">●</span> ${t.priority}</td>
-                            <td>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editTask('${t.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteTask('${t.id}')">Löschen</button>
-                            </td>
+                            <td><span style="color: ${priorityColor};">●</span> ${this.escapeHtml(t.priority || '')}</td>
                         </tr>
                     `;
                 }).join('');
+                // ------------------------------------------------------------
+                // Click-to-Edit (Event Delegation) – einmalig binden
+                // ------------------------------------------------------------
+                if (!this._tasksClickBound) {
+                    this._tasksClickBound = true;
+
+                    tbody.addEventListener('pointerup', (e) => {
+                        if (e.button !== 0) return;
+
+                        const row = e.target.closest('tr.clickable-row[data-task-id]');
+                        if (!row) return;
+
+                        // future-proof: falls später wieder Controls in der Zeile landen
+                        if (e.target.closest('button,a,input,select,textarea,label,summary,details')) return;
+
+                        const taskId = row.getAttribute('data-task-id');
+                        if (!taskId) return;
+
+                        UI.editTask(taskId);
+                    });
+                }
             },
 
             renderGanttTab() {
@@ -5629,32 +5650,51 @@
                 this.showAlert('Risiko wurde erfasst.');
             },
 
-            showAddTaskModal() {
+            showTaskModal(mode = 'add', taskId = null) {
+                const isEdit = mode === 'edit';
+                const task = isEdit ? AppState.tasks.find(t => t.id === taskId) : null;
+
+                if (isEdit && !task) {
+                    this.showAlert('Fehler: Aufgabe nicht gefunden.');
+                    return;
+                }
+
                 const tasks = AppState.getProjectTasks(AppState.currentProjectId);
-                const tasksOptions = tasks.map(t =>
-                    `<option value="${t.id}">${this.escapeHtml(t.name || t.description)}</option>`
+                const otherTasks = isEdit ? tasks.filter(t => t.id !== task.id) : tasks;
+
+                const tasksOptions = otherTasks.map(t =>
+                    `<option value="${t.id}" ${isEdit && task.dependencies && task.dependencies.some(d => d.task === t.id) ? 'selected' : ''}>
+                        ${this.escapeHtml(t.name || t.description)}
+                     </option>`
                 ).join('');
 
-                // NEW: Only show project team members as responsible options
+                // Verantwortlich: nur Projektteam (wie bisher)
                 const projectTeamMembers = AppState.getProjectTeamMembers(AppState.currentProjectId);
                 const teamMembers = projectTeamMembers
                     .map(ptm => AppState.members.find(m => m.id === ptm.memberId))
-                    .filter(m => m); // Filter out any undefined members
+                    .filter(m => m);
 
                 const responsibleOptions = teamMembers.map(m =>
-                    `<option value="${m.id}">${this.escapeHtml(m.name)} (${this.escapeHtml(m.role)})</option>`
+                    `<option value="${m.id}" ${isEdit && task.responsible === m.id ? 'selected' : ''}>
+                        ${this.escapeHtml(m.name)} (${this.escapeHtml(m.role)})
+                     </option>`
                 ).join('');
 
-                const modal = this.createModal('Aufgabe erstellen', `
+                const title = isEdit ? 'Aufgabe bearbeiten' : 'Aufgabe erstellen';
+
+                const content = `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Aufgabenname *</label>
-                            <input type="text" id="modal-task-name" placeholder="z.B. Backend-Entwicklung" required>
+                            <input type="text" id="modal-task-name" value="${isEdit ? this.escapeHtml(task.name || '') : ''}"
+                                   placeholder="z.B. Backend-Entwicklung" required>
                         </div>
+
                         <div>
                             <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-task-description" rows="2" placeholder="Details zur Aufgabe..."></textarea>
+                            <textarea id="modal-task-description" rows="2" placeholder="Details zur Aufgabe...">${isEdit ? this.escapeHtml(task.description || '') : ''}</textarea>
                         </div>
+
                         <div>
                             <label class="text-sm font-medium">Verantwortlich</label>
                             <select id="modal-task-responsible">
@@ -5663,89 +5703,127 @@
                             </select>
                             ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">⚠️ Fügen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
                         </div>
+
                         <div class="grid grid-cols-3 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Startdatum *</label>
-                                <input type="date" id="modal-task-start" required>
+                                <input type="date" id="modal-task-start" value="${isEdit ? task.startDate : ''}" required>
                             </div>
                             <div>
                                 <label class="text-sm font-medium">Enddatum *</label>
-                                <input type="date" id="modal-task-due" required>
+                                <input type="date" id="modal-task-due" value="${isEdit ? task.endDate : ''}" required>
                             </div>
                             <div>
                                 <label class="text-sm font-medium">Dauer (Tage)</label>
-                                <input type="number" id="modal-task-duration" min="1" placeholder="Auto">
+                                <input type="number" id="modal-task-duration" value="${isEdit ? (task.duration || '') : ''}" min="1" placeholder="Auto">
                             </div>
                         </div>
+
                         <div class="grid grid-cols-3 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Priorität</label>
                                 <select id="modal-task-priority">
-                                    <option value="low">Niedrig</option>
-                                    <option value="medium" selected>Mittel</option>
-                                    <option value="high">Hoch</option>
+                                    <option value="low" ${isEdit && task.priority === 'low' ? 'selected' : ''}>Niedrig</option>
+                                    <option value="medium" ${!isEdit || task.priority === 'medium' ? 'selected' : ''}>Mittel</option>
+                                    <option value="high" ${isEdit && task.priority === 'high' ? 'selected' : ''}>Hoch</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="text-sm font-medium">Status</label>
                                 <select id="modal-task-status">
-                                    <option value="open" selected>Offen</option>
-                                    <option value="in_progress">In Arbeit</option>
-                                    <option value="done">Erledigt</option>
-                                    <option value="blocked">Blockiert</option>
+                                    <option value="open" ${!isEdit || task.status === 'open' ? 'selected' : ''}>Offen</option>
+                                    <option value="in_progress" ${isEdit && task.status === 'in_progress' ? 'selected' : ''}>In Arbeit</option>
+                                    <option value="done" ${isEdit && task.status === 'done' ? 'selected' : ''}>Erledigt</option>
+                                    <option value="blocked" ${isEdit && task.status === 'blocked' ? 'selected' : ''}>Blockiert</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="text-sm font-medium">Fortschritt</label>
                                 <select id="modal-task-progress">
-                                    <option value="0" selected>0%</option>
-                                    <option value="25">25%</option>
-                                    <option value="50">50%</option>
-                                    <option value="75">75%</option>
-                                    <option value="100">100%</option>
+                                    <option value="0" ${!isEdit || (task.progress ?? 0) === 0 ? 'selected' : ''}>0%</option>
+                                    <option value="25" ${isEdit && task.progress === 25 ? 'selected' : ''}>25%</option>
+                                    <option value="50" ${isEdit && task.progress === 50 ? 'selected' : ''}>50%</option>
+                                    <option value="75" ${isEdit && task.progress === 75 ? 'selected' : ''}>75%</option>
+                                    <option value="100" ${isEdit && task.progress === 100 ? 'selected' : ''}>100%</option>
                                 </select>
                             </div>
                         </div>
+
                         <div>
                             <label class="text-sm font-medium">Abhängigkeiten (Finish-to-Start)</label>
                             <select id="modal-task-dependencies" multiple size="3">
                                 ${tasksOptions || '<option disabled>Keine anderen Aufgaben vorhanden</option>'}
                             </select>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen (Strg/Cmd + Klick für mehrere)</p>
-                        </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveAddTask()">Speichern</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen</p>
                         </div>
                     </div>
-                `);
+                `;
+
+                const buttons = [
+                    { label: 'Speichern', primary: true, onClick: () => this.saveTaskModal(isEdit ? task.id : null) },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() }
+                ];
+
+                if (isEdit) {
+                    buttons.push({ label: 'Löschen', danger: true, onClick: () => this.deleteTask(task.id) });
+                }
+
+                this.createModal(title, content, buttons);
             },
 
-            saveAddTask() {
-                const name = document.getElementById('modal-task-name').value;
-                const description = document.getElementById('modal-task-description').value;
-                const responsible = document.getElementById('modal-task-responsible').value;
-                const startDate = document.getElementById('modal-task-start').value;
-                const endDate = document.getElementById('modal-task-due').value;
-                const duration = document.getElementById('modal-task-duration').value;
-                const priority = document.getElementById('modal-task-priority').value;
-                const status = document.getElementById('modal-task-status').value;
+            saveTaskModal(editId = null) {
+                const isEdit = !!editId;
+
+                const name = (document.getElementById('modal-task-name')?.value || '').trim();
+                const description = document.getElementById('modal-task-description')?.value || '';
+                const responsible = document.getElementById('modal-task-responsible')?.value || '';
+                const startDate = document.getElementById('modal-task-start')?.value || '';
+                const endDate = document.getElementById('modal-task-due')?.value || '';
+                const durationRaw = document.getElementById('modal-task-duration')?.value || '';
+                const priority = document.getElementById('modal-task-priority')?.value || 'medium';
+                const status = document.getElementById('modal-task-status')?.value || 'open';
+
+                const progressValue = parseInt(document.getElementById('modal-task-progress')?.value || '0', 10);
+                const progress = [0, 25, 50, 75, 100].includes(progressValue) ? progressValue : 0;
 
                 if (!name || !startDate || !endDate) {
                     this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
                     return;
                 }
 
-                // Get selected dependencies
                 const dependenciesSelect = document.getElementById('modal-task-dependencies');
-                const dependencies = Array.from(dependenciesSelect.selectedOptions).map(option => ({
-                    task: option.value,
-                    type: 'FS' // Finish-to-Start
-                }));
+                const dependencies = dependenciesSelect
+                    ? Array.from(dependenciesSelect.selectedOptions).map(option => ({ task: option.value, type: 'FS' }))
+                    : [];
 
-                // Get progress - only allow 0, 25, 50, 75, 100
-                const progressValue = parseInt(document.getElementById('modal-task-progress').value, 10);
-                const progress = [0, 25, 50, 75, 100].includes(progressValue) ? progressValue : 0;
+                const duration = durationRaw ? parseInt(durationRaw, 10) : AppState.calculateDuration(startDate, endDate);
+
+                if (isEdit) {
+                    const task = AppState.tasks.find(t => t.id === editId);
+                    if (!task) {
+                        this.showAlert('Fehler: Aufgabe nicht gefunden.');
+                        return;
+                    }
+
+                    task.name = name;
+                    task.description = description;
+                    task.responsible = responsible;
+                    task.startDate = startDate;
+                    task.endDate = endDate;
+                    task.duration = duration;
+                    task.priority = priority;
+                    task.status = status;
+                    task.progress = progress;
+                    task.dependencies = dependencies;
+
+                    AppState.save();
+                    this.closeModal();
+                    this.renderTasksTab();
+                    this.renderOverviewTab();
+                    this.renderGanttTab();
+                    this.showAlert('Aufgabe wurde aktualisiert.');
+                    return;
+                }
 
                 const newTask = {
                     id: AppState.generateId(),
@@ -5755,7 +5833,7 @@
                     responsible,
                     startDate,
                     endDate,
-                    duration: duration ? parseInt(duration) : AppState.calculateDuration(startDate, endDate),
+                    duration,
                     status,
                     priority,
                     dependencies,
@@ -5773,130 +5851,17 @@
                 this.showAlert('Aufgabe wurde erstellt.');
             },
 
+            showAddTaskModal() {
+                this.showTaskModal('add');
+            },
+
+            saveAddTask() { this.saveTaskModal(null); },
+
             showEditTaskModal(task) {
-                const tasks = AppState.getProjectTasks(AppState.currentProjectId).filter(t => t.id !== task.id);
-                const tasksOptions = tasks.map(t =>
-                    `<option value="${t.id}" ${task.dependencies && task.dependencies.some(d => d.task === t.id) ? 'selected' : ''}>${this.escapeHtml(t.name || t.description)}</option>`
-                ).join('');
-
-                // NEW: Only show project team members as responsible options
-                const projectTeamMembers = AppState.getProjectTeamMembers(AppState.currentProjectId);
-                const teamMembers = projectTeamMembers
-                    .map(ptm => AppState.members.find(m => m.id === ptm.memberId))
-                    .filter(m => m); // Filter out any undefined members
-
-                const responsibleOptions = teamMembers.map(m =>
-                    `<option value="${m.id}" ${task.responsible === m.id ? 'selected' : ''}>${this.escapeHtml(m.name)} (${this.escapeHtml(m.role)})</option>`
-                ).join('');
-
-                const modal = this.createModal('Aufgabe bearbeiten', `
-                    <div class="grid gap-4">
-                        <div>
-                            <label class="text-sm font-medium">Aufgabenname *</label>
-                            <input type="text" id="modal-task-name" value="${this.escapeHtml(task.name || '')}" required>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-task-description" rows="2">${this.escapeHtml(task.description || '')}</textarea>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Verantwortlich</label>
-                            <select id="modal-task-responsible">
-                                <option value="">Nicht zugewiesen</option>
-                                ${responsibleOptions}
-                            </select>
-                            ${teamMembers.length === 0 ? '<p class="text-sm mt-1" style="color: var(--warning);">⚠️ Fügen Sie zuerst Mitglieder zum Projektteam hinzu</p>' : ''}
-                        </div>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label class="text-sm font-medium">Startdatum *</label>
-                                <input type="date" id="modal-task-start" value="${task.startDate}" required>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Enddatum *</label>
-                                <input type="date" id="modal-task-due" value="${task.endDate}" required>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Dauer (Tage)</label>
-                                <input type="number" id="modal-task-duration" value="${task.duration || ''}" min="1" placeholder="Auto">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label class="text-sm font-medium">Priorität</label>
-                                <select id="modal-task-priority">
-                                    <option value="low" ${task.priority === 'low' ? 'selected' : ''}>Niedrig</option>
-                                    <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>Mittel</option>
-                                    <option value="high" ${task.priority === 'high' ? 'selected' : ''}>Hoch</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Status</label>
-                                <select id="modal-task-status">
-                                    <option value="open" ${task.status === 'open' ? 'selected' : ''}>Offen</option>
-                                    <option value="in_progress" ${task.status === 'in_progress' ? 'selected' : ''}>In Arbeit</option>
-                                    <option value="done" ${task.status === 'done' ? 'selected' : ''}>Erledigt</option>
-                                    <option value="blocked" ${task.status === 'blocked' ? 'selected' : ''}>Blockiert</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Fortschritt</label>
-                                <select id="modal-task-progress">
-                                    <option value="0" ${task.progress === 0 ? 'selected' : ''}>0%</option>
-                                    <option value="25" ${task.progress === 25 ? 'selected' : ''}>25%</option>
-                                    <option value="50" ${task.progress === 50 ? 'selected' : ''}>50%</option>
-                                    <option value="75" ${task.progress === 75 ? 'selected' : ''}>75%</option>
-                                    <option value="100" ${task.progress === 100 ? 'selected' : ''}>100%</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Abhängigkeiten (Finish-to-Start)</label>
-                            <select id="modal-task-dependencies" multiple size="3">
-                                ${tasksOptions || '<option disabled>Keine anderen Aufgaben vorhanden</option>'}
-                            </select>
-                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Wählen Sie Aufgaben aus, die vor dieser abgeschlossen sein müssen</p>
-                        </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveEditTask('${task.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteTask('${task.id}')">Löschen</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
-                        </div>
-                    </div>
-                `);
+                this.showTaskModal('edit', task.id);
             },
 
-            saveEditTask(taskId) {
-                const task = AppState.tasks.find(t => t.id === taskId);
-                if (!task) return;
-
-                task.name = document.getElementById('modal-task-name').value;
-                task.description = document.getElementById('modal-task-description').value;
-                task.responsible = document.getElementById('modal-task-responsible').value;
-                task.startDate = document.getElementById('modal-task-start').value;
-                task.endDate = document.getElementById('modal-task-due').value;
-                const duration = document.getElementById('modal-task-duration').value;
-                task.duration = duration ? parseInt(duration) : AppState.calculateDuration(task.startDate, task.endDate);
-                task.priority = document.getElementById('modal-task-priority').value;
-                task.status = document.getElementById('modal-task-status').value;
-
-                // Update progress - only allow 0, 25, 50, 75, 100
-                const progressValue = parseInt(document.getElementById('modal-task-progress').value, 10);
-                task.progress = [0, 25, 50, 75, 100].includes(progressValue) ? progressValue : 0;
-
-                // Update dependencies
-                const dependenciesSelect = document.getElementById('modal-task-dependencies');
-                task.dependencies = Array.from(dependenciesSelect.selectedOptions).map(option => ({
-                    task: option.value,
-                    type: 'FS'
-                }));
-
-                AppState.save();
-                this.closeModal();
-                this.renderTasksTab();
-                this.renderGanttTab();
-                this.showAlert('Aufgabe wurde aktualisiert.');
-            },
+            saveEditTask(taskId) { this.saveTaskModal(taskId); },
 
             editMilestone(milestoneId) {
                 this.showMilestoneModal('edit', milestoneId);
