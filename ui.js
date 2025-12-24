@@ -5789,7 +5789,7 @@
                 this.showMilestoneModal('edit', milestoneId);
             },
 
-            saveEditMilestone(id) { this.saveMilestoneModal(id); }
+            saveEditMilestone(id) { this.saveMilestoneModal(id); },
 
             showEditRiskModal(risk) {
                 const modal = this.createModal('Risiko bearbeiten', `
