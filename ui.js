@@ -1738,43 +1738,70 @@
                 }
 
                 container.innerHTML = risks.map(r => {
-                    // Determine priority color based on impact
-                    const impactColor = r.impact === 'critical' || r.impact === 'high' ? 'var(--danger)' : r.impact === 'medium' ? 'var(--warning)' : 'var(--success)';
-                    return `
-                        <div class="card">
-                            <div class="flex" style="justify-content: space-between; align-items: flex-start;">
-                                <div style="flex: 1;">
-                                    <div class="flex" style="align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                        <h4 class="font-semibold">${this.escapeHtml(r.title || r.description || 'Risiko')}</h4>
-                                        <span class="text-sm font-mono" style="color: ${impactColor}; background: ${impactColor}22; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">${(r.impact || 'medium').toUpperCase()}</span>
-                                    </div>
-                                    <div class="text-sm mb-2">
-                                        <p><strong>Beschreibung:</strong> ${this.escapeHtml(r.description || r.mitigation || '')}</p>
-                                        ${r.mitigation ? `<p><strong>Mitigation:</strong> ${this.escapeHtml(r.mitigation)}</p>` : ''}
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-4 text-sm">
-                                        <div>
-                                            <span style="color: var(--text-secondary);">Wahrscheinlichkeit:</span><br>
-                                            <strong>${this.escapeHtml(r.probability || 'N/A')}</strong>
-                                        </div>
-                                        <div>
-                                            <span style="color: var(--text-secondary);">Impact:</span><br>
-                                            <strong>${this.escapeHtml(r.impact || 'N/A')}</strong>
-                                        </div>
-                                        <div>
-                                            <span style="color: var(--text-secondary);">Status:</span><br>
-                                            <strong>${this.escapeHtml(r.status || 'open')}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editRisk('${r.id}')">Bearbeiten</button>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteRisk('${r.id}')">Löschen</button>
-                                </div>
+                  const impactColor =
+                    r.impact === 'critical' || r.impact === 'high'
+                      ? 'var(--danger)'
+                      : r.impact === 'medium'
+                        ? 'var(--warning)'
+                        : 'var(--success)';
+
+                  return `
+                    <div class="card clickable-card" data-risk-id="${r.id}">
+                      <div class="flex" style="justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                          <div class="flex" style="align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <h4 class="font-semibold">${this.escapeHtml(r.title || r.description || 'Risiko')}</h4>
+                            <span class="text-sm font-mono"
+                                  style="color: ${impactColor}; background: ${impactColor}22; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">
+                              ${(r.impact || 'medium').toUpperCase()}
+                            </span>
+                          </div>
+
+                          <div class="text-sm mb-2">
+                            <p><strong>Beschreibung:</strong> ${this.escapeHtml(r.description || r.mitigation || '')}</p>
+                            ${r.mitigation ? `<p><strong>Mitigation:</strong> ${this.escapeHtml(r.mitigation)}</p>` : ''}
+                          </div>
+
+                          <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                              <span style="color: var(--text-secondary);">Wahrscheinlichkeit:</span><br>
+                              <strong>${this.escapeHtml(r.probability || 'N/A')}</strong>
                             </div>
+                            <div>
+                              <span style="color: var(--text-secondary);">Impact:</span><br>
+                              <strong>${this.escapeHtml(r.impact || 'N/A')}</strong>
+                            </div>
+                            <div>
+                              <span style="color: var(--text-secondary);">Status:</span><br>
+                              <strong>${this.escapeHtml(r.status || 'open')}</strong>
+                            </div>
+                          </div>
                         </div>
-                    `;
+                      </div>
+                    </div>
+                  `;
                 }).join('');
+                // ------------------------------------------------------------
+                // Click-to-Edit (Event Delegation) – einmalig binden
+                // ------------------------------------------------------------
+                if (!this._risksClickBound) {
+                  this._risksClickBound = true;
+
+                  container.addEventListener('pointerup', (e) => {
+                    if (e.button !== 0) return; // nur Linksklick
+
+                    const card = e.target.closest('.clickable-card[data-risk-id]');
+                    if (!card) return;
+
+                    // Clicks auf interaktive Elemente ignorieren (future-proof)
+                    if (e.target.closest('button,a,input,select,textarea,label,summary,details')) return;
+
+                    const riskId = card.getAttribute('data-risk-id');
+                    if (!riskId) return;
+
+                    UI.editRisk(riskId);
+                  });
+                }
             },
 
             renderTasksTab() {
@@ -5426,54 +5453,140 @@
                 this.showAlert('Gate wurde hinzugefügt.');
             },
 
-            showAddRiskModal() {
-                const modal = this.createModal('Risiko erfassen', `
+            showRiskModal(mode = 'add', riskId = null) {
+                const isEdit = mode === 'edit';
+                const risk = isEdit ? AppState.risks.find(r => r.id === riskId) : null;
+
+                if (isEdit && !risk) {
+                    this.showAlert('Fehler: Risiko nicht gefunden.');
+                    return;
+                }
+
+                const title = isEdit ? 'Risiko bearbeiten' : 'Risiko erfassen';
+
+                const content = `
                     <div class="grid gap-4">
                         <div>
-                            <label class="text-sm font-medium">Beschreibung *</label>
-                            <input type="text" id="modal-risk-description" placeholder="z.B. Ressourcenengpass" required>
+                            <label class="text-sm font-medium">Titel *</label>
+                            <input type="text" id="modal-risk-title"
+                                   value="${isEdit ? this.escapeHtml(risk.title || risk.description || '') : ''}"
+                                   placeholder="z.B. Ressourcenengpass"
+                                   required>
                         </div>
+
                         <div>
-                            <label class="text-sm font-medium">Ursache</label>
-                            <textarea id="modal-risk-cause" rows="2"></textarea>
+                            <label class="text-sm font-medium">Beschreibung</label>
+                            <textarea id="modal-risk-description" rows="2">${isEdit ? this.escapeHtml(risk.description || '') : ''}</textarea>
                         </div>
-                        <div>
-                            <label class="text-sm font-medium">Auswirkung</label>
-                            <textarea id="modal-risk-impact" rows="2"></textarea>
-                        </div>
-                        <div class="grid grid-cols-3 gap-4">
+
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Wahrscheinlichkeit</label>
                                 <select id="modal-risk-probability">
-                                    <option value="Niedrig">Niedrig</option>
-                                    <option value="medium">Mittel</option>
-                                    <option value="high">Hoch</option>
+                                    <option value="low" ${isEdit && risk.probability === 'low' ? 'selected' : ''}>Niedrig</option>
+                                    <option value="medium" ${!isEdit || risk.probability === 'medium' ? 'selected' : ''}>Mittel</option>
+                                    <option value="high" ${isEdit && risk.probability === 'high' ? 'selected' : ''}>Hoch</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-sm font-medium">Impact</label>
-                                <select id="modal-risk-impact-level">
-                                    <option value="low">Niedrig</option>
-                                    <option value="medium">Mittel</option>
-                                    <option value="high">Hoch</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Kategorie</label>
-                                <select id="modal-risk-category">
-                                    <option value="time">Zeit</option>
-                                    <option value="finance">Finanzen</option>
-                                    <option value="tech">Technik</option>
-                                    <option value="organization">Organisation</option>
+                                <label class="text-sm font-medium">Auswirkung</label>
+                                <select id="modal-risk-impact">
+                                    <option value="low" ${isEdit && risk.impact === 'low' ? 'selected' : ''}>Niedrig</option>
+                                    <option value="medium" ${!isEdit || risk.impact === 'medium' ? 'selected' : ''}>Mittel</option>
+                                    <option value="high" ${isEdit && risk.impact === 'high' ? 'selected' : ''}>Hoch</option>
+                                    <option value="critical" ${isEdit && risk.impact === 'critical' ? 'selected' : ''}>Kritisch</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveAddRisk()">Speichern</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
+
+                        <div>
+                            <label class="text-sm font-medium">Massnahmen</label>
+                            <textarea id="modal-risk-mitigation" rows="2">${isEdit ? this.escapeHtml(risk.mitigation || '') : ''}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium">Status</label>
+                            <select id="modal-risk-status">
+                                <option value="open" ${!isEdit || risk.status === 'open' ? 'selected' : ''}>Offen</option>
+                                <option value="in_progress" ${isEdit && risk.status === 'in_progress' ? 'selected' : ''}>In Bearbeitung</option>
+                                <option value="mitigated" ${isEdit && risk.status === 'mitigated' ? 'selected' : ''}>Mitigiert</option>
+                                <option value="closed" ${isEdit && risk.status === 'closed' ? 'selected' : ''}>Geschlossen</option>
+                            </select>
                         </div>
                     </div>
-                `);
+                `;
+
+                const buttons = [
+                    { label: 'Speichern', primary: true, onClick: () => this.saveRiskModal(isEdit ? risk.id : null) },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() }
+                ];
+
+                if (isEdit) {
+                    buttons.push({ label: 'Löschen', danger: true, onClick: () => this.deleteRisk(risk.id) });
+                }
+
+                this.createModal(title, content, buttons);
+            },
+
+            saveRiskModal(editId = null) {
+                const isEdit = !!editId;
+
+                const title = document.getElementById('modal-risk-title')?.value?.trim() || '';
+                const description = document.getElementById('modal-risk-description')?.value || '';
+                const probability = document.getElementById('modal-risk-probability')?.value || 'medium';
+                const impact = document.getElementById('modal-risk-impact')?.value || 'medium';
+                const mitigation = document.getElementById('modal-risk-mitigation')?.value || '';
+                const status = document.getElementById('modal-risk-status')?.value || 'open';
+
+                if (!title) {
+                    this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    return;
+                }
+
+                if (isEdit) {
+                    const risk = AppState.risks.find(r => r.id === editId);
+                    if (!risk) {
+                        this.showAlert('Fehler: Risiko nicht gefunden.');
+                        return;
+                    }
+
+                    risk.title = title;
+                    risk.description = description;
+                    risk.probability = probability;
+                    risk.impact = impact;
+                    risk.mitigation = mitigation;
+                    risk.status = status;
+
+                    AppState.save();
+                    this.closeModal();
+                    this.renderRisksTab();
+                    this.renderOverviewTab();
+                    this.showAlert('Risiko wurde aktualisiert.');
+                    return;
+                }
+
+                const newRisk = {
+                    id: AppState.generateId(),
+                    projectId: AppState.currentProjectId,
+                    title,
+                    description,
+                    probability,
+                    impact,
+                    mitigation,
+                    status
+                };
+
+                AppState.risks.push(newRisk);
+                AppState.save();
+
+                this.closeModal();
+                this.renderRisksTab();
+                this.renderOverviewTab();
+                this.showAlert('Risiko wurde hinzugefügt.');
+            },
+
+            showAddRiskModal() {
+                this.showRiskModal('add');
             },
 
             saveAddRisk() {
@@ -5792,72 +5905,11 @@
             saveEditMilestone(id) { this.saveMilestoneModal(id); },
 
             showEditRiskModal(risk) {
-                const modal = this.createModal('Risiko bearbeiten', `
-                    <div class="grid gap-4">
-                        <div>
-                            <label class="text-sm font-medium">Titel *</label>
-                            <input type="text" id="modal-risk-title" value="${this.escapeHtml(risk.title || risk.description || '')}" required>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-risk-description" rows="2">${this.escapeHtml(risk.description || '')}</textarea>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-sm font-medium">Wahrscheinlichkeit</label>
-                                <select id="modal-risk-probability">
-                                    <option value="low" ${risk.probability === 'low' ? 'selected' : ''}>Niedrig</option>
-                                    <option value="medium" ${risk.probability === 'medium' ? 'selected' : ''}>Mittel</option>
-                                    <option value="high" ${risk.probability === 'high' ? 'selected' : ''}>Hoch</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Auswirkung</label>
-                                <select id="modal-risk-impact">
-                                    <option value="low" ${risk.impact === 'low' ? 'selected' : ''}>Niedrig</option>
-                                    <option value="medium" ${risk.impact === 'medium' ? 'selected' : ''}>Mittel</option>
-                                    <option value="high" ${risk.impact === 'high' ? 'selected' : ''}>Hoch</option>
-                                    <option value="critical" ${risk.impact === 'critical' ? 'selected' : ''}>Kritisch</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Massnahmen</label>
-                            <textarea id="modal-risk-mitigation" rows="2">${this.escapeHtml(risk.mitigation || '')}</textarea>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Status</label>
-                            <select id="modal-risk-status">
-                                <option value="open" ${risk.status === 'open' ? 'selected' : ''}>Offen</option>
-                                <option value="in_progress" ${risk.status === 'in_progress' ? 'selected' : ''}>In Bearbeitung</option>
-                                <option value="mitigated" ${risk.status === 'mitigated' ? 'selected' : ''}>Mitigiert</option>
-                                <option value="closed" ${risk.status === 'closed' ? 'selected' : ''}>Geschlossen</option>
-                            </select>
-                        </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveEditRisk('${risk.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteRisk('${risk.id}')">Löschen</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
-                        </div>
-                    </div>
-                `);
+                this.showRiskModal('edit', risk.id);
             },
 
-            saveEditRisk(riskId) {
-                const risk = AppState.risks.find(r => r.id === riskId);
-                if (!risk) return;
-
-                risk.title = document.getElementById('modal-risk-title').value;
-                risk.description = document.getElementById('modal-risk-description').value;
-                risk.probability = document.getElementById('modal-risk-probability').value;
-                risk.impact = document.getElementById('modal-risk-impact').value;
-                risk.mitigation = document.getElementById('modal-risk-mitigation').value;
-                risk.status = document.getElementById('modal-risk-status').value;
-
-                AppState.save();
-                this.closeModal();
-                this.renderRisksTab();
-                this.showAlert('Risiko wurde aktualisiert.');
+            editRisk(riskId) {
+                this.showRiskModal('edit', riskId);
             },
 
             showEditBudgetModal() {
@@ -6697,12 +6749,15 @@
             },
 
             deleteRisk(id) {
-                this.showConfirmDialog('Möchten Sie dieses Risiko wirklich löschen?', () => {
-                    AppState.risks = AppState.risks.filter(r => r.id !== id);
-                    AppState.save();
-                    this.renderRisksTab();
-                    this.renderOverviewTab();
-                });
+              this.showConfirmDialog('Möchten Sie dieses Risiko wirklich löschen?', () => {
+                AppState.risks = AppState.risks.filter(r => r.id !== id);
+                AppState.save();
+
+                this.closeModal(); // <-- NEU: Edit-Modal schließen, falls offen
+
+                this.renderRisksTab();
+                this.renderOverviewTab();
+              });
             },
 
             deleteTask(id) {
