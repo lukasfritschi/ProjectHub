@@ -1827,7 +1827,7 @@
                             <td>${this.escapeHtml(responsible)}</td>
                             <td>${due ? this.formatDate(due) : '-'}</td>
                             <td>${statusLabel}</td>
-                            <td><span style="color: ${priorityColor};">●</span> ${this.escapeHtml(t.priority || '')}</td>
+                            <td><span style="color: ${priorityColor};">●</span> ${this.escapeHtml(this.getTaskPriorityLabel(t.priority || 'medium'))}</td>
                         </tr>
                     `;
                 }).join('');
@@ -7342,7 +7342,17 @@
                     'done': '🟢 Erledigt',
                     'blocked': '🔴 Blockiert'
                 };
-                return labels[status] || status;
+                return labels[status] || labels['open'];
+            },
+
+            getTaskPriorityLabel(priority) {
+              const p = (priority || '').toString().trim().toLowerCase();
+              const map = {
+                low: 'Niedrig',
+                medium: 'Mittel',
+                high: 'Hoch'
+              };
+              return map[p] || map['medium'];
             },
 
             getRiskImpactLabel(value) {
