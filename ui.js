@@ -1738,13 +1738,13 @@
                 }
 
                 container.innerHTML = risks.map(r => {
-                  const impactColor =
-                    r.impact === 'critical' || r.impact === 'high'
-                      ? 'var(--danger)'
-                      : r.impact === 'medium'
-                        ? 'var(--warning)'
-                        : 'var(--success)';
+                    const severity = this.getRiskSeverity(r.probability, r.impact);
 
+                    const impactColor =
+                      severity.level === 'critical' ? 'var(--danger)' :
+                      severity.level === 'high'     ? 'var(--danger)' :
+                      severity.level === 'medium'   ? 'var(--warning)' :
+                                                      'var(--success)';
                   return `
                     <div class="card clickable-card" data-risk-id="${r.id}">
                       <div class="flex" style="justify-content: space-between; align-items: flex-start;">
@@ -7377,6 +7377,22 @@
                     high: 'Hoch'
                 };
                 return map[v] || 'Mittel';
+            },
+
+            getRiskSeverity(probability, impact) {
+              const pMap = { low: 1, medium: 2, high: 3 };
+              const iMap = { low: 1, medium: 2, high: 3, critical: 4 };
+
+              const p = pMap[(probability || 'medium').toString().toLowerCase()] ?? 2;
+              const i = iMap[(impact || 'medium').toString().toLowerCase()] ?? 2;
+
+              const score = p * i;
+
+              // thresholds (pragmatisch)
+              if (score >= 9 || (i === 4 && p >= 2)) return { level: 'critical', score };
+              if (score >= 6) return { level: 'high', score };
+              if (score >= 3) return { level: 'medium', score };
+              return { level: 'low', score };
             },
 
             getBudgetVarianceHTML(forecast, budget, currency) {
