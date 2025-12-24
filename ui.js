@@ -1751,10 +1751,10 @@
                         <div style="flex: 1;">
                           <div class="flex" style="align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                             <h4 class="font-semibold">${this.escapeHtml(r.title || r.description || 'Risiko')}</h4>
-                            <span class="text-sm font-mono"
-                                  style="color: ${impactColor}; background: ${impactColor}22; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">
-                              ${(r.impact || 'medium').toUpperCase()}
-                            </span>
+                                <span class="text-sm font-mono"
+                                      style="color: ${impactColor}; background: ${impactColor}22; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">
+                                  ${this.escapeHtml(this.getRiskImpactLabel(r.impact || 'medium'))}
+                                </span>
                           </div>
 
                           <div class="text-sm mb-2">
@@ -1764,16 +1764,16 @@
 
                           <div class="grid grid-cols-3 gap-4 text-sm">
                             <div>
-                              <span style="color: var(--text-secondary);">Wahrscheinlichkeit:</span><br>
-                              <strong>${this.escapeHtml(r.probability || 'N/A')}</strong>
+                                <span style="color: var(--text-secondary);">Wahrscheinlichkeit:</span><br>
+                                <strong>${this.escapeHtml(this.getRiskProbabilityLabel(r.probability || 'medium'))}</strong>
                             </div>
                             <div>
-                              <span style="color: var(--text-secondary);">Impact:</span><br>
-                              <strong>${this.escapeHtml(r.impact || 'N/A')}</strong>
+                                <span style="color: var(--text-secondary);">Auswirkung:</span><br>
+                                <strong>${this.escapeHtml(this.getRiskImpactLabel(r.impact || 'medium'))}</strong>
                             </div>
                             <div>
-                              <span style="color: var(--text-secondary);">Status:</span><br>
-                              <strong>${this.escapeHtml(r.status || 'open')}</strong>
+                                <span style="color: var(--text-secondary);">Status:</span><br>
+                                <strong>${this.escapeHtml(this.getTaskStatusLabel ? this.getTaskStatusLabel(r.status || 'open') : (r.status || 'open'))}</strong>
                             </div>
                           </div>
                         </div>
@@ -7325,7 +7325,6 @@
                 return div.innerHTML;
             },
 
-
             getRiskCategoryLabel(category) {
                 const labels = {
                     'time': 'Zeit',
@@ -7344,6 +7343,40 @@
                     'blocked': '🔴 Blockiert'
                 };
                 return labels[status] || status;
+            },
+
+            getRiskImpactLabel(value) {
+                const v = (value || '').toString().trim().toLowerCase();
+
+                // akzeptiere auch alte/deutsche Persistenzen
+                if (v === 'niedrig') return 'Niedrig';
+                if (v === 'mittel') return 'Mittel';
+                if (v === 'hoch') return 'Hoch';
+                if (v === 'kritisch') return 'Kritisch';
+
+                const map = {
+                    low: 'Niedrig',
+                    medium: 'Mittel',
+                    high: 'Hoch',
+                    critical: 'Kritisch'
+                };
+                return map[v] || 'Mittel';
+            },
+
+            getRiskProbabilityLabel(value) {
+                const v = (value || '').toString().trim().toLowerCase();
+
+                // akzeptiere auch alte/deutsche Persistenzen
+                if (v === 'niedrig') return 'Niedrig';
+                if (v === 'mittel') return 'Mittel';
+                if (v === 'hoch') return 'Hoch';
+
+                const map = {
+                    low: 'Niedrig',
+                    medium: 'Mittel',
+                    high: 'Hoch'
+                };
+                return map[v] || 'Mittel';
             },
 
             getBudgetVarianceHTML(forecast, budget, currency) {
