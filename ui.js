@@ -11,11 +11,18 @@
             _costsSearchTimer : null,
 
             currentTab: 'overview',
+            currentView: 'project-list',
+            _isRouteSync: false,
+
 
             init() {
                 this.setupEventListeners();
                 this.setupTheme();
                 this.renderProjectList();
+
+                // Routing: initialer Apply + Listener
+                this.applyRouteFromHash();
+                window.addEventListener('hashchange', () => this.applyRouteFromHash());
             },
 
             setupEventListeners() {
@@ -98,7 +105,9 @@
 
                 // Back to list
                 document.getElementById('btn-back-to-list').addEventListener('click', () => {
-                    this.showView('project-list');
+                    this._isRouteSync = true;
+                    window.location.hash = '';
+                    this._isRouteSync = false;
                 });
 
                 // Tab switching
@@ -173,6 +182,8 @@
             },
 
             showView(viewName) {
+                this.currentView = viewName;
+
                 document.getElementById('view-project-list').classList.add('hidden');
                 document.getElementById('view-project-details').classList.add('hidden');
                 document.getElementById('view-' + viewName).classList.remove('hidden');
@@ -182,7 +193,41 @@
                 }
             },
 
-            switchTab(tabName) {
+            applyRouteFromHash() {
+                if (this._isRouteSync) return;
+
+                const raw = (window.location.hash || '').replace(/^#/, '').trim();
+
+                // Default: Projektliste
+                if (!raw) {
+                    // Optional: currentProjectId leeren, wenn du wirklich "clean" willst
+                    // AppState.currentProjectId = null;
+
+                    this.showView('project-list');
+                    return;
+                }
+
+                // Erwartet: project/<projectId> oder project/<projectId>/tab/<tabName>
+                const parts = raw.split('/').filter(Boolean);
+
+                if (parts[0] !== 'project' || !parts[1]) {
+                    this.showView('project-list');
+                    return;
+                }
+
+                const projectId = parts[1];
+                let tab = 'overview';
+
+                if (parts[2] === 'tab' && parts[3]) {
+                    tab = parts[3];
+                }
+
+                // Route anwenden (ohne Hash erneut zu setzen)
+                this.showProjectDetails(projectId, { fromRoute: true, tab });
+            },
+
+
+            switchTab(tabName, fromRoute = false) {
                 // Update tab buttons
                 document.querySelectorAll('.tab-button').forEach(btn => {
                     btn.classList.remove('active');
@@ -196,6 +241,13 @@
                 document.getElementById('tab-' + tabName).classList.remove('hidden');
 
                 this.currentTab = tabName;
+
+                // Routing: Tabwechsel in der Projekt-Detailansicht soll Browser-History erzeugen
+                if (!fromRoute && this.currentView === 'project-details' && AppState.currentProjectId) {
+                    this._isRouteSync = true;
+                    window.location.hash = `project/${AppState.currentProjectId}/tab/${tabName}`;
+                    this._isRouteSync = false;
+                }
 
                 // Render content for specific tabs
                 if (tabName === 'gantt') {
@@ -843,14 +895,22 @@
                 }).join('');
             },
 
-            showProjectDetails(projectId) {
+            showProjectDetails(projectId, opts = {}) {
+                const fromRoute = !!opts.fromRoute;
+                const initialTab = opts.tab || 'overview';
+
                 AppState.currentProjectId = projectId;
                 const project = AppState.getProject(projectId);
 
                 if (!project) return;
 
-                // Update URL hash for direct linking
-                window.location.hash = `project/${projectId}`;
+                // Update URL hash for direct linking (nur bei User-Aktion)
+                if (!fromRoute) {
+                    this._isRouteSync = true;
+                    window.location.hash = `project/${projectId}/tab/${this.currentTab || 'overview'}`;
+                    this._isRouteSync = false;
+                }
+
 
                 // Render project header
                 const statusLight = AppState.calculateProjectStatus(projectId);
@@ -906,7 +966,7 @@
 
                 // Show view
                 this.showView('project-details');
-                this.switchTab('overview');
+                this.switchTab(initialTab, /*fromRoute=*/true);
             },
 
             renderOverviewTab() {
