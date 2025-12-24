@@ -2474,7 +2474,7 @@
                         diamond.addEventListener('click', () => {
                             const fullMilestone = AppState.milestones.find(m => m.id === task.id);
                             if (fullMilestone) {
-                                UI.showEditMilestoneModal(fullMilestone);
+                                UI.showMilestoneModal('edit', fullMilestone.id);
                             }
                         });
 
