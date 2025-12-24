@@ -1682,7 +1682,7 @@
                 });
 
                 container.innerHTML = sortedMilestones.map(m => `
-                    <div class="card">
+                    <div class="card clickable-card" data-milestone-id="${m.id}">
                         <div class="flex" style="justify-content: space-between; align-items: flex-start;">
                             <div style="flex: 1;">
                                 <h4 class="font-semibold mb-2">${this.escapeHtml(m.name)}</h4>
@@ -1690,7 +1690,7 @@
                                 <div class="grid grid-cols-3 gap-4 text-sm">
                                     <div>
                                         <span style="color: var(--text-secondary);">Status:</span><br>
-                                        <strong>${this.escapeHtml(m.status || 'pending')}</strong>
+                                        <strong>${this.escapeHtml(this.getMilestoneStatusLabel(m.status || 'pending'))}</strong>
                                     </div>
                                     <div>
                                         <span style="color: var(--text-secondary);">Geplant:</span><br>
@@ -1702,13 +1702,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.editMilestone('${m.id}')">Bearbeiten</button>
-                                <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="UI.deleteMilestone('${m.id}')">Löschen</button>
-                            </div>
                         </div>
                     </div>
                 `).join('');
+                // ------------------------------------------------------------
+                // Click-to-Edit (Event Delegation) – einmalig binden
+                // ------------------------------------------------------------
+                if (!this._milestonesClickBound) {
+                  this._milestonesClickBound = true;
+
+                  container.addEventListener('pointerup', (e) => {
+                    if (e.button !== 0) return; // nur Linksklick
+
+                    const card = e.target.closest('.clickable-card[data-milestone-id]');
+                    if (!card) return;
+
+                    // Clicks auf interaktive Elemente ignorieren (future-proof)
+                    if (e.target.closest('button,a,input,select,textarea,label,summary,details')) return;
+
+                    const milestoneId = card.getAttribute('data-milestone-id');
+                    if (!milestoneId) return;
+
+                    UI.editMilestone(milestoneId);
+                  });
+                }
             },
 
             renderRisksTab() {
@@ -3242,6 +3259,15 @@
                 };
                 const s = statusMap[status] || statusMap['open'];
                 return `<span style="color: ${s.color}; font-weight: 500;">${s.label}</span>`;
+            },
+
+            getMilestoneStatusLabel(status) {
+              const map = {
+                pending: 'Ausstehend',
+                in_progress: 'In Arbeit',
+                completed: 'Abgeschlossen'
+              };
+              return map[status] || map['pending'];
             },
 
             getPriorityBadge(priority) {
@@ -5707,7 +5733,7 @@
                         </div>
                         <div class="flex gap-4" style="margin-top: 1rem;">
                             <button class="btn btn-primary" onclick="UI.saveEditMilestone('${milestone.id}')">Speichern</button>
-                            <button class="btn" onclick="UI.deleteMilestone('${milestone.id}')">Löschen</button>
+                            <button class="btn btn-danger" onclick="UI.deleteMilestone('${milestone.id}')">Löschen</button>
                             <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
