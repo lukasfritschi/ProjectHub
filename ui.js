@@ -2070,7 +2070,10 @@
                 };
 
                 const ganttTasks = validation.validTasks.map(task => {
-                    const isCritical = cpData && cpData.criticalPath && cpData.criticalPath.includes(task.id);
+                    const ganttTasks = validation.validTasks.map(task => {
+                    const td = cpData && cpData.taskData ? cpData.taskData[task.id] : null;
+                    const slack = (td && typeof td.slack === 'number') ? td.slack : 0;
+                    const isCritical = slack <= 0;
 
                     // Convert dependencies to Frappe Gantt format
                     let dependencies = '';
@@ -3051,8 +3054,8 @@
 
                 tbody.innerHTML = tasks.map(task => {
                     const taskData = (cpData && cpData.taskData && cpData.taskData[task.id]) || {};
-                    const isCritical = cpData && cpData.criticalPath && cpData.criticalPath.includes(task.id);
                     const slack = taskData.slack ?? 0;
+                    const isCritical = slack <= 0;
 
                     // NEW: Get member name instead of ID
                     let responsibleDisplay = '-';
@@ -3393,7 +3396,12 @@
 
                     const cpRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
                     const cpData = this.applySopSlackToCpData(cpRaw, tasksAll, project);
-                    tasks = tasks.filter(t => cpData.criticalPath.includes(t.id));
+                    tasks = tasks.filter(t => {
+                      const td = cpData && cpData.taskData ? cpData.taskData[t.id] : null;
+                      const slack = (td && typeof td.slack === 'number') ? td.slack : 0;
+                      return slack <= 0;
+                    });
+
                 } else if (filterValue === 'delayed') {
                     const today = new Date();
                     tasks = tasks.filter(t => new Date(t.endDate) < today && t.status !== 'done');
