@@ -6582,18 +6582,9 @@
 
                 // Attach button event listeners
                 buttons.forEach((btn, index) => {
-                    const button = document.createElement('button');
-                    button.id = `modal-btn-${index}`;
-                    button.textContent = btn.label;
-                    button.className = 'btn';
-
-                    if (btn.primary) button.classList.add('btn-primary');
-                    if (btn.danger) button.classList.add('btn-danger');
-
-                    if (btn.danger) {
-                        rightActions.appendChild(button);   // <-- HIER: Löschen nach rechts
-                    } else {
-                        leftActions.appendChild(button);    // <-- HIER: Rest nach links
+                    const buttonElement = document.getElementById(`modal-btn-${index}`);
+                    if (buttonElement && btn.onClick) {
+                        buttonElement.addEventListener('click', btn.onClick);
                     }
                 });
 
