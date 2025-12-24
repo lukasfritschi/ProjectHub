@@ -1854,6 +1854,44 @@
                 }
             },
 
+            applySopSlackToCpData(cpData, tasks, project) {
+                if (!cpData || !cpData.taskData || !project || !Array.isArray(tasks)) return cpData;
+
+                // SOP ist bei dir im Projekt so gespeichert:
+                const sopStr = project.sopCurrentDate || project.sopBaselineDate || null;
+                if (!sopStr) return cpData;
+
+                const sopDate = new Date(sopStr);
+                if (isNaN(sopDate.getTime())) return cpData;
+
+                // Berechnetes Ende aus Tasks (max endDate)
+                const endDates = tasks
+                    .map(t => t && t.endDate ? new Date(t.endDate) : null)
+                    .filter(d => d && !isNaN(d.getTime()));
+
+                if (endDates.length === 0) return cpData;
+
+                const computedEnd = new Date(Math.max(...endDates.map(d => d.getTime())));
+
+                // SOP muss nach dem berechneten Ende liegen, sonst kein Offset
+                const MS_PER_DAY = 24 * 60 * 60 * 1000;
+                const deltaDays = Math.ceil((sopDate.getTime() - computedEnd.getTime()) / MS_PER_DAY);
+                if (deltaDays <= 0) return cpData;
+
+                // Slack in cpData.taskData um deltaDays erhöhen
+                Object.keys(cpData.taskData).forEach((taskId) => {
+                    const td = cpData.taskData[taskId];
+                    if (!td) return;
+                    const baseSlack = (typeof td.slack === 'number') ? td.slack : 0;
+                    td.slack = baseSlack + deltaDays;
+                });
+
+                // Optional: Meta fürs Debugging
+                cpData._sopSlackAppliedDays = deltaDays;
+
+                return cpData;
+            },
+
             renderGanttTab() {
                 const tasks = AppState.getProjectTasks(AppState.currentProjectId);
                 const project = AppState.getProject(AppState.currentProjectId);
@@ -1861,7 +1899,7 @@
                 if (!project) return;
 
                 // Calculate critical path
-                const cpRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
+                const cpDataRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
                 const cpData = this.applySopSlackToCpData(cpRaw, tasks, project);
 
                 // Render critical path info
@@ -3370,8 +3408,10 @@
 
                 // Re-render with filtered tasks
                 const project = AppState.getProject(AppState.currentProjectId);
+                const tasksAll = AppState.getProjectTasks(AppState.currentProjectId);
+
                 const cpDataRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
-                const cpData = this.applySopDeadlineToCpData(cpDataRaw, project);
+                const cpData = this.applySopSlackToCpData(cpDataRaw, tasksAll, project);
 
                 this.renderFrappeGantt(tasks, cpData);
                 this.renderGanttTasksTable(tasks, cpData);
@@ -7156,44 +7196,6 @@
 
                 this.showAlert('PDF erfolgreich erstellt!');
             },
-
-            applySopSlackToCpData(cpData, tasks, project) {
-            if (!cpData || !cpData.taskData || !project || !Array.isArray(tasks)) return cpData;
-
-            // SOP ist bei dir im Projekt so gespeichert:
-            const sopStr = project.sopCurrentDate || project.sopBaselineDate || null;
-            if (!sopStr) return cpData;
-
-            const sopDate = new Date(sopStr);
-            if (isNaN(sopDate.getTime())) return cpData;
-
-            // Berechnetes Ende aus Tasks (max endDate)
-            const endDates = tasks
-                .map(t => t && t.endDate ? new Date(t.endDate) : null)
-                .filter(d => d && !isNaN(d.getTime()));
-
-            if (endDates.length === 0) return cpData;
-
-            const computedEnd = new Date(Math.max(...endDates.map(d => d.getTime())));
-
-            // SOP muss nach dem berechneten Ende liegen, sonst kein Offset
-            const MS_PER_DAY = 24 * 60 * 60 * 1000;
-            const deltaDays = Math.ceil((sopDate.getTime() - computedEnd.getTime()) / MS_PER_DAY);
-            if (deltaDays <= 0) return cpData;
-
-            // Slack in cpData.taskData um deltaDays erhöhen
-            Object.keys(cpData.taskData).forEach((taskId) => {
-                const td = cpData.taskData[taskId];
-                if (!td) return;
-                const baseSlack = (typeof td.slack === 'number') ? td.slack : 0;
-                td.slack = baseSlack + deltaDays;
-            });
-
-            // Optional: Meta fürs Debugging
-            cpData._sopSlackAppliedDays = deltaDays;
-
-            return cpData;
-        },
 
             exportGanttToPDF() {
                 try {
