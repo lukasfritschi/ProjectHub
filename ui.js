@@ -6523,18 +6523,49 @@
 
                 // Generate buttons HTML
                 let buttonsHTML = '';
+                // Generate buttons HTML (links: save/cancel, rechts: delete)
+                let buttonsHTML = '';
                 if (buttons.length > 0) {
+                    const leftButtons = buttons.filter(b => !b.danger);
+                    const rightButtons = buttons.filter(b => b.danger);
+
                     buttonsHTML = `
-                        <div style="padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); display: flex; gap: 0.75rem; justify-content: flex-end;">
-                            ${buttons.map((btn, index) => `
-                                <button
-                                    id="modal-btn-${index}"
-                                    class="btn ${btn.primary ? 'btn-primary' : ''}"
-                                    ${btn.disabled ? 'disabled' : ''}
-                                >
-                                    ${btn.label}
-                                </button>
-                            `).join('')}
+                        <div style="
+                            padding: 1rem 1.5rem;
+                            border-top: 1px solid var(--border-color);
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        ">
+                            <div style="display: flex; gap: 0.75rem;">
+                                ${leftButtons.map((btn) => {
+                                    const index = buttons.indexOf(btn);
+                                    return `
+                                        <button
+                                            id="modal-btn-${index}"
+                                            class="btn ${btn.primary ? 'btn-primary' : ''}"
+                                            ${btn.disabled ? 'disabled' : ''}
+                                        >
+                                            ${btn.label}
+                                        </button>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <div style="display: flex; gap: 0.75rem;">
+                                ${rightButtons.map((btn) => {
+                                    const index = buttons.indexOf(btn);
+                                    return `
+                                        <button
+                                            id="modal-btn-${index}"
+                                            class="btn btn-danger"
+                                            ${btn.disabled ? 'disabled' : ''}
+                                        >
+                                            ${btn.label}
+                                        </button>
+                                    `;
+                                }).join('')}
+                            </div>
                         </div>
                     `;
                 }
@@ -6555,9 +6586,18 @@
 
                 // Attach button event listeners
                 buttons.forEach((btn, index) => {
-                    const buttonElement = document.getElementById(`modal-btn-${index}`);
-                    if (buttonElement && btn.onClick) {
-                        buttonElement.addEventListener('click', btn.onClick);
+                    const button = document.createElement('button');
+                    button.id = `modal-btn-${index}`;
+                    button.textContent = btn.label;
+                    button.className = 'btn';
+
+                    if (btn.primary) button.classList.add('btn-primary');
+                    if (btn.danger) button.classList.add('btn-danger');
+
+                    if (btn.danger) {
+                        rightActions.appendChild(button);   // <-- HIER: Löschen nach rechts
+                    } else {
+                        leftActions.appendChild(button);    // <-- HIER: Rest nach links
                     }
                 });
 
