@@ -5275,55 +5275,133 @@
                 this.showAlert('Kosten wurden aktualisiert.');
             },
 
-            showAddMilestoneModal() {
-                const modal = this.createModal('Gate hinzufügen', `
+            showMilestoneModal(mode = 'add', milestoneId = null) {
+                const isEdit = mode === 'edit';
+
+                const milestone = isEdit
+                    ? AppState.milestones.find(m => m.id === milestoneId)
+                    : null;
+
+                if (isEdit && !milestone) {
+                    this.showAlert('Fehler: Gate nicht gefunden.');
+                    return;
+                }
+
+                const title = isEdit ? 'Gate bearbeiten' : 'Gate hinzufügen';
+
+                const nameVal = isEdit ? (milestone.name || '') : '';
+                const descVal = isEdit ? (milestone.description || '') : '';
+                const phaseVal = isEdit ? (milestone.phase || '') : '';
+                const dateVal = isEdit ? (milestone.plannedDate || milestone.date || '') : '';
+                const progressVal = isEdit ? (milestone.progress ?? 0) : 0;
+
+                const content = `
                     <div class="grid gap-4">
                         <div>
                             <label class="text-sm font-medium">Name *</label>
-                            <input type="text" id="modal-milestone-name" placeholder="z.B. MVP Release" required>
+                            <input type="text" id="modal-milestone-name" value="${this.escapeHtml(nameVal)}" placeholder="z.B. MVP Release" required>
                         </div>
+
                         <div>
                             <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-milestone-description" rows="2"></textarea>
+                            <textarea id="modal-milestone-description" rows="2">${this.escapeHtml(descVal)}</textarea>
                         </div>
+
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-sm font-medium">Phase</label>
-                                <select id="modal-project-phase">
-                                    <option value="Vorbereitung">Vorbereitung</option>
-                                    <option value="Machbarkeit">Machbarkeit</option>
-                                    <option value="Konzept">Konzept</option>
-                                    <option value="Entwicklung">Entwicklung</option>
-                                    <option value="Industrialisierung">Industrialisierung</option>
-                                    <option value="Markteinführung">Markteinführung</option>
+                                <select id="modal-milestone-phase">
+                                    <option value="Vorbereitung" ${phaseVal === 'Vorbereitung' ? 'selected' : ''}>Vorbereitung</option>
+                                    <option value="Machbarkeit" ${phaseVal === 'Machbarkeit' ? 'selected' : ''}>Machbarkeit</option>
+                                    <option value="Konzept" ${phaseVal === 'Konzept' ? 'selected' : ''}>Konzept</option>
+                                    <option value="Entwicklung" ${phaseVal === 'Entwicklung' ? 'selected' : ''}>Entwicklung</option>
+                                    <option value="Industrialisierung" ${phaseVal === 'Industrialisierung' ? 'selected' : ''}>Industrialisierung</option>
+                                    <option value="Markteinführung" ${phaseVal === 'Markteinführung' ? 'selected' : ''}>Markteinführung</option>
                                 </select>
                             </div>
+
                             <div>
                                 <label class="text-sm font-medium">Geplantes Datum *</label>
-                                <input type="date" id="modal-milestone-date" required>
+                                <input type="date" id="modal-milestone-date" value="${this.escapeHtml(dateVal)}" required>
                             </div>
                         </div>
+
                         <div>
                             <label class="text-sm font-medium">Fortschritt (%)</label>
-                            <input type="number" id="modal-milestone-progress" value="0" min="0" max="100">
-                        </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveAddMilestone()">Speichern</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
+                            <input type="number" id="modal-milestone-progress" value="${this.escapeHtml(String(progressVal))}" min="0" max="100">
                         </div>
                     </div>
-                `);
+                `;
+
+                const buttons = [
+                    { label: 'Speichern', primary: true, onClick: () => this.saveMilestoneModal(isEdit ? milestone.id : null) },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() }
+                ];
+
+                // Delete nur im Edit-Modus, rechtsbündig (wir patchen Layout minimal in Step 3)
+                if (isEdit) {
+                    buttons.push({ label: 'Löschen', onClick: () => this.deleteMilestone(milestone.id), danger: true });
+                }
+
+                // Modal rendern (wir nutzen createModal mit Button-Array)
+                this.createModal(title, content, buttons, { wide: false });
+
+                // Styling des Delete Buttons (btn-danger) nachträglich setzen
+                if (isEdit) {
+                    const overlay = document.getElementById('modal-overlay');
+                    const btns = overlay ? overlay.querySelectorAll('[id^="modal-btn-"]') : [];
+                    // Reihenfolge: Speichern (0), Abbrechen (1), Löschen (2)
+                    if (btns[2]) btns[2].classList.add('btn-danger');
+                }
             },
 
-            saveAddMilestone() {
-                const name = document.getElementById('modal-milestone-name').value;
-                const description = document.getElementById('modal-milestone-description').value;
-                const phase = document.getElementById('modal-project-phase').value;
-                const plannedDate = document.getElementById('modal-milestone-date').value;
-                const progress = parseInt(document.getElementById('modal-milestone-progress').value);
+            showAddMilestoneModal() {
+                this.showMilestoneModal('add');
+            },
+
+
+            saveAddMilestone() { this.saveMilestoneModal(null); }
+
+
+            saveMilestoneModal(editId = null) {
+                const isEdit = !!editId;
+
+                const name = document.getElementById('modal-milestone-name')?.value?.trim() || '';
+                const description = document.getElementById('modal-milestone-description')?.value || '';
+                const phase = document.getElementById('modal-milestone-phase')?.value || '';
+                const plannedDate = document.getElementById('modal-milestone-date')?.value || '';
+                const pRaw = parseInt(document.getElementById('modal-milestone-progress')?.value, 10);
+                const progress = Number.isFinite(pRaw) ? Math.min(100, Math.max(0, pRaw)) : 0;
 
                 if (!name || !plannedDate) {
                     this.showAlert('Bitte füllen Sie alle Pflichtfelder aus.');
+                    return;
+                }
+
+                if (isEdit) {
+                    const milestone = AppState.milestones.find(m => m.id === editId);
+                    if (!milestone) {
+                        this.showAlert('Fehler: Gate nicht gefunden.');
+                        return;
+                    }
+
+                    milestone.name = name;
+                    milestone.description = description;
+                    milestone.phase = phase;
+                    milestone.plannedDate = plannedDate;
+                    milestone.progress = progress;
+
+                    // Legacy-Felder sauber halten (optional, aber empfohlen)
+                    milestone.date = plannedDate;
+                    delete milestone.status;
+
+                    AppState.save();
+                    this.closeModal();
+                    this.renderMilestonesTab();
+                    this.renderOverviewTab();
+                    this.noteMilestonesInGantt?.();
+                    this.renderGanttTab?.();
+                    this.showAlert('Gate wurde aktualisiert.');
                     return;
                 }
 
@@ -5344,6 +5422,7 @@
                 this.closeModal();
                 this.renderMilestonesTab();
                 this.renderOverviewTab();
+                this.renderGanttTab?.();
                 this.showAlert('Gate wurde hinzugefügt.');
             },
 
@@ -5706,76 +5785,11 @@
                 this.showAlert('Aufgabe wurde aktualisiert.');
             },
 
-            showEditMilestoneModal(milestone) {
-                const modal = this.createModal('Gate bearbeiten', `
-                    <div class="grid gap-4">
-                        <div>
-                            <label class="text-sm font-medium">Name *</label>
-                            <input type="text" id="modal-milestone-name" value="${this.escapeHtml(milestone.name || '')}" required>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Beschreibung</label>
-                            <textarea id="modal-milestone-description" rows="2">${this.escapeHtml(milestone.description || '')}</textarea>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-sm font-medium">Datum *</label>
-                                <input type="date" id="modal-milestone-date" value="${milestone.date || milestone.plannedDate || ''}" required>
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium">Phase</label>
-                                <select id="modal-milestone-phase">
-                                    <option value="Vorbereitung" ${ (milestone.phase === 'Vorbereitung') ? 'selected' : '' }>Vorbereitung</option>
-                                    <option value="Machbarkeit" ${ (milestone.phase === 'Machbarkeit') ? 'selected' : '' }>Machbarkeit</option>
-                                    <option value="Konzept" ${ (milestone.phase === 'Konzept') ? 'selected' : '' }>Konzept</option>
-                                    <option value="Entwicklung" ${ (milestone.phase === 'Entwicklung') ? 'selected' : '' }>Entwicklung</option>
-                                    <option value="Industrialisierung" ${ (milestone.phase === 'Industrialisierung') ? 'selected' : '' }>Industrialisierung</option>
-                                    <option value="Markteinführung" ${ (milestone.phase === 'Markteinführung') ? 'selected' : '' }>Markteinführung</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Fortschritt (%)</label>
-                            <input type="number" id="modal-milestone-progress" value="${Number.isFinite(milestone.progress) ? milestone.progress : 0}" min="0" max="100">
-                        </div>
-                        <div class="flex" style="margin-top: 1rem; justify-content: space-between; align-items: center;">
-                            <div class="flex gap-4">
-                                <button class="btn btn-primary" onclick="UI.saveEditMilestone('${milestone.id}')">Speichern</button>
-                                <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
-                            </div>
-                            <button class="btn btn-danger" onclick="UI.deleteMilestone('${milestone.id}')">Löschen</button>
-                        </div>
-                    </div>
-                `);
+            editMilestone(milestoneId) {
+                this.showMilestoneModal('edit', milestoneId);
             },
 
-            saveEditMilestone(milestoneId) {
-                const milestone = AppState.milestones.find(m => m.id === milestoneId);
-                if (!milestone) return;
-
-                milestone.name = document.getElementById('modal-milestone-name').value;
-                milestone.description = document.getElementById('modal-milestone-description').value;
-
-                const date = document.getElementById('modal-milestone-date').value;
-                milestone.date = date;
-                milestone.plannedDate = date;
-
-                // NEU: Phase speichern
-                milestone.phase = document.getElementById('modal-milestone-phase')?.value || milestone.phase || '';
-
-                // NEU: Fortschritt speichern (0..100)
-                const pRaw = parseInt(document.getElementById('modal-milestone-progress')?.value, 10);
-                milestone.progress = Number.isFinite(pRaw) ? Math.min(100, Math.max(0, pRaw)) : 0;
-
-                // Status wird nicht mehr gepflegt (optional: entfernen)
-                // delete milestone.status;
-
-                AppState.save();
-                this.closeModal();
-                this.renderMilestonesTab();
-                this.renderGanttTab();
-                this.showAlert('Gate wurde aktualisiert.');
-            },
+            saveEditMilestone(id) { this.saveMilestoneModal(id); }
 
             showEditRiskModal(risk) {
                 const modal = this.createModal('Risiko bearbeiten', `
