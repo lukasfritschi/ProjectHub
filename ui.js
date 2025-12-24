@@ -2154,6 +2154,13 @@
                 let minDate = new Date(tasks[0].start);
                 let maxDate = new Date(tasks[0].end);
 
+                // Padding: 1 Woche vor/nach dem echten Bereich
+                minDate = new Date(minDate);
+                minDate.setDate(minDate.getDate() - 7);
+
+                maxDate = new Date(maxDate);
+                maxDate.setDate(maxDate.getDate() + 7);
+
                 tasks.forEach(task => {
                     const taskStart = new Date(task.start);
                     const taskEnd = new Date(task.end);
@@ -2626,9 +2633,9 @@
                     if (taskEnd > maxDate) maxDate = taskEnd;
                 });
 
-                // Round to month boundaries
-                const startMonth = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
-                const endMonth = new Date(maxDate.getFullYear(), maxDate.getMonth() + 1, 0);
+                // Round to month boundaries + Padding: 1 Quartal vor/nach (±3 Monate)
+                const startMonth = new Date(minDate.getFullYear(), minDate.getMonth() - 3, 1);
+                const endMonth = new Date(maxDate.getFullYear(), maxDate.getMonth() + 3 + 1, 0);
 
                 // Generate months array
                 const months = [];
@@ -2996,7 +3003,7 @@
                 if (!tbody) return;
 
                 if (tasks.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-secondary);">Keine Aufgaben vorhanden</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">Keine Aufgaben vorhanden</td></tr>';
                     return;
                 }
 
