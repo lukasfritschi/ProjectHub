@@ -6521,12 +6521,9 @@
                 // Determine modal width class
                 const modalClass = options.wide ? 'modal-content-wide' : 'modal-content';
 
-                // Generate buttons HTML (links: save/cancel, rechts: delete)
+                // Generate buttons HTML (links: normal/primary, rechts: danger)
                 let buttonsHTML = '';
                 if (buttons.length > 0) {
-                    const leftButtons = buttons.filter(b => !b.danger);
-                    const rightButtons = buttons.filter(b => b.danger);
-
                     buttonsHTML = `
                         <div style="
                             padding: 1rem 1.5rem;
@@ -6534,10 +6531,11 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
+                            gap: 0.75rem;
                         ">
                             <div style="display: flex; gap: 0.75rem;">
-                                ${leftButtons.map((btn) => {
-                                    const index = buttons.indexOf(btn);
+                                ${buttons.map((btn, index) => {
+                                    if (btn.danger) return '';
                                     return `
                                         <button
                                             id="modal-btn-${index}"
@@ -6551,8 +6549,8 @@
                             </div>
 
                             <div style="display: flex; gap: 0.75rem;">
-                                ${rightButtons.map((btn) => {
-                                    const index = buttons.indexOf(btn);
+                                ${buttons.map((btn, index) => {
+                                    if (!btn.danger) return '';
                                     return `
                                         <button
                                             id="modal-btn-${index}"
