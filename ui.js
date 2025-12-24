@@ -5360,7 +5360,7 @@
             },
 
 
-            saveAddMilestone() { this.saveMilestoneModal(null); }
+            saveAddMilestone() { this.saveMilestoneModal(null); },
 
 
             saveMilestoneModal(editId = null) {
