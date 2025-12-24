@@ -1689,8 +1689,8 @@
                                 <p class="text-sm mb-2" style="color: var(--text-secondary);">${this.escapeHtml(m.description || '')}</p>
                                 <div class="grid grid-cols-3 gap-4 text-sm">
                                     <div>
-                                        <span style="color: var(--text-secondary);">Status:</span><br>
-                                        <strong>${this.escapeHtml(this.getMilestoneStatusLabel(m.status || 'pending'))}</strong>
+                                        <span style="color: var(--text-secondary);">Fortschritt:</span><br>
+                                        <strong>${Number.isFinite(m.progress) ? `${m.progress}%` : '0%'}</strong>
                                     </div>
                                     <div>
                                         <span style="color: var(--text-secondary);">Geplant:</span><br>
@@ -5723,18 +5723,27 @@
                                 <input type="date" id="modal-milestone-date" value="${milestone.date || milestone.plannedDate || ''}" required>
                             </div>
                             <div>
-                                <label class="text-sm font-medium">Status</label>
-                                <select id="modal-milestone-status">
-                                    <option value="pending" ${milestone.status === 'pending' ? 'selected' : ''}>Ausstehend</option>
-                                    <option value="in_progress" ${milestone.status === 'in_progress' ? 'selected' : ''}>In Arbeit</option>
-                                    <option value="completed" ${milestone.status === 'completed' ? 'selected' : ''}>Abgeschlossen</option>
+                                <label class="text-sm font-medium">Phase</label>
+                                <select id="modal-milestone-phase">
+                                    <option value="Vorbereitung" ${ (milestone.phase === 'Vorbereitung') ? 'selected' : '' }>Vorbereitung</option>
+                                    <option value="Machbarkeit" ${ (milestone.phase === 'Machbarkeit') ? 'selected' : '' }>Machbarkeit</option>
+                                    <option value="Konzept" ${ (milestone.phase === 'Konzept') ? 'selected' : '' }>Konzept</option>
+                                    <option value="Entwicklung" ${ (milestone.phase === 'Entwicklung') ? 'selected' : '' }>Entwicklung</option>
+                                    <option value="Industrialisierung" ${ (milestone.phase === 'Industrialisierung') ? 'selected' : '' }>Industrialisierung</option>
+                                    <option value="Markteinführung" ${ (milestone.phase === 'Markteinführung') ? 'selected' : '' }>Markteinführung</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveEditMilestone('${milestone.id}')">Speichern</button>
+                        <div>
+                            <label class="text-sm font-medium">Fortschritt (%)</label>
+                            <input type="number" id="modal-milestone-progress" value="${Number.isFinite(milestone.progress) ? milestone.progress : 0}" min="0" max="100">
+                        </div>
+                        <div class="flex" style="margin-top: 1rem; justify-content: space-between; align-items: center;">
+                            <div class="flex gap-4">
+                                <button class="btn btn-primary" onclick="UI.saveEditMilestone('${milestone.id}')">Speichern</button>
+                                <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
+                            </div>
                             <button class="btn btn-danger" onclick="UI.deleteMilestone('${milestone.id}')">Löschen</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
                         </div>
                     </div>
                 `);
@@ -5746,10 +5755,20 @@
 
                 milestone.name = document.getElementById('modal-milestone-name').value;
                 milestone.description = document.getElementById('modal-milestone-description').value;
+
                 const date = document.getElementById('modal-milestone-date').value;
                 milestone.date = date;
                 milestone.plannedDate = date;
-                milestone.status = document.getElementById('modal-milestone-status').value;
+
+                // NEU: Phase speichern
+                milestone.phase = document.getElementById('modal-milestone-phase')?.value || milestone.phase || '';
+
+                // NEU: Fortschritt speichern (0..100)
+                const pRaw = parseInt(document.getElementById('modal-milestone-progress')?.value, 10);
+                milestone.progress = Number.isFinite(pRaw) ? Math.min(100, Math.max(0, pRaw)) : 0;
+
+                // Status wird nicht mehr gepflegt (optional: entfernen)
+                // delete milestone.status;
 
                 AppState.save();
                 this.closeModal();
@@ -6627,8 +6646,12 @@
                 this.showConfirmDialog('Möchten Sie diesen Gate wirklich löschen?', () => {
                     AppState.milestones = AppState.milestones.filter(m => m.id !== id);
                     AppState.save();
+
+                    this.closeModal(); // <-- NEU: Edit-Modal schließen, falls offen
+
                     this.renderMilestonesTab();
                     this.renderOverviewTab();
+                    this.renderGanttTab?.(); // optional: falls Gantt Gate-abhängig ist
                 });
             },
 
