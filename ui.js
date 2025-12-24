@@ -3013,7 +3013,7 @@
                     }
 
                     return `
-                        <tr style="${isCritical ? 'background: rgba(220, 38, 38, 0.05); border-left: 3px solid var(--danger);' : ''}">
+                        <tr class="clickable-row" data-task-id="${task.id}" style="${isCritical ? 'background: rgba(220, 38, 38, 0.05); border-left: 3px solid var(--danger);' : ''}">
                             <td>
                                 <strong>${this.escapeHtml(task.name || task.description)}</strong>
                                 ${isCritical ? '<span style="color: var(--danger); margin-left: 0.5rem; font-size: 0.75rem;">⚠ KRITISCH</span>' : ''}
@@ -3033,6 +3033,27 @@
                         </tr>
                     `;
                 }).join('');
+                // ------------------------------------------------------------
+                // Click-to-Edit (Event Delegation) – einmalig binden
+                // ------------------------------------------------------------
+                if (!this._ganttTasksClickBound) {
+                  this._ganttTasksClickBound = true;
+
+                  tbody.addEventListener('pointerup', (e) => {
+                    if (e.button !== 0) return;
+
+                    const row = e.target.closest('tr.clickable-row[data-task-id]');
+                    if (!row) return;
+
+                    // future-proof: falls später wieder Controls in der Zeile landen
+                    if (e.target.closest('button,a,input,select,textarea,label,summary,details')) return;
+
+                    const taskId = row.getAttribute('data-task-id');
+                    if (!taskId) return;
+
+                    UI.editTask(taskId);
+                  });
+                }
             },
 
             // ========================================
