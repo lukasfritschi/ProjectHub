@@ -395,9 +395,9 @@
                                 <td>${this.escapeHtml(member.role)}</td>
                                 <td><span style="color: var(--text-secondary);">${this.escapeHtml(member.competencyGroup || 'Nicht zugewiesen')}</span></td>
                                 <td class="font-mono">${member.hourlyRateInternal ?? 0} CHF/h</td>
-                                <td class="font-mono">${member.employmentLevel || 100}%</td>
+                                <td class="font-mono">${member.employmentLevel ?? 100}%</td>
                                 <td class="font-mono" style="color: var(--primary);">
-                                    <strong>${member.availableCapacity || 80}%</strong>
+                                    <strong>${member.availableCapacity ?? 80}%</strong>
                                 </td>
                                 <td class="font-mono" style="color: ${isOverbooked ? 'var(--danger)' : 'var(--success)'};">
                                     <strong>${utilizationPercent}%</strong>
@@ -3304,8 +3304,8 @@
                                         onchange="UI.updateProjectTeamRole('${ptm.id}', this.value)"
                                     />
                                 </td>
-                                <td class="font-mono">${member.availableCapacity || 80}%</td>
-                                <td class="font-mono" style="color: ${totalBooked > (member.availableCapacity || 80) ? 'var(--danger)' : 'var(--success)'};">
+                                <td class="font-mono">${member.availableCapacity ?? 80}%</td>
+                                <td class="font-mono" style="color: ${totalBooked > (member.availableCapacity ?? 80) ? 'var(--danger)' : 'var(--success)'};">
                                     ${totalBooked}%
                                 </td>
                                 <td>
@@ -3385,7 +3385,7 @@
                                 ${membersWithUtilization.map(member => {
                                     const utilizationPercent = member.globalUtilization;
                                     const remainingPercent = member.remainingCapacity;
-                                    const availableCapacity = member.availableCapacity || 80;
+                                    const availableCapacity = member.availableCapacity ?? 80;
 
                                     // Calculate utilization ratio for visual indicator
                                     const utilizationRatio = utilizationPercent / availableCapacity;
@@ -3584,11 +3584,11 @@
                                 <td><strong>${this.escapeHtml(member.name)}</strong></td>
                                 <td>${this.escapeHtml(member.role)}</td>
                                 <td class="font-mono">${member.hourlyRateInternal ?? 0} CHF/h</td>
-                                <td class="font-mono">${member.employmentLevel || 100}%</td>
+                                <td class="font-mono">${member.employmentLevel ?? 100}%</td>
                                 <td class="font-mono" style="color: var(--primary);">
-                                    <strong>${member.availableCapacity || 80}%</strong>
+                                    <strong>${member.availableCapacity ?? 80}%</strong>
                                     <span style="color: var(--text-secondary); font-size: 0.85rem;">
-                                        (${member.employmentLevel || 100}% × 0.8)
+                                        (${member.employmentLevel ?? 100}% × 0.8)
                                     </span>
                                 </td>
                                 <td>
@@ -3834,7 +3834,7 @@
                         </div>
                         <div id="modal-member-capacity-preview" class="p-3" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
                             <span style="color: var(--text-secondary);">Verfügbare Kapazität:</span>
-                            <span class="font-mono font-bold ml-2" id="capacity-preview-value">${member.availableCapacity || 80}%</span>
+                            <span class="font-mono font-bold ml-2" id="capacity-preview-value">${member.availableCapacity ?? 80}%</span>
                         </div>
                     </div>
                 `, [

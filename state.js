@@ -181,19 +181,19 @@
 
                 return {
                     intern: {
-                        budget: budget.intern || 0,
-                        actual: costs.filter(c => c.type === 'internal_hours').reduce((sum, c) => sum + (c.amount || 0), 0),
-                        forecast: budget.forecastIntern || budget.intern || 0
+                        budget: budget.intern ?? 0,
+                        actual: costs.filter(c => c.type === 'internal_hours').reduce((sum, c) => sum + (c.amount ?? 0), 0),
+                        forecast: budget.forecastIntern ?? budget.intern ?? 0
                     },
                     extern: {
-                        budget: budget.extern || 0,
-                        actual: costs.filter(c => c.type === 'external_service').reduce((sum, c) => sum + (c.amount || 0), 0),
-                        forecast: budget.forecastExtern || budget.extern || 0
+                        budget: budget.extern ?? 0,
+                        actual: costs.filter(c => c.type === 'external_service').reduce((sum, c) => sum + (c.amount ?? 0), 0),
+                        forecast: budget.forecastExtern ?? budget.extern ?? 0
                     },
                     investitionen: {
-                        budget: budget.investitionen || 0,
-                        actual: costs.filter(c => c.type === 'investment').reduce((sum, c) => sum + (c.amount || 0), 0),
-                        forecast: budget.forecastInvestitionen || budget.investitionen || 0
+                        budget: budget.investitionen ?? 0,
+                        actual: costs.filter(c => c.type === 'investment').reduce((sum, c) => sum + (c.amount ?? 0), 0),
+                        forecast: budget.forecastInvestitionen ?? budget.investitionen ?? 0
                     }
                 };
             },
@@ -238,7 +238,7 @@
                     });
                 }
 
-                const totalBooked = bookings.reduce((sum, b) => sum + (b.capacityPercent || 0), 0);
+                const totalBooked = bookings.reduce((sum, b) => sum + (b.capacityPercent ?? 0), 0);
                 const utilization = totalBooked;
                 const overbookWarning = utilization > member.availableCapacity;
 
@@ -277,7 +277,7 @@
                     byProject[project.id].bookings.push(booking);
                     // Only count active projects
                     if (project.projectStatus === 'active') {
-                        byProject[project.id].totalCapacity += booking.capacityPercent || 0;
+                        byProject[project.id].totalCapacity += booking.capacityPercent ?? 0;
                     }
                 });
 
@@ -329,7 +329,7 @@
 
                     // capacityPercent is percentage of available capacity
                     // Convert to FTE: (capacity% / 100) * (availableCapacity / 100)
-                    const fte = (booking.capacityPercent / 100) * ((member.availableCapacity || 80) / 100);
+                    const fte = (booking.capacityPercent / 100) * ((member.availableCapacity ?? 80) / 100);
                     return sum + fte;
                 }, 0);
 
@@ -354,13 +354,13 @@
                     const workingDays = durationDays * (5/7); // Approximate working days (5 out of 7 days)
 
                     // Calculate FTE for this booking
-                    const fte = (booking.capacityPercent / 100) * ((member.availableCapacity || 80) / 100);
+                    const fte = (booking.capacityPercent / 100) * ((member.availableCapacity ?? 80) / 100);
 
                     // Calculate hours: FTE × working days × 8 hours/day
                     const hours = fte * workingDays * 8;
 
                     // Calculate cost: hours × hourly rate
-                    const cost = hours * (member.hourlyRateInternal || 0);
+                    const cost = hours * (member.hourlyRateInternal ?? 0);
 
                     return sum + cost;
                 }, 0);
@@ -373,7 +373,7 @@
                 const activeMembers = this.members.filter(m => m.active !== false);
                 const totalFTE = activeMembers.reduce((sum, m) => {
                     // FTE = availableCapacity / 100
-                    const fte = (m.availableCapacity || 80) / 100;
+                    const fte = (m.availableCapacity ?? 80) / 100;
                     return sum + fte;
                 }, 0);
                 return Math.round(totalFTE * 100) / 100;
@@ -396,7 +396,7 @@
                         };
                     }
 
-                    const availableFTE = (member.availableCapacity || 80) / 100;
+                    const availableFTE = (member.availableCapacity ?? 80) / 100;
                     groups[group].totalCapacity += availableFTE;
                     groups[group].members.push(member.id);
                 });
@@ -412,7 +412,7 @@
                     if (!groups[group]) return;
 
                     // Calculate FTE for this booking
-                    const fte = (booking.capacityPercent / 100) * ((member.availableCapacity || 80) / 100);
+                    const fte = (booking.capacityPercent / 100) * ((member.availableCapacity ?? 80) / 100);
                     groups[group].bookedFTE += fte;
                 });
 
@@ -484,7 +484,7 @@
                             bookings.forEach(booking => {
                                 const member = this.members.find(m => m.id === booking.memberId);
                                 if (!member) return;
-                                const fte = (booking.capacityPercent / 100) * ((member.availableCapacity || 80) / 100);
+                                const fte = (booking.capacityPercent / 100) * ((member.availableCapacity ?? 80) / 100);
                                 projectFTE += fte;
                             });
 
