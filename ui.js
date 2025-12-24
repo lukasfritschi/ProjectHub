@@ -3298,6 +3298,49 @@
                 }
             },
 
+            applySopDeadlineToCpData(cpData, project) {
+                if (!cpData || !cpData.taskData || !project) return cpData;
+
+                // SOP als Deadline (kann später automatisch Gate 5 sein)
+                const sopStr = project.sopDate || project.sop || project.sopPlannedDate;
+                if (!sopStr) return cpData;
+
+                const sop = new Date(sopStr);
+                if (isNaN(sop.getTime())) return cpData;
+
+                // projectCompletionTime robust interpretieren (string | ms)
+                const completion = (typeof cpData.projectCompletionTime === 'number')
+                    ? new Date(cpData.projectCompletionTime)
+                    : new Date(cpData.projectCompletionTime);
+
+                if (isNaN(completion.getTime())) return cpData;
+
+                // Wenn SOP nicht nach Completion liegt -> keine Anpassung
+                if (sop.getTime() <= completion.getTime()) return cpData;
+
+                const MS_PER_DAY = 24 * 60 * 60 * 1000;
+                const deltaDays = Math.ceil((sop.getTime() - completion.getTime()) / MS_PER_DAY);
+
+                // Metadaten (optional, aber praktisch fürs Debugging)
+                cpData.projectDeadline = sop.toISOString();
+                cpData.deadlineSlackDays = deltaDays;
+
+                // Latest-Times + Slack um deltaDays verschieben
+                Object.keys(cpData.taskData).forEach((taskId) => {
+                    const td = cpData.taskData[taskId];
+                    if (!td) return;
+
+                    if (typeof td.latestStart === 'number') td.latestStart += deltaDays;
+                    if (typeof td.latestFinish === 'number') td.latestFinish += deltaDays;
+
+                    // Slack ist bei dir ein Zahlwert (wird in UI gerendert)
+                    if (typeof td.slack === 'number') td.slack += deltaDays;
+                    else td.slack = deltaDays;
+                });
+
+                return cpData;
+            },
+
             applyGanttFilters() {
                 const filterValue = document.getElementById('gantt-filter')?.value || 'all';
                 const responsibleValue = document.getElementById('gantt-filter-responsible')?.value || '';
@@ -3306,7 +3349,9 @@
 
                 // Apply status filter
                 if (filterValue === 'critical') {
-                    const cpData = AppState.calculateCriticalPath(AppState.currentProjectId);
+                    const project = AppState.getProject(AppState.currentProjectId);
+                    const cpDataRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
+                    const cpData = this.applySopDeadlineToCpData(cpDataRaw, project);
                     tasks = tasks.filter(t => cpData.criticalPath.includes(t.id));
                 } else if (filterValue === 'delayed') {
                     const today = new Date();
@@ -3321,7 +3366,10 @@
                 }
 
                 // Re-render with filtered tasks
-                const cpData = AppState.calculateCriticalPath(AppState.currentProjectId);
+                const project = AppState.getProject(AppState.currentProjectId);
+                const cpDataRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
+                const cpData = this.applySopDeadlineToCpData(cpDataRaw, project);
+
                 this.renderFrappeGantt(tasks, cpData);
                 this.renderGanttTasksTable(tasks, cpData);
             },
@@ -3381,7 +3429,9 @@
             exportTimeline() {
                 const project = AppState.getProject(AppState.currentProjectId);
                 const tasks = AppState.getProjectTasks(AppState.currentProjectId);
-                const cpData = AppState.calculateCriticalPath(AppState.currentProjectId);
+                const cpDataRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
+                const cpData = this.applySopDeadlineToCpData(cpDataRaw, project);
+
 
                 // Export as JSON
                 const timelineData = {
