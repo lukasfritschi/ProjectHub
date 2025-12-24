@@ -6521,8 +6521,6 @@
                 // Determine modal width class
                 const modalClass = options.wide ? 'modal-content-wide' : 'modal-content';
 
-                // Generate buttons HTML
-                let buttonsHTML = '';
                 // Generate buttons HTML (links: save/cancel, rechts: delete)
                 let buttonsHTML = '';
                 if (buttons.length > 0) {
