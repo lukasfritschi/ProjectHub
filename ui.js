@@ -2905,7 +2905,7 @@
                         diamond.addEventListener('click', () => {
                             const fullMilestone = AppState.milestones.find(m => m.id === task.id);
                             if (fullMilestone) {
-                                UI.showEditMilestoneModal(fullMilestone);
+                                UI.showMilestoneModal('edit', fullMilestone.id);
                             }
                         });
 
@@ -3368,7 +3368,7 @@
                 const milestone = AppState.milestones.find(m => m.id === milestoneId);
                 if (!milestone) return;
 
-                this.showEditMilestoneModal(milestone);
+                this.showMilestoneModal('edit', milestoneId);
             },
 
             editRisk(riskId) {
