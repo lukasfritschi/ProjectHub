@@ -2070,7 +2070,6 @@
                 };
 
                 const ganttTasks = validation.validTasks.map(task => {
-                    const ganttTasks = validation.validTasks.map(task => {
                     const td = cpData && cpData.taskData ? cpData.taskData[task.id] : null;
                     const slack = (td && typeof td.slack === 'number') ? td.slack : 0;
                     const isCritical = slack <= 0;
