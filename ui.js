@@ -1899,7 +1899,7 @@
                 if (!project) return;
 
                 // Calculate critical path
-                const cpDataRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
+                const cpRaw = AppState.calculateCriticalPath(AppState.currentProjectId);
                 const cpData = this.applySopSlackToCpData(cpRaw, tasks, project);
 
                 // Render critical path info
