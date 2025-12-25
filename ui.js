@@ -257,7 +257,7 @@
                     if (AppState.currentProjectId) {
                         this.renderProjectTeamTab();
                     } else {
-                        this.renderTeamTab();
+                        this.renderGlobalTeam();
                     }
                 } else if (tabName === 'resources') {
                     this.renderResourcesTab();
@@ -3831,143 +3831,8 @@
             },
 
             renderTeamTab() {
-                const members = AppState.members;
-                const tableBody = document.querySelector('#team-table tbody');
-                const capacityOverview = document.getElementById('team-capacity-overview');
-
-                if (!tableBody) return;
-
-                // Render team members table
-                if (members.length === 0) {
-                    tableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                Keine Team-Mitglieder vorhanden. Klicken Sie "+ Mitglied hinzufügen", um ein neues Mitglied anzulegen.
-                            </td>
-                        </tr>
-                    `;
-                } else {
-                    tableBody.innerHTML = members.map(member => {
-                        const isActive = member.active !== false;
-                        const statusColor = isActive ? 'var(--success)' : 'var(--text-secondary)';
-                        const statusText = isActive ? 'Aktiv' : 'Inaktiv';
-
-                        return `
-                            <tr style="${!isActive ? 'opacity: 0.6;' : ''}">
-                                <td><strong>${this.escapeHtml(member.name)}</strong></td>
-                                <td>${this.escapeHtml(member.role)}</td>
-                                <td class="font-mono">${member.hourlyRateInternal ?? 0} CHF/h</td>
-                                <td class="font-mono">${member.employmentLevel ?? 100}%</td>
-                                <td class="font-mono" style="color: var(--primary);">
-                                    <strong>${member.availableCapacity ?? 80}%</strong>
-                                    <span style="color: var(--text-secondary); font-size: 0.85rem;">
-                                        (${member.employmentLevel ?? 100}% × 0.8)
-                                    </span>
-                                </td>
-                                <td>
-                                    <span style="color: ${statusColor};">
-                                        ${statusText}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;"
-                                            onclick="UI.showEditMemberModal('${member.id}')">
-                                        Bearbeiten
-                                    </button>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;"
-                                            onclick="UI.toggleMemberStatus('${member.id}')">
-                                        ${isActive ? 'Deaktivieren' : 'Aktivieren'}
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-                }
-
-                // Render capacity overview
-                if (capacityOverview) {
-                    const activeMembers = members.filter(m => m.active !== false);
-                    const totalCapacity = activeMembers.reduce((sum, m) => sum + (m.availableCapacity || 80), 0);
-
-                    // Get all bookings to calculate utilization
-                    const allBookings = AppState.resourceBookings || [];
-                    const now = new Date();
-                    const currentBookings = allBookings.filter(b => {
-                        const start = new Date(b.startDate);
-                        const end = new Date(b.endDate);
-                        return start <= now && end >= now;
-                    });
-
-                    const memberUtilization = activeMembers.map(member => {
-                        const memberBookings = currentBookings.filter(b => b.memberId === member.id);
-                        const bookedCapacity = memberBookings.reduce((sum, b) => sum + (b.capacityPercent ?? 0), 0);
-                        const utilizationPercent = member.availableCapacity > 0
-                            ? Math.round((bookedCapacity / member.availableCapacity) * 100)
-                            : 0;
-                        const isOverbooked = bookedCapacity > member.availableCapacity;
-
-                        return {
-                            member,
-                            bookedCapacity,
-                            utilizationPercent,
-                            isOverbooked
-                        };
-                    });
-
-                    capacityOverview.innerHTML = `
-                        <div class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                            <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Aktive Mitglieder</div>
-                                <div class="text-2xl font-bold font-mono mt-1">${activeMembers.length}</div>
-                            </div>
-                            <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">Gesamt Verfügbare Kapazität</div>
-                                <div class="text-2xl font-bold font-mono mt-1">${totalCapacity}%</div>
-                            </div>
-                            <div class="p-4" style="background: var(--bg-tertiary); border-radius: 0.5rem;">
-                                <div class="text-sm" style="color: var(--text-secondary);">überbuchte Ressourcen</div>
-                                <div class="text-2xl font-bold font-mono mt-1" style="color: ${memberUtilization.filter(m => m.isOverbooked).length > 0 ? 'var(--danger)' : 'var(--success)'}">
-                                    ${memberUtilization.filter(m => m.isOverbooked).length}
-                                </div>
-                            </div>
-                        </div>
-
-                        ${memberUtilization.filter(m => m.isOverbooked).length > 0 ? `
-                            <div class="mt-4 p-4" style="background: rgba(234, 88, 12, 0.1); border-left: 4px solid var(--warning); border-radius: 0.5rem;">
-                                <h5 class="font-semibold mb-2" style="color: var(--warning);">⚠️ Überbuchungswarnung</h5>
-                                ${memberUtilization.filter(m => m.isOverbooked).map(({ member, bookedCapacity, utilizationPercent }) => `
-                                    <div style="margin-bottom: 0.5rem;">
-                                        <strong>${this.escapeHtml(member.name)}</strong>:
-                                        ${utilizationPercent}% ausgelastet
-                                        (${bookedCapacity}% gebucht / ${member.availableCapacity}% verfügbar)
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
-
-                        ${activeMembers.length > 0 ? `
-                            <div class="mt-4">
-                                <h5 class="font-semibold mb-3">Aktuelle Auslastung pro Mitglied</h5>
-                                ${memberUtilization.map(({ member, bookedCapacity, utilizationPercent, isOverbooked }) => `
-                                    <div style="margin-bottom: 1rem;">
-                                        <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                                            <span class="font-medium">${this.escapeHtml(member.name)}</span>
-                                            <span class="font-mono" style="color: ${isOverbooked ? 'var(--danger)' : 'var(--text-secondary)'};">
-                                                ${bookedCapacity}% / ${member.availableCapacity}%
-                                                ${isOverbooked ? ' ⚠️' : ''}
-                                            </span>
-                                        </div>
-                                        <div style="height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden;">
-                                            <div style="height: 100%; background: ${isOverbooked ? 'var(--danger)' : 'var(--primary)'}; width: ${Math.min(utilizationPercent, 100)}%;"></div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
-                    `;
-                }
-            },
-
+                return this.renderProjectTeamTab();
+            }
             showAddMemberModal() {
                 const modal = this.createModal('Neues Team-Mitglied hinzufügen', `
                     <div class="grid gap-4">
@@ -4152,7 +4017,7 @@
                 AppState.save();
 
                 this.closeModal();
-                this.renderTeamTab();
+                this.renderGlobalTeam();
                 this.showAlert(`Mitglied "${name}" wurde erfolgreich aktualisiert.`);
             },
 
@@ -4168,7 +4033,7 @@
                     () => {
                         member.active = !isActive;
                         AppState.save();
-                        this.renderTeamTab();
+                        this.renderGlobalTeam();
                         this.showAlert(`Mitglied "${member.name}" wurde ${action}t.`);
                     }
                 );
@@ -4219,15 +4084,6 @@
                         this.showAlert('Mitglied wurde gelöscht.');
                     }
                 );
-                return;
-
-                // löschen
-                AppState.members = members.filter(m => m && m.id !== memberId);
-                AppState.save();
-
-                this.closeModal();
-                this.renderGlobalTeam();
-                this.showAlert('Mitglied wurde gelöscht.');
             },
 
             renderResourcesTab() {
