@@ -3832,7 +3832,8 @@
 
             renderTeamTab() {
                 return this.renderProjectTeamTab();
-            }
+            },
+
             showAddMemberModal() {
                 const modal = this.createModal('Neues Team-Mitglied hinzufügen', `
                     <div class="grid gap-4">
