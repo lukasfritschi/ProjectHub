@@ -4948,12 +4948,11 @@
                             <input type="number" id="modal-cost-amount" step="0.01" min="0" placeholder="0.00" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
                         </div>
-                        <div class="flex gap-4" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="UI.saveAddCost()">Speichern</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
-                        </div>
                     </div>
-                `);
+                `, [
+                    { label: 'Speichern', primary: true, onClick: () => this.saveAddCost() },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() }
+                ]);
 
                 // Trigger initial check
                 setTimeout(() => {
@@ -5267,14 +5266,13 @@
                 if (!cost || !cost.partialPayments || !cost.partialPayments[paymentIndex]) return;
 
                 const modal = this.createModal('Teilzahlung löschen', `
-                    <div>
-                        <p style="margin-bottom: 1rem;">Möchten Sie diese Teilzahlung wirklich löschen?</p>
-                        <div class="flex gap-4">
-                            <button class="btn" style="background: var(--danger); color: white;" onclick="UI.confirmDeletePartialPayment('${costId}', ${paymentIndex})">Löschen</button>
-                            <button class="btn" onclick="UI.closeModal()">Abbrechen</button>
-                        </div>
-                    </div>
-                `);
+                  <div>
+                    <p style="margin-bottom: 1rem;">Möchten Sie diese Teilzahlung wirklich löschen?</p>
+                  </div>
+                `, [
+                  { label: 'Abbrechen', onClick: () => this.closeModal() },
+                  { label: 'Löschen', danger: true, onClick: () => this.confirmDeletePartialPayment(costId, paymentIndex) }
+                ]);
             },
 
             confirmDeletePartialPayment(costId, paymentIndex) {
@@ -5393,7 +5391,11 @@
                         </div>
 
                     </div>
-                `);
+                `, [
+                    { label: 'Speichern', primary: true, onClick: () => this.saveEditCost(costId) },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() },
+                    { label: 'Löschen', danger: true, onClick: () => this.deleteCost(costId) }
+                ]);
 
                 // Trigger initial checks and load existing partial payments
                 setTimeout(() => {
@@ -6823,6 +6825,9 @@
                 this.showConfirmDialog('Möchten Sie diese Kostenposition wirklich löschen?', () => {
                     AppState.costs = AppState.costs.filter(c => c.id !== id);
                     AppState.save();
+
+                    this.closeModal(); // wie deleteMilestone / deleteRisk
+
                     this.renderCostsTab?.();
                     this.renderOverviewTab?.();
                 });
