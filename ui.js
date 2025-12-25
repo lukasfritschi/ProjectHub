@@ -5376,20 +5376,6 @@
                             <input type="number" id="modal-edit-cost-amount" step="0.01" min="0" value="${cost.amount}" placeholder="0.00" required>
                             <p class="text-sm mt-1" style="color: var(--text-secondary);">Tatsächlich angefallene Kosten (IST)</p>
                         </div>
-                        <div class="flex" style="justify-content: space-between; align-items: center; margin-top: 1rem;">
-
-                          <button class="btn btn-danger"
-                                  onpointerup="UI.closeModal(); UI.deleteCost('${costId}')">
-                            Löschen
-                          </button>
-
-                          <div class="flex gap-4">
-                            <button class="btn btn-primary" onpointerup="UI.saveEditCost('${costId}')">Speichern</button>
-                            <button class="btn" onpointerup="UI.closeModal()">Abbrechen</button>
-                          </div>
-
-                        </div>
-
                     </div>
                 `, [
                     { label: 'Speichern', primary: true, onClick: () => this.saveEditCost(costId) },
