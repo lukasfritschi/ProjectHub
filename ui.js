@@ -429,7 +429,7 @@
                 if (members.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="9" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
                                 Keine Teammitglieder vorhanden. Klicken Sie "+ Neues Teammitglied", um ein Mitglied anzulegen.
                             </td>
                         </tr>
@@ -442,7 +442,7 @@
                         const isOverbooked = globalUtil ? globalUtil.isOverbooked : false;
 
                         return `
-                            <tr style="${!isActive ? 'opacity: 0.6;' : ''}">
+                            <tr class="clickable-row" data-member-id="${member.id}" style="${!isActive ? 'opacity: 0.6;' : ''}">
                                 <td><strong>${this.escapeHtml(member.name)}</strong></td>
                                 <td>${this.escapeHtml(member.role)}</td>
                                 <td><span style="color: var(--text-secondary);">${this.escapeHtml(member.competencyGroup || 'Nicht zugewiesen')}</span></td>
@@ -460,19 +460,30 @@
                                         ${isActive ? 'Aktiv' : 'Inaktiv'}
                                     </span>
                                 </td>
-                                <td>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;"
-                                            onclick="UI.showEditMemberModal('${member.id}')">
-                                        Bearbeiten
-                                    </button>
-                                    <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;"
-                                            onclick="UI.toggleMemberStatus('${member.id}')">
-                                        ${isActive ? 'Deaktivieren' : 'Aktivieren'}
-                                    </button>
-                                </td>
                             </tr>
                         `;
                     }).join('');
+                    // ------------------------------------------------------------
+                    // Click-to-Edit (Event Delegation) – einmalig binden
+                    // ------------------------------------------------------------
+                    if (!this._globalTeamRowClickBound) {
+                        this._globalTeamRowClickBound = true;
+
+                        tableBody.addEventListener('pointerup', (e) => {
+                            if (e.button !== 0) return; // nur Linksklick
+
+                            const row = e.target.closest('tr.clickable-row[data-member-id]');
+                            if (!row) return;
+
+                            // future-proof: falls später wieder Controls in der Zeile landen
+                            if (e.target.closest('button,a,input,select,textarea,label,summary,details')) return;
+
+                            const memberId = row.getAttribute('data-member-id');
+                            if (!memberId) return;
+
+                            UI.showEditMemberModal(memberId);
+                        });
+                    }
                 }
 
                 // Render global capacity overview
@@ -3997,17 +4008,11 @@
                             <span class="font-mono font-bold ml-2" id="capacity-preview-value">80%</span>
                         </div>
                     </div>
-                `, [
-                    {
-                        label: 'Abbrechen',
-                        onClick: () => this.closeModal()
-                    },
-                    {
-                        label: 'Mitglied hinzufügen',
-                        onClick: () => this.handleAddMember(),
-                        primary: true
-                    }
-                ]);
+                `,[
+                    { label: 'Speichern', onClick: () => this.handleAddMember(), primary: true },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() }
+                ]
+                );
 
                 // Update capacity preview when employment level changes
                 const employmentInput = document.getElementById('modal-member-employment');
@@ -4100,22 +4105,11 @@
                         </div>
                     </div>
                 `, [
-                    {
-                        label: 'Abbrechen',
-                        onClick: () => this.closeModal()
-                    },
-                    {
-                        label: 'Änderungen speichern',
-                        onClick: () => this.handleEditMember(memberId),
-                        primary: true
-                    },
-                    {
-                        label: 'Löschen',
-                        onClick: () => this.deleteMember(memberId),
-                        danger: true
-                    },
-
-                ]);
+                    { label: 'Speichern', onClick: () => this.handleEditMember(memberId), primary: true },
+                    { label: 'Abbrechen', onClick: () => this.closeModal() },
+                    { label: 'Löschen', onClick: () => this.deleteMember(memberId), danger: true }
+                ]
+                );
 
                 // Update capacity preview
                 const employmentInput = document.getElementById('modal-member-employment');
@@ -4214,9 +4208,18 @@
                     return;
                 }
 
-                // optional: Confirm
-                const ok = window.confirm(memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.');
-                if (!ok) return;
+                this.showConfirmDialog(
+                    memberName + ' wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.',
+                    () => {
+                        AppState.members = members.filter(m => m && m.id !== memberId);
+                        AppState.save();
+
+                        this.closeModal();
+                        this.renderGlobalTeam();
+                        this.showAlert('Mitglied wurde gelöscht.');
+                    }
+                );
+                return;
 
                 // löschen
                 AppState.members = members.filter(m => m && m.id !== memberId);
